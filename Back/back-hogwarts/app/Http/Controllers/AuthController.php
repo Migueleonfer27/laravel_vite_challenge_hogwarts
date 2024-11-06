@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -11,6 +12,7 @@ class AuthController extends Controller
     // Miguel
     public function register(Request $request) {
         $rules = [
+            'name' => 'required',
             'email' => 'required|string|email|max:60|unique:users',
             'password' => 'required|string|min:6'
         ];
@@ -23,10 +25,8 @@ class AuthController extends Controller
 
         $data = $request->only(['name', 'email', 'password']);
         $data['password'] = bcrypt($data['password']);
-
         $user = User::create($data);
-
-        $token = $user->createToken('user_student', ['student'])->plainTextToken;
+        $token = $user->createToken('auth_token', ['student'])->plainTextToken;
         $user->roles()->sync('student');
 
         return response()->json([
@@ -38,4 +38,25 @@ class AuthController extends Controller
         ], 201);
     }
 
+    //Miguel
+    public function login(Request $request) {
+        if (Auth::attempt($request->only('email', 'password'))) {
+            $user = Auth::user();
+            $roles = $user->roles()->pluck('name')->toArray();
+            $token = $user->createToken('auth_token', $roles)->plainTextToken;
+
+            return response()->json([
+                'message' => 'User logged',
+                'data' => [
+                    'token' => $token,
+                    'name' => $user->name,
+                    'roles' => $roles
+                ]
+            ], 200);
+        } else {
+            return response()->json([
+                'error' => 'Unauthorized'
+            ], 401);
+        }
+    }
 }
