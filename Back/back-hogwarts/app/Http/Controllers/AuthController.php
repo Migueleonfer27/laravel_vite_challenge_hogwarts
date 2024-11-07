@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
+// Miguel León Fernández
 class AuthController extends Controller
 {
-    // Miguel
     public function register(Request $request) {
         $rules = [
             'name' => 'required',
@@ -38,7 +38,6 @@ class AuthController extends Controller
         ], 201);
     }
 
-    //Miguel
     public function login(Request $request) {
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
@@ -60,7 +59,6 @@ class AuthController extends Controller
         }
     }
 
-    //Miguel
     public function logout() {
         $user = Auth::user();
         $user->tokens()->delete();
