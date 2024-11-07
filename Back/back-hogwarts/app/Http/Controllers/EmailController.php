@@ -6,14 +6,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class EmailController extends Controller{
 
     public function changePassword(Request $request){
 
         $validator = Validator::make($request->all(),[
-            'name'  => 'required|string',
             'email' => 'required|string|email',
             'new_password' => 'required|string|min:6|max:6',
         ],[
@@ -27,8 +26,7 @@ class EmailController extends Controller{
             return response()->json($validator->errors(), 400);
         }
 
-
-        $user = Auth::user();
+        $user = User::where('email', $request->email)->first();
 
         if(!$user){
             return response()->json(['error' => 'Unauthorized.'], 401);
@@ -61,8 +59,6 @@ class EmailController extends Controller{
 
         return response()->json(["send" => true, "mensaje"=>"password was changed"],200);
     }
-
-    //Cynthia
 
 
 }
