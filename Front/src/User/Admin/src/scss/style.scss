@@ -1,0 +1,19 @@
+@import "~bootstrap/scss/bootstrap";
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+html, body {
+  height: 100%; /* Asegura que el body ocupe el 100% de la altura de la pantalla */
+  margin: 0;
+}
+
+#main-container {
+  background-image: url('../assets/images/fondo-admin.jpg') !important;
+  background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+  background-position: center;
+  min-height: calc(100vh - 56px - 48px); /* Ajusta con la altura exacta del nav y el footer */
+  padding-bottom: 60px; /* Deja espacio para el footer */
+}
+
+footer {
+  height: 48px; /* Ajusta a la altura real del footer */
+}
