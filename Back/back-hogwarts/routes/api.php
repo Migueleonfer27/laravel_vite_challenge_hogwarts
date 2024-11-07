@@ -10,4 +10,4 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
 
 
-Route::get('send', [EmailController::class,'sendEmail']);
+Route::put('changePassword', [EmailController::class, 'changePassword']);
