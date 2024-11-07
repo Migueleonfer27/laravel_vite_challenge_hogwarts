@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 
 //Monica
-
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('/users', [AdminController::class, 'index'])->middleware('admin');
     Route::get('/user/{id}', [AdminController::class, 'show'])->middleware('admin');
