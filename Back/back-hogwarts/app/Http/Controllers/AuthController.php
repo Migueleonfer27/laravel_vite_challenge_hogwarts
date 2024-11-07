@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,16 +21,20 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
         }
 
         $data = $request->only(['name', 'email', 'password']);
         $data['password'] = bcrypt($data['password']);
         $user = User::create($data);
         $token = $user->createToken('auth_token', ['student'])->plainTextToken;
-        $user->roles()->sync('student');
+        $user->roles()->sync(Role::where('name', 'student')->first()->id);
 
         return response()->json([
+            'success' => true,
             'message' => 'User successfully registered',
             'data' => [
                 'token' => $token,
@@ -45,6 +50,7 @@ class AuthController extends Controller
             $token = $user->createToken('auth_token', $roles)->plainTextToken;
 
             return response()->json([
+                'success' => true,
                 'message' => 'User logged',
                 'data' => [
                     'token' => $token,
@@ -54,6 +60,7 @@ class AuthController extends Controller
             ], 200);
         } else {
             return response()->json([
+                'success' => false,
                 'error' => 'Unauthorized'
             ], 401);
         }
@@ -64,6 +71,7 @@ class AuthController extends Controller
         $user->tokens()->delete();
 
         return response()->json([
+            'success' => true,
             'message' => 'You have been logged out!'
         ], 200);
     }
