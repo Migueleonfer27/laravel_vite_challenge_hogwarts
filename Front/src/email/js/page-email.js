@@ -13,9 +13,9 @@ const buildPage = () => {
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label text-light">Contraseña</label>
-                            <input type="password" class="form-control" id="password" name="password" required minlength="6">
+                            <input type="password" class="form-control" id="password" name="password" required minlength="6" maxlength="6">
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Registrar</button>
+                        <button type="submit" class="btn btn-primary w-100">Actualizar</button>
                     </form>
                 </div>
             </div>
@@ -27,7 +27,6 @@ export const addEnlaceEvent = () => {
     const enlace = document.getElementById('email');
     enlace.addEventListener('click', (e) => {
         e.preventDefault()
-
     });
 }
 
