@@ -7,7 +7,7 @@ use App\Http\Controllers\AdminController;
 
 //Monica
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
-    Route::get('/users', [AdminController::class, 'index'])->middleware('admin');
+    Route::get('/users', [AdminController::class, 'index'])->middleware('abilities:admin');
     Route::get('/user/{id}', [AdminController::class, 'show'])->middleware('admin');
     Route::post('/user/{id}', [AdminController::class, 'update'])->middleware('admin');
     Route::delete('/user/{id}', [AdminController::class, 'destroy'])->middleware('admin');
@@ -17,3 +17,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
+
+Route::get('/nologin', function () {
+    return response()->json(['message' => 'Unauthorized'], 401);
+});
