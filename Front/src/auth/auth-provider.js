@@ -1,4 +1,5 @@
 import { setToken, removeToken, getToken } from "../../storage/tokenManager";
+import { toggleAuthButtons } from "./page-auth";
 
 // Miguel León Fernández
 export const handleRegister = () => {
@@ -58,6 +59,7 @@ export const handleLogin = () => {
                 if (response.ok) {
                     console.log('User logged in successfully', data);
                     setToken(data.data.token);
+                    toggleAuthButtons(true);
                 } else {
                     console.error('Login failed:', data.error);
                 }
@@ -68,6 +70,7 @@ export const handleLogin = () => {
     }
 };
 
+//Miguel León Fernández
 export async function handleLogout() {
     try {
         const response = await fetch('http://127.0.0.1:8000/api/logout', {

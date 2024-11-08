@@ -4,6 +4,6 @@ import '../scss/styles.scss'
 // Import all of Bootstrap's JS
 import * as bootstrap from 'bootstrap'
 
-import { initAuth } from "../auth/page-register";
+import { initAuth } from "../auth/page-auth";
 
 initAuth();
