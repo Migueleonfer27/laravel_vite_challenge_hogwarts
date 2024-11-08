@@ -7,16 +7,17 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav id="navbar" class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand d-flex align-items-center" href="index.html">
             <img src="assets/img/icon_hogwarts.png" alt="Icon" width="100" height="100" class="me-2">
             Hogwarts
         </a>
-        <div class="d-flex ms-auto">
+        <div id="authBtn" class="d-flex ms-auto">
             <button id="loginBtn" class="btn btn-outline-primary me-2">Inicio de sesión</button>
-            <button id="registerBtn" class="btn btn-primary">Registrarse</button>
             <a href="email/index.html" id="password"><p>Contraseña</p></a>
+            <button id="registerBtn" class="btn btn-secondary">Registrarse</button>
+            <button id="logout" class="btn btn-danger d-none">Cerrar sesión</button>
         </div>
     </div>
 </nav>
