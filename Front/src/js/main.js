@@ -6,4 +6,5 @@ import * as bootstrap from 'bootstrap'
 
 import { selectForm } from "../../auth/page-register";
 
+
 selectForm();

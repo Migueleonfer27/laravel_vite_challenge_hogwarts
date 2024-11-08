@@ -1,0 +1,73 @@
+// Import all of Bootstrap's CSS
+@import "~bootstrap/scss/bootstrap";
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+//Cynthia
+body {
+  background: url("../../assets/img/backgroung3.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+#change-password-form{
+  background-color: rgba(108, 117, 125, 0.34);
+}
+
+#main-container {
+  position: absolute;          /* Usamos posicionamiento absoluto */
+  top: 0;                      /* Alineamos el contenedor al principio de la página */
+  left: 50%;                   /* Alineamos el contenedor a la mitad de la página */
+  transform: translateX(-50%); /* Ajustamos el contenedor para que esté centrado horizontalmente */
+  padding: 20px;
+  margin-top: 10%;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;            /* Limitar el ancho máximo */
+}
+
+#main-container h2 {
+  color: white;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+#main-container label {
+  font-weight: 600;
+  color: #555;
+  font-size: 1rem;
+}
+
+#main-container input[type="email"],
+#main-container input[type="password"] {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: #fff; /* Fondo blanco para los inputs */
+  font-size: 1rem;
+}
+
+// Estilo del botón de envío
+#main-container button[type="submit"] {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff; /* Color principal de Bootstrap */
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+#main-container button[type="submit"]:hover {
+  background-color: darken(#007bff, 10%); /* Cambiar el color al pasar el mouse */
+}
+
+// Estilo para el mensaje de respuesta
+#response-message {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #d9534f; /* Color para errores, puedes cambiar a verde para éxito */
+}
