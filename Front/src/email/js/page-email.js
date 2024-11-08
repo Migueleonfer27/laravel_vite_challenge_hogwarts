@@ -1,3 +1,4 @@
+import { updatePassword} from "./email-provider";
 const updatePassword = () => {
     const mainContent = document.querySelector('#main-container');
     mainContent.innerHTML = `
