@@ -1,6 +1,8 @@
 export const addPasswordEvent = () => {
     const form = document.getElementById('change-password-form');
     const messageDiv = document.getElementById('message')
+    const loader = document.getElementById('loader');
+
 
     if (form) {
         form.addEventListener('submit', async (e) => {
@@ -10,7 +12,7 @@ export const addPasswordEvent = () => {
             const password = document.getElementById('password').value;
 
             messageDiv.style.display = 'none';
-            messageDiv.textContent = '';
+            loader.style.display = 'block';
 
             try {
                 const response = await fetch('http://127.0.0.1:8000/api/changePassword', {
@@ -42,6 +44,8 @@ export const addPasswordEvent = () => {
                 messageDiv.style.color = 'red';
                 messageDiv.textContent = 'Error de conexión. Por favor, intenta de nuevo más tarde.';
                 console.error('Error:', error);
+            }finally {
+                loader.style.display = 'none';
             }
         });
     }
