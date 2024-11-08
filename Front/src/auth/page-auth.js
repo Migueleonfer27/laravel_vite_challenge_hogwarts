@@ -3,6 +3,7 @@ import { getToken } from "../../storage/tokenManager";
 
 // Miguel León Fernández
 export const initAuth = () => {
+    addWelcome();
     addOwl();
     selectForm();
     toggleAuthButtons(getToken() !== null);
@@ -11,7 +12,7 @@ export const initAuth = () => {
 // Miguel León Fernández
 const addOwl = () => {
     const mainContent = document.querySelector('#main-container');
-    mainContent.innerHTML = `
+    mainContent.innerHTML += `
         <div class="container mt-5">
             <div class="row justify-content-center align-items-center">
                 <div class="col-md-6 d-none d-md-block owl-container">
@@ -22,6 +23,19 @@ const addOwl = () => {
             </div>
         </div>
     `;
+}
+
+// Miguel León Fernández
+const addWelcome = () => {
+    const mainContent = document.querySelector('#main-container');
+    mainContent.innerHTML = `
+    <div class="container mt-5">
+      <div class="card text-center text-light shadow-lg p-4 bg-secondary">
+        <h1 class="card-title">¡Bienvenido a la Academia Howarts!</h1>
+        <p class="card-text mt-3">Nos alegra darte la bienvenida a un lugar mágico donde podrás aprender y desarrollar tus habilidades. Prepárate para vivir experiencias inolvidables y descubrir todos los secretos que Howarts tiene para ofrecerte. ¡Que comience la aventura!</p>
+      </div>
+    </div>
+    `
 }
 
 // Miguel León Fernández
@@ -114,3 +128,25 @@ export const toggleAuthButtons = (isLoggedIn) => {
         logoutBtn.classList.add('d-none');
     }
 };
+
+// Miguel León Fernández
+export const showMessageError = (error) => {
+    const errorDiv = document.createElement('div');
+    errorDiv.id = 'errorDiv';
+
+    const message = error.toLowerCase() === 'unauthorized' ? 'Usuario o contraseña incorrectos' : 'Error de conexión';
+
+    errorDiv.innerHTML = `
+        <div class="alert alert-danger mt-3 text-center" role="alert">
+          ${message}
+        </div>
+    `;
+
+    if (!document.querySelector('#errorDiv')) {
+        document.querySelector('#loginForm').appendChild(errorDiv);
+    }
+
+    setTimeout(() => {
+        errorDiv.remove();
+    }, 4000);
+}
