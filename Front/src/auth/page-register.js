@@ -4,7 +4,6 @@ import {getToken} from "../../storage/tokenManager";
 // Miguel León Fernández
 export const initAuth = () => {
     selectForm()
-    toggleAuthButtons(!getToken());
 }
 
 // Miguel León Fernández
