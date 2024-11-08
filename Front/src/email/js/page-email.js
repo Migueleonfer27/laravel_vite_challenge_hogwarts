@@ -1,5 +1,5 @@
-import { updatePassword} from "./email-provider";
-const updatePassword = () => {
+
+const buildPage = () => {
     const mainContent = document.querySelector('#main-container');
     mainContent.innerHTML = `
         <div class="container mt-5">
@@ -22,11 +22,12 @@ const updatePassword = () => {
         </div>
     `;
 }
-    export const addEnlaceEvent = () => {
-        const enlace = document.querySelector('#password');
-        enlace.addEventListener('click', (e) => {
-            e.preventDefault()
-            updatePassword()
-        });
-    }
+export const addEnlaceEvent = () => {
+    buildPage()
+    const enlace = document.getElementById('email');
+    enlace.addEventListener('click', (e) => {
+        e.preventDefault()
+
+    });
+}
 
