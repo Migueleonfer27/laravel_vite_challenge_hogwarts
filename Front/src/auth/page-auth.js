@@ -1,9 +1,10 @@
-import { handleRegister, handleLogin, handleLogout } from "./token-provider";
+import { handleRegister, handleLogin, handleLogout } from "./auth-provider";
 import {getToken} from "../../storage/tokenManager";
 
 // Miguel León Fernández
 export const initAuth = () => {
     selectForm()
+    toggleAuthButtons(getToken() !== null);
 }
 
 // Miguel León Fernández
@@ -84,4 +85,26 @@ export const selectForm = () => {
         e.preventDefault();
         addRegisterForm();
     });
+};
+
+// Miguel León Fernández
+export const toggleAuthButtons = (isLoggedIn) => {
+    const loginBtn = document.querySelector('#loginBtn');
+    const registerBtn = document.querySelector('#registerBtn');
+    const logoutBtn = document.querySelector('#logoutBtn');
+
+    if (isLoggedIn) {
+        loginBtn.classList.add('d-none');
+        registerBtn.classList.add('d-none');
+        logoutBtn.classList.remove('d-none');
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            handleLogout();
+            toggleAuthButtons(false);
+        });
+    } else {
+        loginBtn.classList.remove('d-none');
+        registerBtn.classList.remove('d-none');
+        logoutBtn.classList.add('d-none');
+    }
 };
