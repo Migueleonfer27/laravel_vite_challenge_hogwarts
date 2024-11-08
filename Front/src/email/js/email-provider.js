@@ -1,18 +1,16 @@
 export const addPasswordEvent = () => {
     const form = document.getElementById('change-password-form');
-    console.log('Form:', form);
+    const messageDiv = document.getElementById('message')
 
     if (form) {
-        console.log('Adding submit event listener')
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            console.log('Form submit prevented');
 
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            console.log('Email:', email);
-            console.log('Password:', password);
+            messageDiv.style.display = 'none';
+            messageDiv.textContent = '';
 
             try {
                 const response = await fetch('http://127.0.0.1:8000/api/changePassword', {
@@ -29,11 +27,20 @@ export const addPasswordEvent = () => {
                 const data = await response.json();
                 console.log('Response:', response);
                 if (response.ok) {
+                    messageDiv.style.display = 'block';
+                    messageDiv.style.color = 'green';
+                    messageDiv.textContent = 'La contraseña ha sido cambiada exitosamente.';
                     console.log('Password changed successfully', data);
                 } else {
+                    messageDiv.style.display = 'block';
+                    messageDiv.style.color = 'red';
+                    messageDiv.textContent = data.error || 'Ha ocurrido un error al cambiar la contraseña.'
                     console.error('Failed change:', data.error);
                 }
             } catch (error) {
+                messageDiv.style.display = 'block';
+                messageDiv.style.color = 'red';
+                messageDiv.textContent = 'Error de conexión. Por favor, intenta de nuevo más tarde.';
                 console.error('Error:', error);
             }
         });

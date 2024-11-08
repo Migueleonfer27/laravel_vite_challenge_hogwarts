@@ -1,6 +1,7 @@
 // Import all of Bootstrap's CSS
 @import "~bootstrap/scss/bootstrap";
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
 
 //Cynthia
 body {
@@ -8,6 +9,34 @@ body {
   background-size: cover;
 }
 #change-password-form{
-  background-color: rgba(108, 117, 125, 0.19);
+  background-color: rgba(108, 117, 125, 0.52);
+  font-family: Cinzel;
 }
+
+h3{
+  font-family: Cinzel;
+}
+
+
+#message{
+  background-color: #282c34;
+  padding-top: 3%;
+  margin-top: auto;
+}
+
+#modify{
+  background-color: rgba(57, 35, 223, 0.41);
+  color: white;
+}
+
+#modify:hover{
+  background-color: #2b2f32;
+  background-position: 300px 0px;
+  -webkit-transition-property: all;
+  -webkit-transition-duration: 1s;
+  transition-property: all;
+  transition-duration: 1s;
+}
+
+
 
