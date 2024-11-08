@@ -7,7 +7,7 @@ html, body {
 }
 
 #main-container {
-  background-image: url('../assets/images/fondo-admin.jpg') !important;
+  background-image: url('../assets/images/fondo-admin.jpg') ;
   background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
   background-position: center;
   min-height: calc(100vh - 56px - 48px); /* Ajusta con la altura exacta del nav y el footer */

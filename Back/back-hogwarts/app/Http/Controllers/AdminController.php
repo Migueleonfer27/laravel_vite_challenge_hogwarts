@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 //Monica
@@ -14,7 +15,12 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $users = User::with('roles')->get();
+        $users = DB::table('users')
+            ->join('role_user', 'users.id', '=', 'role_user.user_id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->select('users.id', 'users.name', 'users.email', 'roles.name as role')
+            ->where('roles.name', '=', 'alumno')
+            ->get();
         if ($users->isEmpty()) {
             return response()->json('Not found users', 404);
         } else {
@@ -38,12 +44,10 @@ class AdminController extends Controller
         $input = $request->all();
         $rules = [
             'name' => 'string|max:20',
-            'email' => 'string|email|max:255|unique:users',
-            'password' => 'string|min:5'
+            'email' => 'string|email|max:255'
         ];
         $messages = [
-            'unique' => 'the :attribute already exists',
-            'min' => 'the :attribute must be at least 5 characters'
+            'unique' => 'the :attribute already exists'
         ];
         $validator = Validator::make($input, $rules, $messages);
 
@@ -54,13 +58,17 @@ class AdminController extends Controller
         $user = User::find($id);
 
         if (is_null($user)) {
-            return response()->json('User not found', 404);
+            return response()->json([
+                'message' => 'User not found',
+                'success' => false
+            ], 404);
         } else {
             $user->name = $request['name'];
             $user->email = $request['email'];
-            $user->password = $request['password'];
             $user->save();
-            return response()->json($user, 200);
+            return response()->json(['user' => $user,
+            'success' => true,
+            ], 200);
         }
     }
     public function destroy($id)
