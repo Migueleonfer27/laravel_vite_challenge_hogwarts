@@ -1,3 +1,5 @@
+import { setToken, removeToken, getToken } from "../../storage/tokenManager";
+
 // Miguel León Fernández
 export const handleRegister = () => {
     const form = document.getElementById('registerForm');
@@ -21,12 +23,12 @@ export const handleRegister = () => {
                 const data = await response.json();
 
                 if (response.ok) {
-                    console.log('Registro exitoso:', data);
+                    console.log('User register in successfully', data);
                 } else {
-                    console.error('Error en el registro:', data.errors || data.message);
+                    console.error('Register failed:', data.error);
                 }
             } catch (error) {
-                console.error('Error en la solicitud:', error);
+                console.error('Error:', error);
             }
         });
     }
@@ -54,14 +56,34 @@ export const handleLogin = () => {
                 const data = await response.json();
 
                 if (response.ok) {
-                    console.log('Inicio de sesión exitoso:', data);
-                    localStorage.setItem('token', data.data.token);
+                    console.log('User logged in successfully', data);
+                    setToken(data.data.token);
                 } else {
-                    console.error('Error en el inicio de sesión:', data.errors || data.message);
+                    console.error('Login failed:', data.error);
                 }
             } catch (error) {
-                console.error('Error en la solicitud:', error);
+                console.error('Error:', error);
             }
         });
     }
 };
+
+export async function handleLogout() {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/logout', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${getToken()}`
+            }
+        });
+
+        if (response.ok) {
+            removeToken();
+            console.log('User logged out successfully');
+        } else {
+            console.error('Logout failed');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}

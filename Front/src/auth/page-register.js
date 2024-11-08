@@ -1,4 +1,11 @@
-import { handleRegister, handleLogin } from "./register-provider";
+import { handleRegister, handleLogin, handleLogout } from "./token-provider";
+import {getToken} from "../../storage/tokenManager";
+
+// Miguel León Fernández
+export const initAuth = () => {
+    selectForm()
+    toggleAuthButtons(!getToken());
+}
 
 // Miguel León Fernández
 const addRegisterForm = () => {
@@ -66,6 +73,8 @@ const addLoginForm = () => {
 export const selectForm = () => {
     const loginBtn = document.querySelector('#loginBtn');
     const registerBtn = document.querySelector('#registerBtn');
+
+    addLoginForm();
 
     loginBtn.addEventListener('click', (e) => {
         e.preventDefault();
