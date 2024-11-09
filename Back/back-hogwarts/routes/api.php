@@ -3,23 +3,25 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EmailController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EmailController;
 
+
+//Monica
+Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
+    Route::get('/users', [AdminController::class, 'index'])->middleware('abilities:Dumbledore');
+    Route::get('/user/{id}', [AdminController::class, 'show'])->middleware('abilities:Dumbledore');
+    Route::post('/user/{id}', [AdminController::class, 'update'])->middleware('abilities:Dumbledore');
+    Route::delete('/user/{id}', [AdminController::class, 'destroy'])->middleware('abilities:Dumbledore');
+    Route::post('/user-rol/{id}', [AdminController::class, 'giveRole'])->middleware('abilities:Dumbledore');
+    Route::delete('/user-rol/{id}', [AdminController::class, 'retireRole'])->middleware('abilities:Dumbledore');
+});
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
 
-
-//Monica
-
-Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
-    Route::get('/users', [AdminController::class, 'index'])->middleware('admin');
-    Route::get('/user/{id}', [AdminController::class, 'show'])->middleware('admin');
-    Route::post('/user/{id}', [AdminController::class, 'update'])->middleware('admin');
-    Route::delete('/user/{id}', [AdminController::class, 'destroy'])->middleware('admin');
-    Route::post('/user-rol/{id}', [AdminController::class, 'giveRole'])->middleware('admin');
-    Route::delete('/user-rol/{id}', [AdminController::class, 'retireRole'])->middleware('admin');
+Route::get('/nologin', function () {
+    return response()->json(['message' => 'Unauthorized'], 401);
 });
 
 Route::put('changePassword', [EmailController::class, 'changePassword']);

@@ -1,3 +1,37 @@
 // Import all of Bootstrap's CSS
 @import "~bootstrap/scss/bootstrap";
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+
+//Miguel León Fernández
+body {
+  background: url("./assets/img/background.png") no-repeat center center fixed;
+  background-size: cover;
+  background-position: center;
+  min-height: calc(100vh - 56px - 40px);
+  padding-bottom: 100px;
+}
+
+//Miguel León Fernández
+.animated-owl {
+  width: 75%;
+  animation: fly 6s ease-in-out infinite;
+}
+
+//Miguel León Fernández
+@keyframes fly {
+  0% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+  25% {
+    transform: translate(15px, -10px) rotate(5deg);
+  }
+  50% {
+    transform: translate(-15px, 10px) rotate(-5deg);
+  }
+  75% {
+    transform: translate(10px, -15px) rotate(3deg);
+  }
+  100% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+}
