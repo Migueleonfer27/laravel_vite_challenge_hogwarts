@@ -1,3 +1,8 @@
+import '../scss/styles.scss'
+import { updatePassword } from "./email-provider.js";
+import { buildHeader } from "../../components/buildHeader.js"
+import { buildFooter } from "../../components/buildFooter";
+
 const buildPage = () => {
     const mainContent = document.querySelector('#main-container');
     mainContent.innerHTML = `
@@ -8,7 +13,7 @@ const buildPage = () => {
                     <form id="change-password-form" class="p-4" novalidate>
                         <div class="mb-3">
                             <label for="email" class="form-label text-light">Correo Electrónico</label>
-                            <input type="email" class="form-control" id="email" name="email" required data-link="/">
+                            <input type="email" class="form-control" id="email" name="email" required route-link="/">
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label text-light">Contraseña</label>
@@ -19,7 +24,6 @@ const buildPage = () => {
                          <div id="message" class="text-light text-center mt-2" style="display: none;"></div>
                     </form>
                 </div>
-               
             </div>
         </div>
     `;
@@ -51,8 +55,24 @@ const addValidation = () => {
     });
 };
 
+const addEventSubmit = () => {
+    const form = document.getElementById('change-password-form');
+    const messageDiv = document.getElementById('message')
+    const loader = document.getElementById('loader');
 
-export const addEnlaceEvent = () => {
-    buildPage()
-}
 
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            updatePassword(email, password, messageDiv, loader)
+        });
+    }
+};
+
+buildHeader()
+buildPage()
+buildFooter()
