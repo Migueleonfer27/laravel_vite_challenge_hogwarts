@@ -10,6 +10,16 @@ export async function loadPage(path) {
         const { default: email } = await import('../email/js/email.js');
         email();
     }
+    // else if (path === '/home'){
+    //     if(comprobar tiken){
+    //         const { default: home } = await import('../home/js/home.js');
+    //         home();
+    //     }else{
+    //         const { initAuth } = await import('../auth/page-auth.js');
+    //         initAuth();
+    //     }
+    //
+    // }
     else {
         contentDiv.innerHTML = '<h1 class="text-light ">404 - Página no encontrada</h1>'
     }
