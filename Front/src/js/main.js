@@ -12,7 +12,6 @@ document.addEventListener('click', (e) => {
     if (linkElement) {
         e.preventDefault();
         const path = linkElement.getAttribute('data-link'); // Obtén la ruta desde `data-link`
-        history.pushState(null, '', path); // Actualiza la URL que se visualiza en el navegador
         loadPage(path);
     }
 });
