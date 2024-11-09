@@ -31,6 +31,7 @@ export const handleRegister = () => {
                     console.error('Register failed:', data.error);
                 }
             } catch (error) {
+                showMessageError(error);
                 console.error('Error:', error);
             }
         });
@@ -67,6 +68,7 @@ export const handleLogin = () => {
                     showMessageError(data.error);
                 }
             } catch (error) {
+                showMessageError(error);
                 console.error('Error:', error);
             }
         });

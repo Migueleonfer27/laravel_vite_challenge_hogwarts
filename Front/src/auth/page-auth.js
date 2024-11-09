@@ -134,7 +134,7 @@ export const showMessageError = (error) => {
     const errorDiv = document.createElement('div');
     errorDiv.id = 'errorDiv';
 
-    const message = error.toLowerCase() === 'unauthorized' ? 'Usuario o contraseña incorrectos' : 'Error de conexión';
+    const message = error === 'Unauthorized' ? 'Usuario o contraseña incorrectos.' : 'Error de conexión, inténtelo más tarde.';
 
     errorDiv.innerHTML = `
         <div class="alert alert-danger mt-3 text-center" role="alert">
