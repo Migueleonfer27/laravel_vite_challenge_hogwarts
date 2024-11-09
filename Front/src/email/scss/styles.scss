@@ -9,6 +9,10 @@ body {
   background-size: cover;
 }
 #change-password-form{
+  padding: 0px;
+}
+
+div#form-container {
   background-color: rgba(108, 117, 125, 0.52);
   font-family: Cinzel;
 }
@@ -24,12 +28,12 @@ h3{
   margin-top: auto;
 }
 
-#modify{
+.modify{
   background-color: rgba(57, 35, 223, 0.41);
   color: white;
 }
 
-#modify:hover{
+.modify:hover{
   background-color: #2b2f32;
   background-position: 300px 0px;
   -webkit-transition-property: all;

@@ -1,7 +1,7 @@
 export async function loadPage(path) {
     const token = localStorage.getItem('authToken')
 
-    if (path === '/'){
+    if (path === '/index.html'){
         if(token != null && token !== ''){
             loadPage('/admin')
         }
@@ -17,6 +17,6 @@ export async function loadPage(path) {
         window.location.href = '../User/Admin/index.html'
     }
     else {
-        loadPage('/')
+        window.location.href = '../index.html'
     }
 }
