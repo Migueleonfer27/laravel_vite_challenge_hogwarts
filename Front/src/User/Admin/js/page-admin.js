@@ -1,6 +1,8 @@
 //monica
 import { apiGetUsers, apiUpdateUser } from './admin-provider';
 import { getToken } from "../../../../storage/tokenManager";
+import {buildHeader} from "../../../components/buildHeader";
+import {buildFooter} from "../../../components/buildFooter";
 
 const tbody = document.getElementById('body-table');
 const button = document.getElementById('btn-alumns');
@@ -93,3 +95,6 @@ const construirCuerpo = (users) => {
 }
 
 getUsers()
+
+buildHeader()
+buildFooter()
