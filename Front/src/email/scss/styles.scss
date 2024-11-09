@@ -1,0 +1,58 @@
+// Import all of Bootstrap's CSS
+@import "~bootstrap/scss/bootstrap";
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+
+//Cynthia
+body {
+  background: url("../../assets/img/backgroung3.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+#change-password-form{
+  background-color: rgba(108, 117, 125, 0.52);
+  font-family: Cinzel;
+}
+
+h3{
+  font-family: Cinzel;
+}
+
+
+#message{
+  background-color: #282c34;
+  padding-top: 3%;
+  margin-top: auto;
+}
+
+#modify{
+  background-color: rgba(57, 35, 223, 0.41);
+  color: white;
+}
+
+#modify:hover{
+  background-color: #2b2f32;
+  background-position: 300px 0px;
+  -webkit-transition-property: all;
+  -webkit-transition-duration: 1s;
+  transition-property: all;
+  transition-duration: 1s;
+}
+
+.loader {
+  border: 6px solid #f3f3f3; /* Fondo gris */
+  border-top: 6px solid #3498db; /* Azul en la parte superior */
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto; /* Centra el spinner */
+  margin-top: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+

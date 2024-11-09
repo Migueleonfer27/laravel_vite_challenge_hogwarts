@@ -80,7 +80,7 @@ const addLoginForm = () => {
                     <input type="password" class="form-control" id="password" name="password" required minlength="6">
                 </div>
                 <div class="mt-3 text-center mb-2">
-                    <a href="email/email.html" class="text-light text-decoration-none">¿Has olvidado tu contraseña?</a>
+                    <a data-link="/email" href="#" id="email" class="text-light text-decoration-none">¿Has olvidado tu contraseña?</a>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
             </form>
