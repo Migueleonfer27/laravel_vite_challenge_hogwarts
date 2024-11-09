@@ -1,5 +1,6 @@
 import { setToken, removeToken, getToken } from "../../storage/tokenManager";
 import { toggleAuthButtons } from "./page-auth";
+import { showMessageError } from "./page-auth";
 
 // Miguel León Fernández
 export const handleRegister = () => {
@@ -26,9 +27,11 @@ export const handleRegister = () => {
                 if (response.ok) {
                     console.log('User register in successfully', data);
                 } else {
+                    showMessageError(data.error);
                     console.error('Register failed:', data.error);
                 }
             } catch (error) {
+                showMessageError(error);
                 console.error('Error:', error);
             }
         });
@@ -62,8 +65,10 @@ export const handleLogin = () => {
                     toggleAuthButtons(true);
                 } else {
                     console.error('Login failed:', data.error);
+                    showMessageError(data.error);
                 }
             } catch (error) {
+                showMessageError(error);
                 console.error('Error:', error);
             }
         });

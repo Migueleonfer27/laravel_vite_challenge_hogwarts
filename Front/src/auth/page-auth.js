@@ -3,15 +3,30 @@ import { getToken } from "../../storage/tokenManager";
 
 // Miguel León Fernández
 export const initAuth = () => {
+    addWelcome();
     addOwl();
-    selectForm();
+    addLoginForm();
+    addFormButtons();
     toggleAuthButtons(getToken() !== null);
+}
+
+// Miguel León Fernández
+const addWelcome = () => {
+    const mainContent = document.querySelector('#main-container');
+    mainContent.innerHTML = `
+    <div class="container mt-5">
+      <div class="card text-center text-light shadow-lg p-4 bg-secondary">
+        <h1 class="card-title">¡Bienvenido a la Academia Howarts!</h1>
+        <p class="card-text mt-3">Nos alegra darte la bienvenida a un lugar mágico donde podrás aprender y desarrollar tus habilidades. Prepárate para vivir experiencias inolvidables y descubrir todos los secretos que Howarts tiene para ofrecerte. ¡Que comience la aventura!</p>
+      </div>
+    </div>
+    `;
 }
 
 // Miguel León Fernández
 const addOwl = () => {
     const mainContent = document.querySelector('#main-container');
-    mainContent.innerHTML = `
+    mainContent.innerHTML += `
         <div class="container mt-5">
             <div class="row justify-content-center align-items-center">
                 <div class="col-md-6 d-none d-md-block owl-container">
@@ -23,6 +38,25 @@ const addOwl = () => {
         </div>
     `;
 }
+
+// Miguel León Fernández
+const addFormButtons = () => {
+    const formContainer = document.querySelector('#form-container');
+    if (!document.querySelector('#authBtn')) {
+        const authBtnContainer = document.createElement('div');
+        authBtnContainer.id = 'authBtn';
+        authBtnContainer.classList.add('d-flex', 'justify-content-evenly', 'ms-auto', 'bg-secondary');
+
+        authBtnContainer.innerHTML = `
+            <button id="loginBtn" class="btn btn-danger w-50">Inicio de sesión</button>
+            <button id="registerBtn" class="btn btn-danger w-50">Registrarse</button>
+            <button id="logoutBtn" class="btn btn-danger d-none">Cerrar sesión</button>
+        `;
+
+        formContainer.prepend(authBtnContainer);
+    }
+    selectForm();
+};
 
 // Miguel León Fernández
 const addRegisterForm = () => {
@@ -47,6 +81,7 @@ const addRegisterForm = () => {
             </form>
         </div>
     `;
+    addFormButtons();
     handleRegister();
 };
 
@@ -66,21 +101,20 @@ const addLoginForm = () => {
                     <input type="password" class="form-control" id="password" name="password" required minlength="6">
                 </div>
                 <div class="mt-3 text-center mb-2">
-                    <a data-link="/email" href="#" id="email" class="text-light text-decoration-none">¿Has olvidado tu contraseña?</a>
+                    <a href="#" class="text-light text-decoration-none">¿Has olvidado tu contraseña?</a>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
             </form>
         </div>
     `;
+    addFormButtons();
     handleLogin();
 };
 
 // Miguel León Fernández
-export const selectForm = () => {
+const selectForm = () => {
     const loginBtn = document.querySelector('#loginBtn');
     const registerBtn = document.querySelector('#registerBtn');
-
-    addLoginForm();
 
     loginBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -113,4 +147,33 @@ export const toggleAuthButtons = (isLoggedIn) => {
         registerBtn.classList.remove('d-none');
         logoutBtn.classList.add('d-none');
     }
+};
+
+// Miguel León Fernández
+export const showMessageError = (error) => {
+    const existingError = document.querySelector('#errorDiv');
+    if (existingError) {
+        existingError.remove();
+    }
+
+    const errorDiv = document.createElement('div');
+    errorDiv.id = 'errorDiv';
+
+    const message = error === 'Unauthorized' ? 'Usuario o contraseña incorrectos.' : 'Error de conexión, inténtelo más tarde.';
+
+    errorDiv.innerHTML = `
+        <div class="alert alert-danger mt-3 text-center" role="alert">
+          ${message}
+        </div>
+    `;
+
+    const form = document.querySelector('#loginForm') || document.querySelector('#registerForm');
+
+    if (form) {
+        form.appendChild(errorDiv);
+    }
+
+    setTimeout(() => {
+        errorDiv.remove();
+    }, 4000);
 };
