@@ -1,4 +1,3 @@
-
 const buildPage = () => {
     const mainContent = document.querySelector('#main-container');
     mainContent.innerHTML = `
@@ -9,7 +8,7 @@ const buildPage = () => {
                     <form id="change-password-form" class="p-4" novalidate>
                         <div class="mb-3">
                             <label for="email" class="form-label text-light">Correo Electrónico</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <input type="email" class="form-control" id="email" name="email" required data-link="/">
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label text-light">Contraseña</label>
@@ -55,9 +54,5 @@ const addValidation = () => {
 
 export const addEnlaceEvent = () => {
     buildPage()
-    const enlace = document.getElementById('email');
-    enlace.addEventListener('click', (e) => {
-        e.preventDefault()
-    });
 }
 

@@ -1,8 +1,9 @@
 import '../scss/styles.scss'
 
-import { addEnlaceEvent } from "./page-email";
-import {addPasswordEvent} from "./email-provider";
+import { addEnlaceEvent } from "./page-email.js";
+import { addPasswordEvent } from "./email-provider.js";
 
-addEnlaceEvent()
-
-addPasswordEvent()
+export default function email(){
+    addEnlaceEvent()
+    addPasswordEvent()
+}
