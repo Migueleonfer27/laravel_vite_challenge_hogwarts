@@ -39,7 +39,7 @@ export const handleRegister = () => {
 };
 
 // Miguel León Fernández
-export const handleLogin = () => {
+export const handleLogin = (callback) => {
     const form = document.getElementById('loginForm');
 
     if (form) {
@@ -63,6 +63,7 @@ export const handleLogin = () => {
                     console.log('User logged in successfully', data);
                     setToken(data.data.token);
                     toggleAuthButtons(true);
+                    callback();
                 } else {
                     console.error('Login failed:', data.error);
                     showMessageError(data.error);

@@ -1,7 +1,6 @@
 //monica
-import '../../../../scss/styles.scss';
 import { apiGetUsers, apiUpdateUser } from './admin-provider';
-import {getToken} from "../../../../../storage/tokenManager";
+import { getToken } from "../../../../storage/tokenManager";
 
 const tbody = document.getElementById('body-table');
 const button = document.getElementById('btn-alumns');
@@ -16,8 +15,6 @@ const getUsers = async () => {
     construirCuerpo(res);
 
 }
-
-getUsers()
 
 const construirCabecera = (objeto) => {
     let cabecera = document.querySelector('#header');
@@ -95,5 +92,4 @@ const construirCuerpo = (users) => {
     });
 }
 
-
-
+getUsers()
