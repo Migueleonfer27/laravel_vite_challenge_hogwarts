@@ -50,7 +50,6 @@ const addFormButtons = () => {
         authBtnContainer.innerHTML = `
             <button id="loginBtn" class="btn btn-danger w-50">Inicio de sesión</button>
             <button id="registerBtn" class="btn btn-danger w-50">Registrarse</button>
-            <button id="logoutBtn" class="btn btn-danger d-none">Cerrar sesión</button>
         `;
 
         formContainer.prepend(authBtnContainer);
