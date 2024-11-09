@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 //Monica
@@ -15,12 +16,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $users = DB::table('users')
-            ->join('role_user', 'users.id', '=', 'role_user.user_id')
-            ->join('roles', 'role_user.role_id', '=', 'roles.id')
-            ->select('users.id', 'users.name', 'users.email', 'roles.name as role')
-            ->where('roles.name', '=', 'alumno')
-            ->get();
+        $users = User::with('roles')->get();
         if ($users->isEmpty()) {
             return response()->json('Not found users', 404);
         } else {
@@ -37,6 +33,35 @@ class AdminController extends Controller
         } else {
             return response()->json('User not found', 404);
         }
+    }
+
+    public function create(Request $request)
+    {
+        $input = $request->all();
+        $rules = [
+            'name' => 'required|string|max:20',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6'
+        ];
+        $messages = [
+            'required' => 'the :attribute is required',
+            'unique' => 'the :attribute already exists',
+            'min' => 'the :attribute must be at least :min characters'
+        ];
+        $validator = Validator::make($input, $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $user = new User();
+        $user->name = $request['name'];
+        $user->email = $request['email'];
+        $user->password = hash::make($request['password']);
+        $user->save();
+        return response()->json(['user' => $user,
+        'success' => true,
+        ], 201);
     }
 
     public function update(Request $request, $id)
@@ -77,9 +102,9 @@ class AdminController extends Controller
 
         if ($user) {
             $user->delete();
-            return response()->json('User was delete', 204);
+            return response()->json(['message' => 'user was deleted sucesfully','success' => true], 200);
         } else {
-            return response()->json('User not found.', 404);
+            return response()->json(['message' => 'user not found', 'success' => false], 404);
         }
     }
 
@@ -109,7 +134,7 @@ class AdminController extends Controller
         $role_id = $request->input('role_id');
 
         $user->roles()->syncWithoutDetaching([$role_id]);
-        return response()->json(['message' => 'Role assigned successfully.'], 200);
+        return response()->json(['message' => 'Role assigned successfully.', 'success' => true], 200);
     }
 
     public function retireRole(Request $request, $id)
@@ -138,7 +163,13 @@ class AdminController extends Controller
         $role_id = $request->input('role_id');
 
         $user->roles()->detach([$role_id]);
-        return response()->json(['message' => 'Role removed successfully.'], 200);
+        return response()->json(['message' => 'Role removed successfully.', 'success' => true], 200);
     }
 
+
+    public function getRole()
+    {
+        $roles = DB::table('roles')->get();
+        return response()->json($roles, 200);
+    }
 }
