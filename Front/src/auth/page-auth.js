@@ -149,7 +149,7 @@ export const toggleAuthButtons = (isLoggedIn) => {
 };
 
 // Miguel León Fernández
-export const showMessageError = (error) => {
+export const showMessageError = (status, error) => {
     const existingError = document.querySelector('#errorDiv');
     if (existingError) {
         existingError.remove();
@@ -158,7 +158,19 @@ export const showMessageError = (error) => {
     const errorDiv = document.createElement('div');
     errorDiv.id = 'errorDiv';
 
-    const message = error === 'Unauthorized' ? 'Usuario o contraseña incorrectos.' : 'Error de conexión, inténtelo más tarde.';
+    let message = '';
+
+    if (status === 422) {
+        message = 'Este usuario ya está registrado.';
+    } else if (status === 401) {
+        message = 'Las credenciales son incorrectas. Por favor, verifica tu correo y contraseña.';
+    } else if (status === 500) {
+        message = 'Error de conexión, inténtelo más tarde.';
+    } else {
+        message = 'Ocurrió un error desconocido. Pongase en contacto con el administrador.';
+    }
+
+    console.log(message, existingError);
 
     errorDiv.innerHTML = `
         <div class="alert alert-danger mt-3 text-center" role="alert">

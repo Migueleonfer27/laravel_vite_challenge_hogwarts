@@ -27,11 +27,10 @@ export const handleRegister = () => {
                 if (response.ok) {
                     console.log('User register in successfully', data);
                 } else {
-                    showMessageError(data.error);
+                    showMessageError(response.status, data.error);
                     console.error('Register failed:', data.error);
                 }
             } catch (error) {
-                showMessageError(error);
                 console.error('Error:', error);
             }
         });
@@ -65,10 +64,9 @@ export const handleLogin = () => {
                     toggleAuthButtons(true);
                 } else {
                     console.error('Login failed:', data.error);
-                    showMessageError(data.error);
+                    showMessageError(response.status, data.error);
                 }
             } catch (error) {
-                showMessageError(error);
                 console.error('Error:', error);
             }
         });
