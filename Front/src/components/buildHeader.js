@@ -1,17 +1,17 @@
 import '../scss/styles.scss'
 export const buildHeader = (idContainer) => {
     const container = document.querySelector(idContainer || '#header-container');
-    const imageURL = new URL('../assets/img/icon_hogwarts.png', import.meta.url);
+    const imageURL = new URL('../assets/img/icon_hogwarts(2).png', import.meta.url);
 
     container.innerHTML = `
-        <nav id="navbar" class="navbar navbar-expand-lg sticky-top">
+        <nav id="navbar" class="navbar sticky-top">
             <div class="container-fluid">
                 <a class="navbar-brand d-flex align-items-center" href="/">
-                    <img src="${imageURL}" alt="Icon" width="100" height="100" class="me-2">
+                    <img src="${imageURL}" alt="Icon" width="115" height="115" class="me-2">
                     Hogwarts
                 </a>
                 <a href="/">
-                    <button id="logoutBtn" class="logout-btn btn btn-outline-light ms-auto">Cerrar sesión</button>
+                    <button id="logoutBtn" class="logout-btn btn ms-auto">Cerrar sesión</button>
                 </a>
             </div>
         </nav>

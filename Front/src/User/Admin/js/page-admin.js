@@ -155,7 +155,7 @@ const construirCuerpo = (users) => {
 
         let botonModificar = document.createElement('button');
         botonModificar.id = 'modificar';
-        botonModificar.classList.add('btn', 'btn-warning', 'me-2');
+        botonModificar.classList.add('btn' ,'me-2');
         botonModificar.textContent = 'Modificar';
 
         botonModificar.addEventListener('click', (event) => {
@@ -181,7 +181,7 @@ const construirCuerpo = (users) => {
 
         let botonRoles = document.createElement('button');
         botonRoles.id = 'roles';
-        botonRoles.classList.add('btn', 'btn-warning');
+        botonRoles.classList.add('btn');
         botonRoles.textContent = 'Roles';
 
         botonRoles.addEventListener('click', (event) => {
@@ -199,7 +199,7 @@ const construirCuerpo = (users) => {
 
         let botonEliminar = document.createElement('button');
         botonEliminar.id = 'eliminar';
-        botonEliminar.classList.add('btn', 'btn-danger', 'ms-2');
+        botonEliminar.classList.add('btn','ms-2');
         botonEliminar.textContent = 'Eliminar';
         botonEliminar.addEventListener('click', (event) => {
             apiDeleteUser(token, user.id)

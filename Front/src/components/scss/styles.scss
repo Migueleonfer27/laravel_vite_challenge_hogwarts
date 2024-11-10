@@ -15,7 +15,9 @@
   --primary-font: Cinzel;
 }
 
-
+body{
+  font-family: var(--primary-font);
+}
 #footer{
   background-color: var(--cuaternary-color);
   color: var(--primary-color);
@@ -29,15 +31,62 @@
 #navbar{
   background-color: var(--cuaternary-color);
   color: var(--primary-color);
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .navbar-brand {
   font-family: var(--primary-font);
-  font-size: xxx-large;
-
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 2.60rem;
   color: var(--primary-color) !important;
 }
+
 
 .logout-btn{
   display: none;
 }
+
+.btn {
+  color: var(--primary-color) !important;
+  font-weight: 800;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 600ms;
+  transition-property: color;
+}
+
+.btn:focus,
+.btn:hover {
+  color: var(--primary-color);
+}
+
+.btn:focus:after,
+.btn:hover:after {
+  width: 100%;
+  left: 0%;
+}
+
+.btn:after {
+  content: "";
+  pointer-events: none;
+  bottom: -2px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: var(--primary-color);
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 600ms;
+  transition-property: width, left;
+}
+
+
+#navbar a {
+  text-decoration: none;
+}
+
+
