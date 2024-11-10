@@ -20,7 +20,7 @@ const buildPage = () => {
                                 <label for="password" class="form-label text-light">Contraseña</label>
                                 <input type="password" class="form-control" id="password" name="password" required minlength="6" maxlength="6">
                             </div>
-                            <button type="submit" class="btn w-100 modify">Modificar</button>
+                            <button type="submit" class="btn btn-secondary w-100 modify">Modificar</button>
                         </form>
                         <div id="loader" class="loader pt-2" style="display: none;"></div> 
                         <div id="message" class="text-light text-center mt-2" style="display: none;"></div>

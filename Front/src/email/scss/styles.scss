@@ -1,5 +1,4 @@
-// Import all of Bootstrap's CSS
-@import "bootstrap";
+@import "~bootstrap/scss/bootstrap";
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
 
@@ -8,13 +7,28 @@ body {
   background: url("../../assets/img/backgroung3.jpg") no-repeat center center fixed;
   background-size: cover;
 }
+
+:root {
+  // Colors variables
+  --primary-color: #CACEC8FF;
+  --secondary-color: #7fa19b;
+  --ternary-color: #466753;
+  --cuaternary-color: #26334b;
+  --penta-color: #466753;
+  --hexa-color: #7c857f;
+  --hepta-color: #2d2540;
+
+  // Typography variables
+  --primary-font: Cinzel;
+}
+
 #change-password-form{
   padding: 0px;
 }
 
 div#form-container {
-  background-color: rgba(108, 117, 125, 0.52);
-  font-family: Cinzel;
+  background-color: var(--cuaternary-color);
+  font-family: var(--primary-font);
 }
 
 h3{
@@ -29,7 +43,6 @@ h3{
 }
 
 .modify{
-  background-color: rgba(57, 35, 223, 0.41);
   color: white;
 }
 
