@@ -53,8 +53,8 @@ const addFormButtons = () => {
         authBtnContainer.classList.add('d-flex', 'justify-content-evenly', 'ms-auto');
 
         authBtnContainer.innerHTML = `
-            <button id="loginBtn" class="btn btn-secondary w-50">Inicio de sesión</button>
-            <button id="registerBtn" class="btn btn-secondary w-50">Registrarse</button>
+            <button id="loginBtn" class="btn w-50">Inicio de sesión</button>
+            <button id="registerBtn" class="btn w-50">Registrarse</button>
         `;
 
         formContainer.prepend(authBtnContainer);
@@ -81,7 +81,7 @@ const addRegisterForm = () => {
                     <label for="password" class="form-label text-primary-person">Contraseña</label>
                     <input type="password" class="form-control bg-primary-person" id="password" name="password" required minlength="6">
                 </div>
-                <button type="submit" class="btn btn-secondary w-100">Registrar</button>
+                <button type="submit" class="btn w-100">Registrar</button>
             </form>
         </div>
     `;
@@ -107,7 +107,7 @@ const addLoginForm = () => {
                 <div class="mt-3 text-center mb-2">
                     <a route-link="/email" href="#" class="text-primary-person text-decoration-none">¿Has olvidado tu contraseña?</a>
                 </div>
-                <button type="submit" class="btn btn-secondary w-100">Iniciar sesión</button>
+                <button type="submit" class="btn w-100">Iniciar sesión</button>
             </form>
         </div>
     `;
