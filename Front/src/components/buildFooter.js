@@ -1,7 +1,8 @@
+import './scss/styles.scss'
 export const buildFooter = (idContainer) => {
     const container = document.querySelector(idContainer || '#footer-container');
     container.innerHTML = `
-        <footer class="bg-body-tertiary p-3 fixed-bottom">
+        <footer id='footer' class="p-3 fixed-bottom">
             <div class="container d-flex justify-content-between align-items-center">
                 <span class="text-muted">&copy; 2024 Hogwarts</span>
                 <div>
