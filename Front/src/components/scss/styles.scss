@@ -1,0 +1,39 @@
+@import "~bootstrap/scss/bootstrap";
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+:root {
+  // Colors variables
+  --primary-color: #CACEC8FF;
+  --secondary-color: #7fa19b;
+  --ternary-color: #466753;
+  --cuaternary-color: #26334b;
+  --penta-color: #466753;
+  --hexa-color: #7c857f;
+  --hepta-color: #2d2540;
+
+  // Typography variables
+  --primary-font: Cinzel;
+}
+
+
+#footer{
+  background-color: var(--cuaternary-color);
+  color: var(--primary-color);
+  font-family: var(--primary-font);
+}
+
+.text-muted {
+  color: var(--primary-color) !important;
+}
+
+#navbar{
+  background-color: var(--cuaternary-color);
+  color: var(--primary-color);
+}
+
+.navbar-brand {
+  font-family: var(--primary-font);
+  font-size: xxx-large;
+
+  color: var(--primary-color) !important;
+}
