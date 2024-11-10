@@ -12,9 +12,10 @@ import {
     apiUpdateUser
 } from './admin-provider';
 import * as validations from './validations';
-import {getToken} from "../../../../storage/tokenManager";
-import {buildHeader} from "../../../components/buildHeader";
+import {getToken, removeToken} from "../../../../storage/tokenManager";
+import {buildHeader, showLogoutButton} from "../../../components/buildHeader";
 import {buildFooter} from "../../../components/buildFooter";
+
 
 const tbody = document.getElementById('body-table');
 const button = document.getElementById('btn-alumns');
@@ -258,7 +259,20 @@ const construirModalRoles = (roles, rolesUser, userID) => {
     });
 }
 
+const logout = () => {
+    removeToken()
+}
+
+const setupLogoutBtn = () => {
+    const logoutButton = document.getElementById('logoutBtn')
+    if(logoutButton){
+        logoutButton.addEventListener('click',logout)
+    }
+}
+
 getUsers()
 
 buildHeader()
+showLogoutButton()
+setupLogoutBtn()
 buildFooter()

@@ -10,7 +10,24 @@ export const buildHeader = (idContainer) => {
                     <img src="${imageURL}" alt="Icon" width="100" height="100" class="me-2">
                     Hogwarts
                 </a>
+                <a href="/">
+                    <button id="logoutBtn" class="logout-btn btn btn-outline-light ms-auto">Cerrar sesión</button>
+                </a>
             </div>
         </nav>
     `;
 }
+export const showLogoutButton = () => {
+    const logoutButton = document.getElementById('logoutBtn');
+    if (logoutButton) {
+        logoutButton.style.display = 'block'; // Muestra el botón
+    }
+}
+
+export const hideLogoutButton = () => {
+    const logoutButton = document.getElementById('logoutBtn');
+    if (logoutButton) {
+        logoutButton.style.display = 'none'; // Oculta el botón
+    }
+}
+

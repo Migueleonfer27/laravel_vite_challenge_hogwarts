@@ -2,11 +2,13 @@ import { handleRegister, handleLogin, handleLogout } from "./auth-provider";
 import { getToken } from "../../storage/tokenManager";
 import { loadPage } from "../js/router";
 import { buildHeader } from "../components/buildHeader";
+import { hideLogoutButton } from "../components/buildHeader";
 import { buildFooter } from "../components/buildFooter";
 
 // Miguel León Fernández
 export const initAuth = () => {
     buildHeader();
+    hideLogoutButton()
     buildFooter();
     addWelcome();
     addOwl();
