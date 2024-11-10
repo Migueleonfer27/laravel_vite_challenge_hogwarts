@@ -36,6 +36,183 @@ body {
 
 // Miguel León Fernández
 .bg-primary-person{
+  background-color: var(--primary-color) !important;
+}
+
+.bg-secondary-person{
+  background-color: var(--secondary-color) !important;
+}
+
+.bg-ternary-person{
+  background-color: var(--ternary-color) !important;
+}
+
+.bg-cuaternary-person{
+  background-color: var(--cuaternary-color) !important;
+}
+
+.bg-penta-person{
+  background-color: var(--penta-color) !important;
+}
+
+.bg-hexa-person{
+  backgroundcolor: var(--hexa-color) !important;
+}
+
+.bg-hepta-person{
+  backgroundcolor: var(--hepta-color) !important;
+}
+
+// Miguel León Fernández
+// Color-text
+.text-primary-person {
+  color: var(--primary-color) !important;
+}
+
+.text-secondary-person {
+  color: var(--secondary-color) !important;
+}
+
+.text-ternary-person {
+  color: var(--ternary-color) !important;
+}
+
+.text-cuaternary-person {
+  color: var(--cuaternary-color) !important;
+}
+
+.text-penta-person {
+  color: var(--penta-color) !important;
+}
+
+.text-hexa-person {
+  color: var(--hexa-color) !important;
+}
+
+.text-hepta-person {
+  color: var(--hepta-color) !important;
+}
+
+//Miguel León Fernández
+// Border-color
+.border-primary-person {
+  border-color: var(--primary-color) !important;
+}
+
+.border-secondary-person {
+  border-color: var(--secondary-color) !important;
+}
+
+.border-ternary-person {
+  border-color: var(--ternary-color) !important;
+}
+
+.border-cuaternary-person {
+  border-color: var(--cuaternary-color) !important;
+}
+
+.border-penta-person {
+  border-color: var(--penta-color) !important;
+}
+
+.border-hexa-person {
+  border-color: var(--hexa-color) !important;
+}
+
+.border-hepta-person {
+  border-color: var(--hepta-color) !important;
+}
+
+//Miguel León Fernández
+@keyframes fly {
+  0% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+  25% {
+    transform: translate(15px, -10px) rotate(5deg);
+  }
+  50% {
+    transform: translate(-15px, 10px) rotate(-5deg);
+  }
+  75% {
+    transform: translate(10px, -15px) rotate(3deg);
+  }
+  100% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+}
+
+/* From Uiverse.io by WhiteNervosa */
+.btn {
+  color: var(--primary-color) !important;
+  font-weight: 800;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 600ms;
+  transition-property: color;
+}
+
+.btn:focus,
+.btn:hover {
+  color: var(--primary-color);
+}
+
+.btn:focus:after,
+.btn:hover:after {
+  width: 100%;
+  left: 0%;
+}
+
+.btn:after {
+  content: "";
+  pointer-events: none;
+  bottom: -2px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: var(--primary-color);
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 600ms;
+  transition-property: width, left;
+}
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+
+//Miguel León Fernández
+:root {
+  // Colors variables
+  --primary-color: #CACEC8FF;
+  --secondary-color: #7fa19b;
+  --ternary-color: #466753;
+  --cuaternary-color: #26334b;
+  --penta-color: #466753;
+  --hexa-color: #7c857f;
+  --hepta-color: #2d2540;
+
+  // Typography variables
+  --primary-font: Cinzel;
+}
+
+//Miguel León Fernández
+body {
+  background: url("./assets/img/background.png") no-repeat center center fixed;
+  background-size: cover;
+  background-position: center;
+  min-height: calc(100vh - 56px - 40px);
+  padding-bottom: 100px;
+  font-family: var(--primary-font);
+}
+
+//Miguel León Fernández
+.animated-owl {
+  width: 75%;
+  animation: fly 6s ease-in-out infinite;
+}
+
+// Miguel León Fernández
+.bg-primary-person {
   background-color: var(--primary-color);
 }
 
