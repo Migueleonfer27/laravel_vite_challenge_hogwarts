@@ -9,14 +9,14 @@ use App\Http\Controllers\EmailController;
 
 //Monica
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
-    Route::get('/users', [AdminController::class, 'index'])->middleware('abilities:dumbledore');
-    Route::get('/user/{id}', [AdminController::class, 'show'])->middleware('abilities:dumbledore');
-    Route::post('/user', [AdminController::class, 'create'])->middleware('abilities:dumbledore');
-    Route::put('/user/{id}', [AdminController::class, 'update'])->middleware('abilities:dumbledore');
-    Route::delete('/user/{id}', [AdminController::class, 'destroy'])->middleware('abilities:dumbledore');
-    Route::get('role', [AdminController::class, 'getRole'])->middleware('abilities:dumbledore');
-    Route::post('/user-rol/{id}', [AdminController::class, 'giveRole'])->middleware('abilities:dumbledore');
-    Route::delete('/user-rol/{id}', [AdminController::class, 'retireRole'])->middleware('abilities:dumbledore');
+    Route::get('/users', [AdminController::class, 'index'])->middleware('ability:dumbledore,admin');
+//    Route::get('/user/{id}', [AdminController::class, 'show'])->middleware('abilities:dumbledore');
+    Route::post('/user', [AdminController::class, 'create'])->middleware('ability:dumbledore,admin');
+    Route::put('/user/{id}', [AdminController::class, 'update'])->middleware('ability:dumbledore,admin');
+    Route::delete('/user/{id}', [AdminController::class, 'destroy'])->middleware('ability:dumbledore,admin');
+    Route::get('role', [AdminController::class, 'getRole'])->middleware('ability:dumbledore,admin');
+    Route::post('/user-rol/{id}', [AdminController::class, 'giveRole'])->middleware('ability:dumbledore,admin');
+    Route::delete('/user-rol/{id}', [AdminController::class, 'retireRole'])->middleware('ability:dumbledore,admin');
 });
 
 Route::post('register', [AuthController::class, 'register']);
