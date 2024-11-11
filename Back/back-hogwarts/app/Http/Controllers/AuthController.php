@@ -65,6 +65,26 @@ class AuthController extends Controller
     }
 
     public function login(Request $request) {
+        $rules = [
+            'email' => 'required|email',
+            'password' => 'required'
+        ];
+
+        $messages = [
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'Debe ingresar un correo electrónico válido.',
+            'password.required' => 'La contraseña es obligatoria.'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
             $roles = $user->roles()->pluck('name')->toArray();
@@ -72,7 +92,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'User logged',
+                'message' => 'Usuario logueado correctamente.',
                 'data' => [
                     'token' => $token,
                     'name' => $user->name,
@@ -82,7 +102,7 @@ class AuthController extends Controller
         } else {
             return response()->json([
                 'success' => false,
-                'error' => 'Unauthorized'
+                'errors' => ['general' => ['Credenciales incorrectas. Verifica tu correo y contraseña.']]
             ], 401);
         }
     }
