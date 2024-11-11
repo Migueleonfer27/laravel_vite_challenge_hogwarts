@@ -114,6 +114,12 @@ const construirCabecera = (objeto) => {
         if (clave === 'id' || clave === 'password' || clave === 'created_at' || clave === 'updated_at' || clave === 'email_verified_at' || clave === 'roles') {
             continue;
         }
+        if (clave === 'name') {
+            clave = 'nombre';
+        }
+        if (clave === 'email') {
+            clave = 'correo electrónico';
+        }
         let th = document.createElement('th');
         th.textContent = clave;
         tr.appendChild(th);
