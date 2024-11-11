@@ -23,6 +23,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'level',
+        'experience',
+        'id_house'
     ];
 
     /**
@@ -50,5 +53,9 @@ class User extends Authenticatable
 
     public function roles(){
         return $this->belongsToMany(Role::class, 'role_user');
+    }
+
+    public function house(){
+        return $this->belongsToMany(House::class, 'id_house');
     }
 }

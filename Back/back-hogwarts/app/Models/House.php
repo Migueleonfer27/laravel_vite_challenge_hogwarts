@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class House extends Model{
     use hasFactory;
+
+    public function user(){
+        return $this->hasMany(User::class,'id_house');
+    }
 }

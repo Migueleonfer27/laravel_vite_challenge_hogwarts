@@ -21,6 +21,9 @@ class UserSeeder extends Seeder
             'name' => 'Root',
             'email' => 'root@root.com',
             'password' => bcrypt('123456'),
+            'level' => 1,
+            'experience' => (rand(0,49)),
+            'id_house' => 1,
         ]);
 
         $adminUser = DB::table('users')->where('email', 'root@root.com')->first();
