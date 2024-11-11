@@ -80,6 +80,8 @@ export const handleLogin = (callback) => {
 
 //Miguel León Fernández
 export async function handleLogout() {
+    localStorage.removeItem('name');
+
     try {
         const response = await fetch('http://127.0.0.1:8000/api/logout', {
             method: 'POST',
@@ -90,7 +92,6 @@ export async function handleLogout() {
 
         if (response.ok) {
             removeToken();
-            localStorage.removeItem('name');
             console.log('User logged out successfully');
         } else {
             console.error('Logout failed');

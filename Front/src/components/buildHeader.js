@@ -1,4 +1,5 @@
 import '../scss/styles.scss'
+import {handleLogout} from "../auth/auth-provider";
 
 export const buildHeader = (idContainer) => {
     const container = document.querySelector(idContainer || '#header-container');
@@ -22,6 +23,7 @@ export const buildHeader = (idContainer) => {
         </nav>
     `;
     showName();
+    setupLogoutBtn();
 }
 
 export const showLogoutButton = () => {
@@ -46,4 +48,8 @@ const showName = () => {
     } else {
         name.classList.add('d-none');
     }
+}
+
+const setupLogoutBtn = () => {
+    document.getElementById('logoutBtn').addEventListener('click', handleLogout);
 }
