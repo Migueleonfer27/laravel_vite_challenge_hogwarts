@@ -9,7 +9,7 @@ export const handleRegister = () => {
     if (form) {
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const name = document.getElementById('name').value;
+            const name = document.getElementById('nameUser').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const confirm_password = document.getElementById('confirmPassword').value;

@@ -72,8 +72,8 @@ const addRegisterForm = () => {
             <h3 class="text-center text-primary-person mb-4">Registro de Alumno</h3>
             <form id="registerForm">
                 <div class="mb-3">
-                    <label for="name" class="form-label text-primary-person">Nombre</label>
-                    <input type="text" class="form-control bg-primary-person" id="name" name="name" required>
+                    <label for="nameUser" class="form-label text-primary-person">Nombre</label>
+                    <input type="text" class="form-control bg-primary-person" id="nameUser" name="nameUser" required>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label text-primary-person">Correo Electrónico</label>
