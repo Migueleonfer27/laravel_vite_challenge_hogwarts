@@ -172,7 +172,9 @@ export const showMessageError = (status, errors) => {
 
     let message = '';
 
-    if (status === 422 && errors) {
+    if (status === 401) {
+        message = 'Credenciales incorrectas. Verifica tu correo y contraseña.';
+    } else if (status === 422 && errors) {
         message = 'Por favor, corrige los siguientes errores:<br>';
         for (const field in errors) {
             message += `${errors[field].join('<br>')}<br>`;

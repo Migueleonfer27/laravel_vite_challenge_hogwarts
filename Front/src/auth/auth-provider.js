@@ -66,11 +66,12 @@ export const handleLogin = (callback) => {
                     toggleAuthButtons(true);
                     callback();
                 } else {
-                    console.error('Login failed:', data.error);
-                    showMessageError(response.status, data.error);
+                    console.error('Login failed:', data.errors);
+                    showMessageError(response.status, data.errors);
                 }
             } catch (error) {
                 console.error('Error:', error);
+                showMessageError(500, { general: ['Error de conexión.'] });
             }
         });
     }
