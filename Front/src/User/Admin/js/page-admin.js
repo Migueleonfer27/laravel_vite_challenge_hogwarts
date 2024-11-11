@@ -148,8 +148,10 @@ const construirCuerpo = (users) => {
             } else {
                 let input = document.createElement('input');
                 input.value = user[clave];
+                input.classList.add('form-disabled');
                 input.classList.add('form-control');
                 input.id = clave
+                input.disabled = true;
                 td.appendChild(input);
             }
             tr.appendChild(td);
@@ -165,22 +167,37 @@ const construirCuerpo = (users) => {
         botonModificar.textContent = 'Modificar';
 
         botonModificar.addEventListener('click', (event) => {
-            let inputs = tr.querySelectorAll('input');
+            let updateModal = new bootstrap.Modal(document.getElementById('updateUserModal'));
+            updateModal.show();
 
-            let data = {};
+            let inputName = document.querySelector('#update-name-modal');
+            let inputEmail = document.querySelector('#update-email-modal');
 
-            inputs.forEach(input => {
-                data[input.id] = input.value;
-            });
 
-            apiUpdateUser(token, tr.id, data)
-                .then(data => {
-                    console.log(data);
-                    if (data.success === true)
-                        window.location.reload()
-                })
+            inputName.value = user.name;
+            inputEmail.value = user.email;
 
-            console.log(data);
+
+
+            const updateUserBtn = document.querySelector('#modal-update-user')
+            updateUserBtn.addEventListener('click', async (e) => {
+                e.preventDefault()
+                let data = {
+                    name: inputName.value,
+                    email: inputEmail.value
+                }
+                if (validateForm([inputName, inputEmail]) && validateEmail(inputEmail.value)) {
+                    console.log(data, tr.id);
+                    apiUpdateUser(token, parseInt(tr.id), data)
+                        .then(data => {
+                            console.log(data);
+                            if (data.success === true)
+                                window.location.reload()
+                        })
+                }
+            })
+
+
         });
 
         tdBotones.appendChild(botonModificar);
@@ -238,7 +255,7 @@ const construirModalRoles = (roles, rolesUser, userID) => {
         button.textContent = isRoleAssigned ? `Eliminar rol (${role.name})` : `Añadir rol (${role.name})`;
         button.value = role.id;
         button.id = role.name;
-        button.classList.add(isRoleAssigned ? 'btn-danger' : 'btn-primary');
+        button.classList.add(isRoleAssigned ? 'btn-custom-danger' : 'btn-');
 
         button.addEventListener('click', async (event) => {
             if (button.textContent.includes('Eliminar rol')) {
@@ -246,16 +263,16 @@ const construirModalRoles = (roles, rolesUser, userID) => {
                 console.log(data);
                 if (data.success) {
                     button.textContent = `Añadir rol (${role.name})`;
-                    button.classList.remove('btn-danger');
-                    button.classList.add('btn-primary');
+                    // button.classList.add('btn');
+                    button.classList.remove('btn-custom-danger');
                 }
             } else if (button.textContent.includes('Añadir rol')) {
                 const data = await apiAddRole(token, userID, role.id);
                 console.log(data);
                 if (data.success) {
                     button.textContent = `Eliminar rol (${role.name})`;
-                    button.classList.remove('btn-primary');
-                    button.classList.add('btn-danger');
+                    // button.classList.remove('btn');
+                    button.classList.add('btn-custom-danger');
                 }
             }
         });
