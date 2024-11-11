@@ -63,6 +63,7 @@ export const handleLogin = (callback) => {
                 if (response.ok) {
                     console.log('User logged in successfully', data);
                     setToken(data.data.token);
+                    localStorage.setItem('name', data.data.name);
                     toggleAuthButtons(true);
                     callback();
                 } else {
@@ -89,6 +90,7 @@ export async function handleLogout() {
 
         if (response.ok) {
             removeToken();
+            localStorage.removeItem('name');
             console.log('User logged out successfully');
         } else {
             console.error('Logout failed');
