@@ -1,7 +1,6 @@
 //monica
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
-
 import {
     apiAddRole,
     apiCreateUser,
@@ -27,37 +26,43 @@ const createUserBtn = document.querySelector('#modal-create-user')
 addUsersBtn.addEventListener('click', () => {
         const addUserModal = new bootstrap.Modal(document.getElementById('addUserModal'))
         addUserModal.show()
-
-
 })
 
 createUserBtn.addEventListener('click', async (e) => {
-    e.preventDefault()
-    const name = document.querySelector('#name-modal')
-    const email = document.querySelector('#email-modal')
-    const password = document.querySelector('#password-modal')
+    e.preventDefault();
 
-   if (validateForm([name, email, password]) && validateEmail(email.value) && validatePassword(password.value)) {
-        const data = {
-            name: name.value,
-            email: email.value,
-            password: password.value
-        }
-       console.log(data);
-        //TODO arreglar email ya que al ser unico no se puede repetir mostrar error que aparece en back pero no en front
-        apiCreateUser(token, data)
-            .then(data => {
-                console.log(data);
-                if (data.success === true)
-                    window.location.reload()
-            })
+    const name = document.querySelector('#name-modal');
+    const email = document.querySelector('#email-modal');
+    const password = document.querySelector('#password-modal');
+    const errorMessage = document.querySelector('#email-error-message'); // Un mensaje de error debajo del campo email
+
+    if (validateForm([name, email, password]) && validateEmail(email.value) && validatePassword(password.value)) {
+            const data = {
+                name: name.value,
+                email: email.value,
+                password: password.value
+            };
+
+            try {
+                await apiCreateUser(token, data)
+                    .then(data =>{
+                        console.log(data);
+                        if (data.success){
+                            window.location.reload()
+                        }else {
+                            console.log(data);
+                            email.classList.add('is-invalid');
+                            if (data.email[0] === 'the email already exists'){
+                                errorMessage.textContent = 'El correo electrónico ya está registrado. Intenta con otro.';
+                            }
+                            errorMessage.style.display = 'block';
+                        }
+                    })
+            } catch (error) {
+                console.error('Error al crear usuario:', error);
+            }
     }
-
-
-
-
-
-})
+});
 
 const validateForm = (inputs) => {
     let isValid = true;
@@ -99,7 +104,6 @@ document.getElementById('rolesModal').addEventListener('hidden.bs.modal', () => 
 
 
 const getUsers = async () => {
-
     const res = await apiGetUsers(token);
     console.log(res[0]);
     construirCabecera(res[0]);
@@ -173,11 +177,8 @@ const construirCuerpo = (users) => {
             let inputName = document.querySelector('#update-name-modal');
             let inputEmail = document.querySelector('#update-email-modal');
 
-
             inputName.value = user.name;
             inputEmail.value = user.email;
-
-
 
             const updateUserBtn = document.querySelector('#modal-update-user')
             updateUserBtn.addEventListener('click', async (e) => {
@@ -196,7 +197,6 @@ const construirCuerpo = (users) => {
                         })
                 }
             })
-
 
         });
 
@@ -271,7 +271,6 @@ const construirModalRoles = (roles, rolesUser, userID) => {
                 console.log(data);
                 if (data.success) {
                     button.textContent = `Eliminar rol (${role.name})`;
-                    // button.classList.remove('btn');
                     button.classList.add('btn-custom-danger');
                 }
             }

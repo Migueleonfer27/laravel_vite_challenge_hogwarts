@@ -11,26 +11,22 @@
 <div id="header-container"></div>
 
 <!--Monica-->
-<div id="main-container" >
+<div id="main-container" class="container-fluid">
 
-    <div class="justify-content-center p-5" id="admin-alumns">
+    <div class="row justify-content-center p-5" id="admin-alumns">
 
-        <div class="justify-content-center" id="container-btn">
-            <button class="btn btn-input" id="btn-students">Crear Usuario
-            </button>
+        <div class="col-12  mb-3" id="container-btn">
+            <button class="btn btn-input" id="btn-students">Crear Usuario</button>
         </div>
 
-        <p class="h2 text-center text-white">Administración usuarios</p>
-        <div id='Containertable' class="container  text-white m-5 p-3">
-            <table  id ='table' class="table table-borderless text-center     " id="user-table">
+        <p class="h2 text-center text-white col-12">Administración usuarios</p>
+        <div id="Containertable" class="container text-white m-5 p-3">
+            <table id="user-table" class="table table-borderless text-center">
                 <thead id="header"></thead>
                 <tbody id="body"></tbody>
             </table>
-
         </div>
     </div>
-
-
 </div>
 
 <div id="footer-container"></div>
@@ -70,6 +66,7 @@
           <div class="mb-3">
             <label for="email-modal" class="form-labe text-primary-person">Correo electrónico</label>
             <input type="email" class="form-control bg-primary-person text-cuaternary-person" id="email-modal" required>
+            <small id="email-error-message" class="text-danger" style="display:none;"></small>
           </div>
           <div class="mb-3">
             <label for="password-modal" class="form-label text-primary-person">Contraseña</label>
