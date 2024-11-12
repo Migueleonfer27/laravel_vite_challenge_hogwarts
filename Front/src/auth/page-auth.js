@@ -72,8 +72,8 @@ const addRegisterForm = () => {
             <h3 class="text-center text-primary-person mb-4">Registro de Alumno</h3>
             <form id="registerForm">
                 <div class="mb-3">
-                    <label for="name" class="form-label text-primary-person">Nombre</label>
-                    <input type="text" class="form-control bg-primary-person" id="name" name="name" required>
+                    <label for="nameUser" class="form-label text-primary-person">Nombre</label>
+                    <input type="text" class="form-control bg-primary-person" id="nameUser" name="nameUser" required>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label text-primary-person">Correo Electrónico</label>
@@ -82,6 +82,10 @@ const addRegisterForm = () => {
                 <div class="mb-3">
                     <label for="password" class="form-label text-primary-person">Contraseña</label>
                     <input type="password" class="form-control bg-primary-person" id="password" name="password" required minlength="6">
+                </div>
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label text-primary-person">Confirmar contraseña</label>
+                    <input type="password" class="form-control bg-primary-person" id="confirmPassword" name="confirmPassword" required minlength="6">
                 </div>
                 <button type="submit" class="btn w-100">Registrar</button>
             </form>
@@ -158,42 +162,53 @@ export const toggleAuthButtons = (isLoggedIn) => {
 };
 
 // Miguel León Fernández
-export const showMessageError = (status, error) => {
+export const showMessageError = (status, errors) => {
     const existingError = document.querySelector('#errorDiv');
-    if (existingError) {
-        existingError.remove();
-    }
+    if (existingError) existingError.remove();
 
     const errorDiv = document.createElement('div');
     errorDiv.id = 'errorDiv';
+    errorDiv.className = 'alert alert-danger mt-3 text-center';
 
     let message = '';
 
-    if (status === 422) {
-        message = 'Este usuario ya está registrado.';
-    } else if (status === 401) {
-        message = 'Las credenciales son incorrectas. Por favor, verifica tu correo y contraseña.';
+    if (status === 401) {
+        message = 'Credenciales incorrectas. Verifica tu correo y contraseña.';
+    } else if (status === 422 && errors) {
+        message = 'Por favor, corrige los siguientes errores:<br>';
+        for (const field in errors) {
+            message += `${errors[field].join('<br>')}<br>`;
+        }
     } else if (status === 500) {
         message = 'Error de conexión, inténtelo más tarde.';
     } else {
-        message = 'Ocurrió un error desconocido. Pongase en contacto con el administrador.';
+        message = 'Ocurrió un error desconocido. Póngase en contacto con el administrador.';
     }
 
-    console.log(message, existingError);
-
-    errorDiv.innerHTML = `
-        <div class="alert alert-danger mt-3 text-center" role="alert">
-          ${message}
-        </div>
-    `;
+    errorDiv.innerHTML = message;
 
     const form = document.querySelector('#loginForm') || document.querySelector('#registerForm');
-
-    if (form) {
-        form.appendChild(errorDiv);
-    }
+    if (form) form.appendChild(errorDiv);
 
     setTimeout(() => {
         errorDiv.remove();
-    }, 4000);
+    }, 5000);
+};
+
+// Miguel León Fernández
+export const showSuccessMessage = (message) => {
+    const existingMessage = document.querySelector('#successDiv');
+    if (existingMessage) existingMessage.remove();
+
+    const successDiv = document.createElement('div');
+    successDiv.id = 'successDiv';
+    successDiv.className = 'alert alert-success mt-3 text-center';
+    successDiv.innerHTML = message;
+
+    const form = document.querySelector('#registerForm');
+    if (form) form.appendChild(successDiv);
+
+    setTimeout(() => {
+        successDiv.remove();
+    }, 5000);
 };
