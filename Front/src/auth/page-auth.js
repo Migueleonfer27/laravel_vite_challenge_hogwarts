@@ -4,6 +4,7 @@ import { loadPage } from "../js/router";
 import { buildHeader } from "../components/buildHeader";
 import { hideLogoutButton } from "../components/buildHeader";
 import { buildFooter } from "../components/buildFooter";
+import { initializeDragAndDrop } from "../houses/drag-and-drop-house";
 
 // Miguel León Fernández
 export const initAuth = () => {
@@ -87,12 +88,57 @@ const addRegisterForm = () => {
                     <label for="confirmPassword" class="form-label text-primary-person">Confirmar contraseña</label>
                     <input type="password" class="form-control bg-primary-person" id="confirmPassword" name="confirmPassword" required minlength="6">
                 </div>
+                <div class="mb-3 d-flex justify-content-center">
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#housesModal">
+                      Seleccionar casa
+                    </button>
+                </div>
+                <div class="form-check d-flex justify-content-center mb-3">
+                  <label class="form-check-label text-primary-person" for="noPreference">
+                    No seleccionar preferencias de casa
+                  </label>
+                  <input class="form-check-input ms-2" type="checkbox" value="" id="noPreference">
+                </div>
+                <div class="modal fade" id="housesModal" tabindex="-1" aria-labelledby="housesModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content bg-cuaternary-person">
+                      <div class="modal-header">
+                        <h5 class="modal-title text-primary-person" id="housesModalLabel">Preferencias de Casa</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body bg-primary-person">
+                        <div class="row justify-content-center">
+                            <div id="preference-1" class="col-12 col-md-3 mb-3 d-flex flex-column align-items-center dropzone">
+                                <img src="../assets/img/gryffindor.png" class="img-fluid rounded img-houses" alt="gryffindor" draggable="true">
+                                <span class="mt-3 text-primary-person fs-3 fw-bold bg-hepta-person px-4 rounded-5">1</span>
+                            </div>
+                            <div id="preference-2" class="col-12 col-md-3 mb-3 d-flex flex-column align-items-center dropzone">
+                                <img src="../assets/img/hufflepuff.png" class="img-fluid rounded img-houses" alt="hufflepuff" draggable="true">
+                                <span class="mt-3 text-primary-person fs-3 fw-bold bg-hepta-person px-4 rounded-5">2</span>
+                            </div>
+                            <div id="preference-3" class="col-12 col-md-3 mb-3 d-flex flex-column align-items-center dropzone">
+                                <img src="../assets/img/ravenclaw.png" class="img-fluid rounded img-houses" alt="ravenclaw" draggable="true">
+                                <span class="mt-3 text-primary-person fs-3 fw-bold bg-hepta-person px-4 rounded-5">3</span>
+                            </div>
+                            <div id="preference-4" class="col-12 col-md-3 mb-3 d-flex flex-column align-items-center dropzone">
+                                <img src="../assets/img/slytherin.png" class="img-fluid rounded img-houses" alt="slytherin" draggable="true">
+                                <span class="mt-3 text-primary-person fs-3 fw-bold bg-hepta-person px-4 rounded-5">4</span>
+                            </div>
+                        </div>
+                    </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn" data-bs-dismiss="modal">Cerrar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <button type="submit" class="btn w-100">Registrar</button>
             </form>
         </div>
     `;
     addFormButtons();
     handleRegister();
+    initializeDragAndDrop();
 };
 
 // Miguel León Fernández
