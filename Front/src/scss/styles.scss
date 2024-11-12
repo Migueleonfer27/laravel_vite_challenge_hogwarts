@@ -160,6 +160,55 @@ body {
   transition-property: width, left;
 }
 
+
+.btn-input {
+  color: var(--primary-color) !important;
+  font-weight: 800;
+  cursor: pointer;
+  position: relative;
+  border: 2px solid var(--primary-color) !important;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 600ms;
+  transition-property: color, box-shadow, transform;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds shadow for 3D effect */
+}
+.btn-custom-danger {
+  color: red !important;
+  font-weight: 800;
+  cursor: pointer;
+  position: relative;
+  border: 2px solid red !important;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 600ms;
+  transition-property: color, box-shadow, transform;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds shadow for 3D effect */
+}
+
+.btn-custom-danger:focus,
+.btn-custom-danger:hover {
+  color: red;
+}
+
+.btn-custom-danger:focus:after,
+.btn-custom-danger:hover:after {
+  width: 100%;
+  left: 0%;
+}
+
+.btn-custom-danger:after {
+  content: "";
+  pointer-events: none;
+  bottom: -2px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: red;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 600ms;
+  transition-property: width, left;
+}
+
 :root {
   // Colors variables
   --primary-color: #CACEC8FF;

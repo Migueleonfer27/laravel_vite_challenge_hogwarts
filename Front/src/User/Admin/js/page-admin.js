@@ -1,7 +1,6 @@
 //monica
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
-
 import {
     apiAddRole,
     apiCreateUser,
@@ -27,37 +26,43 @@ const createUserBtn = document.querySelector('#modal-create-user')
 addUsersBtn.addEventListener('click', () => {
         const addUserModal = new bootstrap.Modal(document.getElementById('addUserModal'))
         addUserModal.show()
-
-
 })
 
 createUserBtn.addEventListener('click', async (e) => {
-    e.preventDefault()
-    const name = document.querySelector('#name-modal')
-    const email = document.querySelector('#email-modal')
-    const password = document.querySelector('#password-modal')
+    e.preventDefault();
 
-   if (validateForm([name, email, password]) && validateEmail(email.value) && validatePassword(password.value)) {
-        const data = {
-            name: name.value,
-            email: email.value,
-            password: password.value
-        }
-       console.log(data);
-        //TODO arreglar email ya que al ser unico no se puede repetir mostrar error que aparece en back pero no en front
-        apiCreateUser(token, data)
-            .then(data => {
-                console.log(data);
-                if (data.success === true)
-                    window.location.reload()
-            })
+    const name = document.querySelector('#name-modal');
+    const email = document.querySelector('#email-modal');
+    const password = document.querySelector('#password-modal');
+    const errorMessage = document.querySelector('#email-error-message'); // Un mensaje de error debajo del campo email
+
+    if (validateForm([name, email, password]) && validateEmail(email.value) && validatePassword(password.value)) {
+            const data = {
+                name: name.value,
+                email: email.value,
+                password: password.value
+            };
+
+            try {
+                await apiCreateUser(token, data)
+                    .then(data =>{
+                        console.log(data);
+                        if (data.success){
+                            window.location.reload()
+                        }else {
+                            console.log(data);
+                            email.classList.add('is-invalid');
+                            if (data.email[0] === 'the email already exists'){
+                                errorMessage.textContent = 'El correo electrónico ya está registrado. Intenta con otro.';
+                            }
+                            errorMessage.style.display = 'block';
+                        }
+                    })
+            } catch (error) {
+                console.error('Error al crear usuario:', error);
+            }
     }
-
-
-
-
-
-})
+});
 
 const validateForm = (inputs) => {
     let isValid = true;
@@ -99,7 +104,6 @@ document.getElementById('rolesModal').addEventListener('hidden.bs.modal', () => 
 
 
 const getUsers = async () => {
-
     const res = await apiGetUsers(token);
     console.log(res[0]);
     construirCabecera(res[0]);
@@ -113,6 +117,12 @@ const construirCabecera = (objeto) => {
     for (let clave in objeto) {
         if (clave === 'id' || clave === 'password' || clave === 'created_at' || clave === 'updated_at' || clave === 'email_verified_at' || clave === 'roles') {
             continue;
+        }
+        if (clave === 'name') {
+            clave = 'nombre';
+        }
+        if (clave === 'email') {
+            clave = 'correo electrónico';
         }
         let th = document.createElement('th');
         th.textContent = clave;
@@ -142,8 +152,10 @@ const construirCuerpo = (users) => {
             } else {
                 let input = document.createElement('input');
                 input.value = user[clave];
+                input.classList.add('form-disabled');
                 input.classList.add('form-control');
                 input.id = clave
+                input.disabled = true;
                 td.appendChild(input);
             }
             tr.appendChild(td);
@@ -159,22 +171,33 @@ const construirCuerpo = (users) => {
         botonModificar.textContent = 'Modificar';
 
         botonModificar.addEventListener('click', (event) => {
-            let inputs = tr.querySelectorAll('input');
+            let updateModal = new bootstrap.Modal(document.getElementById('updateUserModal'));
+            updateModal.show();
 
-            let data = {};
+            let inputName = document.querySelector('#update-name-modal');
+            let inputEmail = document.querySelector('#update-email-modal');
 
-            inputs.forEach(input => {
-                data[input.id] = input.value;
-            });
+            inputName.value = user.name;
+            inputEmail.value = user.email;
 
-            apiUpdateUser(token, tr.id, data)
-                .then(data => {
-                    console.log(data);
-                    if (data.success === true)
-                        window.location.reload()
-                })
+            const updateUserBtn = document.querySelector('#modal-update-user')
+            updateUserBtn.addEventListener('click', async (e) => {
+                e.preventDefault()
+                let data = {
+                    name: inputName.value,
+                    email: inputEmail.value
+                }
+                if (validateForm([inputName, inputEmail]) && validateEmail(inputEmail.value)) {
+                    console.log(data, tr.id);
+                    apiUpdateUser(token, parseInt(tr.id), data)
+                        .then(data => {
+                            console.log(data);
+                            if (data.success === true)
+                                window.location.reload()
+                        })
+                }
+            })
 
-            console.log(data);
         });
 
         tdBotones.appendChild(botonModificar);
@@ -232,7 +255,7 @@ const construirModalRoles = (roles, rolesUser, userID) => {
         button.textContent = isRoleAssigned ? `Eliminar rol (${role.name})` : `Añadir rol (${role.name})`;
         button.value = role.id;
         button.id = role.name;
-        button.classList.add(isRoleAssigned ? 'btn-danger' : 'btn-primary');
+        button.classList.add(isRoleAssigned ? 'btn-custom-danger' : 'btn-');
 
         button.addEventListener('click', async (event) => {
             if (button.textContent.includes('Eliminar rol')) {
@@ -240,16 +263,15 @@ const construirModalRoles = (roles, rolesUser, userID) => {
                 console.log(data);
                 if (data.success) {
                     button.textContent = `Añadir rol (${role.name})`;
-                    button.classList.remove('btn-danger');
-                    button.classList.add('btn-primary');
+                    // button.classList.add('btn');
+                    button.classList.remove('btn-custom-danger');
                 }
             } else if (button.textContent.includes('Añadir rol')) {
                 const data = await apiAddRole(token, userID, role.id);
                 console.log(data);
                 if (data.success) {
                     button.textContent = `Eliminar rol (${role.name})`;
-                    button.classList.remove('btn-primary');
-                    button.classList.add('btn-danger');
+                    button.classList.add('btn-custom-danger');
                 }
             }
         });
