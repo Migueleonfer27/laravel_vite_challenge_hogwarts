@@ -94,7 +94,7 @@ const addRegisterForm = () => {
                     </button>
                 </div>
                 <div class="form-check d-flex justify-content-center mb-3">
-                  <label class="form-check-label text-primary-person" for="noPreference">
+                  <label class="form-check-label text-primary-person text-center" for="noPreference">
                     No seleccionar preferencias de casa
                   </label>
                   <input class="form-check-input ms-2" type="checkbox" value="" id="noPreference">
@@ -104,7 +104,7 @@ const addRegisterForm = () => {
                     <div class="modal-content bg-cuaternary-person">
                       <div class="modal-header">
                         <h5 class="modal-title text-primary-person" id="housesModalLabel">Preferencias de Casa</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body bg-primary-person">
                         <div class="row justify-content-center">
