@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HouseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
@@ -19,6 +20,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::delete('/user-rol/{id}', [AdminController::class, 'retireRole'])->middleware('abilities:dumbledore');
 });
 
+// Miguel León Fernández
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
