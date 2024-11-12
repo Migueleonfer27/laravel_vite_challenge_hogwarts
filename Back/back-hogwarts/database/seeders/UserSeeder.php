@@ -16,22 +16,18 @@ class UserSeeder extends Seeder
 
     public function run(): void
     {
-        //Monica
-        User::create([
-            'name' => 'Root',
-            'email' => 'root@root.com',
+        $user = User::create([
+            'name' => 'Dumbledore',
+            'email' => 'Dumbledore@root.com',
             'password' => bcrypt('123456'),
-            'level' => 1,
-            'experience' => (rand(0,49)),
-            'id_house' => 1,
+            'level' => 5,
+            'experience' => 500,
+            'id_house' => 3
         ]);
 
-        $adminUser = DB::table('users')->where('email', 'root@root.com')->first();
-        $adminRole = DB::table('roles')->where('name', 'Dumbledore')->first();
         DB::table('role_user')->insert([
-            'role_id' => $adminRole->id,
-            'user_id' => $adminUser->id
+            'role_id' => 4,
+            'user_id' => $user->id
         ]);
-
     }
 }

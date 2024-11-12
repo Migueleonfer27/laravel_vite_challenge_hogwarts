@@ -43,6 +43,10 @@ class AuthController extends Controller
         try {
             $data = $request->only(['name', 'email', 'password', 'confirm_password']);
             $data['password'] = bcrypt($data['password']);
+            $data['level'] = 1;
+            $data['experience'] = 0;
+            $data['id_house'] = 1; // HAY QUE CAMBIAR ESTO CUANDO ESTÉ EL SISTEMA DE CASAS
+            $data['url_photo'] = null; // CAMBIAR ESTO CUANDO TENGAMOS EL SISTEMA S3 DE FOTOS
             $user = User::create($data);
             $token = $user->createToken('auth_token', ['student'])->plainTextToken;
             $user->roles()->sync(Role::where('name', 'student')->first()->id);

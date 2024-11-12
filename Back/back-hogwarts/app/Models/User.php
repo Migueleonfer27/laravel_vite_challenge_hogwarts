@@ -25,7 +25,8 @@ class User extends Authenticatable
         'password',
         'level',
         'experience',
-        'id_house'
+        'id_house',
+        'url_photo'
     ];
 
     /**
@@ -56,6 +57,6 @@ class User extends Authenticatable
     }
 
     public function house(){
-        return $this->belongsToMany(House::class, 'id_house');
+        return $this->newBelongsTo(House::class, 'id_house');
     }
 }
