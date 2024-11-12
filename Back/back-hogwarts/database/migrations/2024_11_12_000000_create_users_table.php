@@ -21,7 +21,6 @@ return new class extends Migration
             $table->foreignId('id_house')->constrained('houses')->onDelete('cascade');
             $table->string('password');
             $table->string('url_photo')->nullable();
-
             $table->rememberToken();
             $table->timestamps();
         });
