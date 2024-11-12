@@ -51,7 +51,7 @@ class IngredientSeeder extends Seeder
                 'curative' => 0,
                 'sickening' => 90,
                 'inflammatory' => 90,
-                'Deinflammatory' => 0,
+                'deinflammatory' => 0,
             ],
         ];
 

@@ -59,4 +59,22 @@ class User extends Authenticatable
     public function house(){
         return $this->newBelongsTo(House::class, 'id_house');
     }
+
+    public function duels(){
+        return $this->hasMany(Duel::class);
+    }
+
+    public function potions(){
+        return $this->hasMany(Potion::class, 'creator');
+    }
+
+    public function subjects(){
+        return $this->hasMany(Subject::class);
+    }
+
+    public function spells(){
+        return $this->hasMany(Spell::class);
+    }
+
+
 }

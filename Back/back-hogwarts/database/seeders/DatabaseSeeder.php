@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\House;
+use App\Models\Spell;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SubjectSeeder::class,
             IngredientSeeder::class,
+            SpellSeeder::class,
         ]);
     }
 }
