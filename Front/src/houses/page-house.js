@@ -14,8 +14,8 @@ const showHouseModal = async (house) => {
                             <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body text-center bg-primary-person">
-                            <img src="../assets/img/${house}.png" alt="${house}" class="img-fluid rounded img-houses">
-                            <h4 class="text-primary-person mt-3 text-cuaternary-person">Bienvenido a ${house}!</h4>
+                            <img src="../assets/img/${house}.png" alt="${house}" class="img-fluid rounded img-houses img-house-animation mt-3">
+                            <h4 class="text-primary-person mt-4 text-cuaternary-person">Bienvenido a ${house}!</h4>
                         </div>
                     </div>
                 </div>
