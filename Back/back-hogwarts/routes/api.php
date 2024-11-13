@@ -19,13 +19,6 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('role', [AdminController::class, 'getRole'])->middleware('ability:dumbledore,admin');
     Route::post('/user-rol/{id}', [AdminController::class, 'giveRole'])->middleware('ability:dumbledore,admin');
     Route::delete('/user-rol/{id}', [AdminController::class, 'retireRole'])->middleware('ability:dumbledore,admin');
-
- // Asignaturas Cynthia
-    Route::get('subject',[SubjectController::class, 'index'])->middleware('ability:dumbledore,admin');
-    Route::get('subject/{id}',[SubjectController::class, 'show'])->middleware('ability:dumbledore,admin');
-    Route::post('subjects',[SubjectController::class, 'create'])->middleware('ability:dumbledore,admin');
-    Route::put('subject/{id}', [SubjectController::class, 'update'])->middleware('ability:dumbledore,admin');
-    Route::delete('subject/{id}', [SubjectController::class, 'destroy'])->middleware('ability:dumbledore,admin');
 });
 
 // Miguel León Fernández
@@ -39,3 +32,13 @@ Route::get('/nologin', function () {
 
 //Cynthia
 Route::put('changePassword', [EmailController::class, 'changePassword']);
+
+
+Route::get('/subjects',[SubjectController::class, 'index']);
+Route::get('/subject/{id}',[SubjectController::class, 'show']);
+Route::post('/subjects',[SubjectController::class, 'create']);
+Route::put('/subject/{id}', [SubjectController::class, 'update']);
+Route::delete('/subject/{id}', [SubjectController::class, 'destroy']);
+
+Route::post('/subjects/{subjectId}/assign-subject',[SubjectController::class, 'assignSubject']);
+Route::delete('/subjects/{subjectId}/remove-subject',[SubjectController::class, 'deleteUserSubject']);
