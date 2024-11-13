@@ -3,9 +3,27 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HouseController extends Controller
 {
+    public function index() {
+        $user = Auth::user();
+        $house = $user->house;
+
+        if (!$house) {
+            return response()->json([
+                'success' => false,
+                'message' => 'The user do not have a house'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'house' => $house->name
+        ], 200);
+    }
+
     public function sortingHat(Request $request)
     {
         $validated = $request->validate([

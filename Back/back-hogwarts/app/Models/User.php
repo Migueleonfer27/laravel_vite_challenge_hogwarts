@@ -57,7 +57,7 @@ class User extends Authenticatable
     }
 
     public function house(){
-        return $this->newBelongsTo(House::class, 'id_house');
+        return $this->belongsTo(House::class, 'id_house');
     }
 
     public function duels(){

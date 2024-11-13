@@ -15,7 +15,7 @@ const showHouseModal = async (house) => {
                         </div>
                         <div class="modal-body text-center bg-primary-person">
                             <img src="../assets/img/${house}.png" alt="${house}" class="img-fluid rounded img-houses img-house-animation mt-3">
-                            <h4 class="text-primary-person mt-4 text-cuaternary-person">Bienvenido a ${house}!</h4>
+                            <h4 class="text-primary-person mt-4 text-cuaternary-person">¡Se te ha asignado a ${house}, Bienvenido!</h4>
                         </div>
                     </div>
                 </div>

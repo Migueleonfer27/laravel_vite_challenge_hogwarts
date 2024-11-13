@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
+Route::get('getHouse', [HouseController::class, 'index'])->middleware('auth:api');
 
 Route::get('/nologin', function () {
     return response()->json(['message' => 'Unauthorized'], 401);
