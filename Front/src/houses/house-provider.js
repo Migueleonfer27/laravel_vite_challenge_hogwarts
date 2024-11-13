@@ -1,9 +1,10 @@
 import { getToken } from "../../storage/tokenManager";
+import {showHouseModal} from "./page-house";
 
 // Miguel León Fernández
-export const getHouse = async (userId) => {
+const getUserHouse = async () => {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/`, {
+        const response = await fetch('http://127.0.0.1:8000/api/getHouse', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${getToken()}`,
@@ -13,11 +14,11 @@ export const getHouse = async (userId) => {
 
         const data = await response.json();
 
-        if (response.ok) {
-            console.log("Selected house fetched successfully:", data.house);
-            return data.house;
+        if (data.success) {
+            console.log("House asigned:", data.house);
+            await showHouseModal(data.house);
         } else {
-            console.error("Failed to fetch selected house:", data.errors || data.message);
+            console.error("Error:", data.message);
             return null;
         }
     } catch (error) {
@@ -27,7 +28,7 @@ export const getHouse = async (userId) => {
 };
 
 // Miguel León Fernández
-export const getHousePreferences = () => {
+const getHousePreferences = () => {
     const preferences = [];
 
     document.querySelectorAll('.dropzone').forEach((zone) => {
@@ -40,3 +41,8 @@ export const getHousePreferences = () => {
 
     return preferences;
 };
+
+export {
+    getUserHouse,
+    getHousePreferences,
+}
