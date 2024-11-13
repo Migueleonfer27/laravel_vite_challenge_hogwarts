@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HouseController;
+use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\SubjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,3 +44,9 @@ Route::delete('/subject/{id}', [SubjectController::class, 'destroy']);
 
 Route::post('/subjects/{subjectId}/assign-subject',[SubjectController::class, 'assignSubject']);
 Route::delete('/subjects/{subjectId}/remove-subject',[SubjectController::class, 'deleteUserSubject']);
+
+// Miguel León Fernández
+// Añadir autenticación más adelante
+Route::get('/ingredients', [IngredientController::class, 'index']);
+Route::post('/ingredients', [IngredientController::class, 'store']);
+Route::delete('/ingredients/{id}', [IngredientController::class, 'destroy']);

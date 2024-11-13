@@ -52,11 +52,11 @@ class IngredientController extends Controller
                 'healing' => $validatedData['healing'],
                 'poisoning' => $validatedData['poisoning'],
                 'analgesic' => $validatedData['analgesic'],
-                'painful' => $validatedData['painful'],
+                'pain' => $validatedData['pain'],
                 'curative' => $validatedData['curative'],
                 'sickening' => $validatedData['sickening'],
                 'inflammatory' => $validatedData['inflammatory'],
-                'antiinflammatory' => $validatedData['antiinflammatory'],
+                'deinflammatory' => $validatedData['deinflammatory'],
                 'photo' => $photoPath,
             ]);
 
