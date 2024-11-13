@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HouseController;
+use App\Http\Controllers\SubjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
@@ -18,6 +19,13 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('role', [AdminController::class, 'getRole'])->middleware('ability:dumbledore,admin');
     Route::post('/user-rol/{id}', [AdminController::class, 'giveRole'])->middleware('ability:dumbledore,admin');
     Route::delete('/user-rol/{id}', [AdminController::class, 'retireRole'])->middleware('ability:dumbledore,admin');
+
+ // Asignaturas Cynthia
+    Route::get('subject',[SubjectController::class, 'index'])->middleware('ability:dumbledore,admin');
+    Route::get('subject/{id}',[SubjectController::class, 'show'])->middleware('ability:dumbledore,admin');
+    Route::post('subjects',[SubjectController::class, 'create'])->middleware('ability:dumbledore,admin');
+    Route::put('subject/{id}', [SubjectController::class, 'update'])->middleware('ability:dumbledore,admin');
+    Route::delete('subject/{id}', [SubjectController::class, 'destroy'])->middleware('ability:dumbledore,admin');
 });
 
 // Miguel León Fernández
@@ -29,4 +37,5 @@ Route::get('/nologin', function () {
     return response()->json(['message' => 'Unauthorized'], 401);
 });
 
+//Cynthia
 Route::put('changePassword', [EmailController::class, 'changePassword']);
