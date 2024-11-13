@@ -2,6 +2,7 @@ import '../../scss/styles.scss';
 import { apiGetRoles } from './choose-role-provider';
 import {buildHeader, showLogoutButton} from "../../components/buildHeader";
 import {buildFooter} from "../../components/buildFooter";
+import { loadPage } from "../../js/router";
 
 let rolesUser = localStorage.getItem('roles')
 let roles = rolesUser.split(',')
@@ -35,11 +36,20 @@ const construirRoles = () => {
         cardLink.className = 'btn';
         cardLink.innerText = 'Seleccionar';
         if (role === 'admin') {
-            cardLink.href = '../../admin/admin-page.html';
+            cardLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                loadPage('/admin');
+            })
         }else if (role === 'teacher') {
-            cardTitle.innerText = 'Profesor';
+            cardLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                loadPage('/teacher');
+            })
         }else if (role === 'student') {
-            cardTitle.innerText = 'Estudiante';
+            cardLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                loadPage('/student');
+            })
         }else {
             cardTitle.innerText = role;
         }
@@ -55,15 +65,7 @@ const construirRoles = () => {
         document.getElementById('role-container').appendChild(card);
     })
 
-
-    
-
 }
-
-
-
-
-
 
 
 buildHeader()
