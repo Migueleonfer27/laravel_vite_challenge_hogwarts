@@ -172,4 +172,6 @@ class AdminController extends Controller
         $roles = DB::table('roles')->get();
         return response()->json($roles, 200);
     }
+
+
 }
