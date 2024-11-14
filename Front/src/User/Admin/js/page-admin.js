@@ -3,6 +3,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import {buildHeader, showLogoutButton} from "../../../components/buildHeader";
 import {buildFooter} from "../../../components/buildFooter";
+import {removeToken} from "../../../../storage/tokenManager";
 
 document.addEventListener('DOMContentLoaded', () => {
     const adminButton = document.getElementById('admin-button');
@@ -12,10 +13,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+
+    const manageSubjectsButton = document.getElementById('manage-subjects-button');
+    if (manageSubjectsButton) {
+        manageSubjectsButton.addEventListener('click', () => {
+            window.location.href = '../../User/Admin/admin-subject.html'; // Ajusta la URL según corresponda
+        });
+    }
+
     buildHeader();
+    showLogoutButton()
+    setupLogoutBtn()
     buildFooter();
 });
 
+const logout = () => {
+    removeToken()
+}
 
+const setupLogoutBtn = () => {
+    const logoutButton = document.getElementById('logoutBtn')
+    if(logoutButton){
+        logoutButton.addEventListener('click',logout)
+    }
+}
 
 
