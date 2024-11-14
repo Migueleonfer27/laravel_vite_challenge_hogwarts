@@ -12,11 +12,11 @@ class PotionController extends Controller
     public function index()
     {
         try {
-            $potions = Potion::with('ingredients')->get();
+            $potions = Potion::all();
             if ($potions->isEmpty()) {
                 return response()->json([
                    'success' => false,
-                   'message' => 'No potion found',
+                   'message' => 'No potions found',
                 ], 404);
             }
             return response()->json([
@@ -49,14 +49,13 @@ class PotionController extends Controller
             ]);
 
             $potion->ingredients()->attach($validatedData['ingredients']);
-
             [$goodLevel, $badLevel] = $this->calculateLevels($validatedData['ingredients']);
             $potion->update(['good_level' => $goodLevel, 'bad_level' => $badLevel]);
 
             return response()->json([
                 'success' => true,
                 'message' => 'Potion created successfully.',
-                'potion' => $potion->load('ingredients')
+                'potion' => $potion
             ], 201);
         } catch (\Throwable $th) {
             return response()->json([
@@ -70,7 +69,13 @@ class PotionController extends Controller
     public function show($id)
     {
         try {
-            $potion = Potion::with('ingredients')->find($id);
+            $potion = Potion::find($id);
+            if (!$potion) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Potion not found',
+                ], 404);
+            }
             return response()->json([
                 'success' => true,
                 'potion' => $potion
@@ -90,7 +95,7 @@ class PotionController extends Controller
             $validatedData = $request->validate([
                 'name' => 'sometimes|string|max:255|unique:potions,name,'.$id,
                 'creator' => 'sometimes|exists:users,id',
-                'ingredients' => 'sometimes|array',
+                'ingredients' => 'required|sometimes|array',
                 'ingredients.*' => 'exists:ingredients,id',
             ]);
 
@@ -115,7 +120,7 @@ class PotionController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Potion updated successfully.',
-                'potion' => $potion->load('ingredients')
+                'potion' => $potion
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

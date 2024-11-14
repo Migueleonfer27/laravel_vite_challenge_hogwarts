@@ -11,6 +11,12 @@ class IngredientController extends Controller
     {
         try {
             $ingredients = Ingredient::all();
+            if (!$ingredients) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No ingredients found'
+                ], 404);
+            }
             return response()->json([
                 'success' => true,
                 'message' => 'Ingredients List',
