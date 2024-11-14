@@ -12,7 +12,7 @@ class PotionController extends Controller
     public function index()
     {
         try {
-            $potions = Potion::all();
+            $potions = Potion::with('user:id,name')->get();
             if ($potions->isEmpty()) {
                 return response()->json([
                    'success' => false,
@@ -22,7 +22,7 @@ class PotionController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'List all Potion',
-                'potions' => $potions
+                'potions' => $potions->load('ingredients')
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
