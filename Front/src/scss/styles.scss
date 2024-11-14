@@ -227,3 +227,26 @@ body {
   text-decoration: none;
 }
 
+.img-houses {
+  width: 200px !important;
+  height: 200px !important;
+  object-fit: cover !important;
+  filter: drop-shadow(0px 0px 10px var(--cuaternary-color)) !important;
+}
+
+.img-house-animation {
+  animation: pulse 1.5s infinite;
+  transition: transform 0.2s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

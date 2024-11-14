@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\House;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,6 +18,8 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:60|unique:users',
             'password' => 'required|string|min:6',
             'confirm_password' => 'required|string|min:6|same:password',
+            'housePreferences' => 'nullable|array',
+            'noPreference' => 'nullable|boolean',
         ];
 
         $messages = [
@@ -43,6 +46,13 @@ class AuthController extends Controller
         try {
             $data = $request->only(['name', 'email', 'password', 'confirm_password']);
             $data['password'] = bcrypt($data['password']);
+            $data['level'] = 1;
+            $data['experience'] = 0;
+            $data['url_photo'] = null; // CAMBIAR ESTO CUANDO TENGAMOS EL SISTEMA S3 DE FOTOS
+            $houseController = new HouseController();
+            $chosenHouse = $houseController->sortingHat($request);
+            $house = House::where('name', $chosenHouse)->first();
+            $data['id_house'] = $house->id;
             $user = User::create($data);
             $token = $user->createToken('auth_token', ['student'])->plainTextToken;
             $user->roles()->sync(Role::where('name', 'student')->first()->id);

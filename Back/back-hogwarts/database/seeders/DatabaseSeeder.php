@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\House;
+use App\Models\Spell;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,10 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         $this->call([
-            UserSeeder::class
+            RoleSeeder::class,
+            HouseSeeder::class,
+            UserSeeder::class,
+            SubjectSeeder::class,
+            IngredientSeeder::class,
+            SpellSeeder::class,
         ]);
     }
 }

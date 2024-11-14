@@ -23,6 +23,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'level',
+        'experience',
+        'id_house',
+        'url_photo'
     ];
 
     /**
@@ -51,4 +55,26 @@ class User extends Authenticatable
     public function roles(){
         return $this->belongsToMany(Role::class, 'role_user');
     }
+
+    public function house(){
+        return $this->belongsTo(House::class, 'id_house');
+    }
+
+    public function duels(){
+        return $this->hasMany(Duel::class);
+    }
+
+    public function potions(){
+        return $this->hasMany(Potion::class, 'creator');
+    }
+
+    public function subjects(){
+        return $this->belongsToMany(Subject::class);
+    }
+
+    public function spells(){
+        return $this->hasMany(Spell::class);
+    }
+
+
 }

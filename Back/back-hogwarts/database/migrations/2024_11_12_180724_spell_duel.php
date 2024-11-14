@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('spell_duel', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->foreignId('id_spell')->constrained('spells')->onDelete('cascade');
+            $table->foreignId('id_duel')->constrained('duels')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('spell_duel');
     }
 };
