@@ -1,8 +1,11 @@
 import '../../scss/styles.scss';
-import { apiGetRoles } from './choose-role-provider';
+import {apiGetRoles } from './choose-role-provider';
+import {handleLogout} from "../../auth/auth-provider";
+
 import {buildHeader, showLogoutButton} from "../../components/buildHeader";
 import {buildFooter} from "../../components/buildFooter";
 import { loadPage } from "../../js/router";
+import {removeToken} from "../../../storage/tokenManager";
 
 let rolesUser = localStorage.getItem('roles')
 let roles = rolesUser.split(',')
@@ -66,11 +69,20 @@ const construirRoles = () => {
     })
 
 }
+//TODO: Implementar la función de cerrar sesión
+const logout = () => {
+    removeToken()
+}
 
+const setupLogoutBtn = () => {
+    const logoutButton = document.getElementById('logoutBtn')
+    if(logoutButton){
+        logoutButton.addEventListener('click',logout)
+    }
+}
 
 buildHeader()
 showLogoutButton()
-//setupLogoutBtn()
 buildFooter()
-
+setupLogoutBtn()
 construirRoles()
