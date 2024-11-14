@@ -21,12 +21,17 @@ class Ingredient extends Model{
         'url_photo'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }
 
-    public function potions(){
-        return $this->belongsToMany(Potion::class);
+    public function potions()
+    {
+        return $this->belongsToMany(Potion::class, 'potion_ingredient', 'id_ingredient', 'id_potion');
     }
-
 }

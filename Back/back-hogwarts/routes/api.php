@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\IngredientController;
+use App\Http\Controllers\PotionController;
 use App\Http\Controllers\SubjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -50,3 +51,11 @@ Route::delete('/subjects/{subjectId}/remove-subject',[SubjectController::class, 
 Route::get('/ingredients', [IngredientController::class, 'index']);
 Route::post('/ingredients', [IngredientController::class, 'store']);
 Route::delete('/ingredients/{id}', [IngredientController::class, 'destroy']);
+
+// Miguel León Fernández
+// Añadir autenticación más adelante
+Route::get('/potions', [PotionController::class, 'index']);
+Route::post('/potions', [PotionController::class, 'store']);
+Route::get('/potions/{id}', [PotionController::class, 'show']);
+Route::put('/potions/{id}', [PotionController::class, 'update']);
+Route::delete('/potions/{id}', [PotionController::class, 'destroy']);

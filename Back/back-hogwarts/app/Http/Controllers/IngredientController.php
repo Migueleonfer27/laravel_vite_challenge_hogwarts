@@ -29,7 +29,7 @@ class IngredientController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'name' => 'required|string|max:255',
+                'name' => 'required|string|max:255|unique:ingredients',
                 'healing' => 'required|integer|between:0,100',
                 'poisoning' => 'required|integer|between:0,100',
                 'analgesic' => 'required|integer|between:0,100',
