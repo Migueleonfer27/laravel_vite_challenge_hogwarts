@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="scss/style.scss">
+    <title>Gestión asignaturas</title>
+</head>
+<body>
+    <div id="header-container"></div>
+    <div id="main-container" class="container-fluid">
+        <h2>Gestión asignaturas</h2>
+        <div class="row mt-4">
+            <div class="col-6">
+                <h3>Profesores</h3>
+                <table id="teacher-table" class="table table-borderless text-center">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="body-teacher-table"></tbody>
+                </table>
+            </div>
+            <div class="col-6">
+                <h3>Estudiantes</h3>
+                <table id="student-table" class="table table-borderless text-center">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody id="body-student-table"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <!-- Modal para Modificar Asignaturas -->
+    <div class="modal fade" id="modifySubjectModal" tabindex="-1" aria-labelledby="modifySubjectModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-cuaternary-person">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary-person" id="modifySubjectModalLabel">Modificar Asignatura</h5>
+                    <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="modifySubjectForm">
+                        <div class="mb-3">
+                            <label for="subject-modify-select-modal" class="form-label text-primary-person">Seleccionar Asignatura</label>
+                            <select id="subject-modify-select-modal" class="form-select bg-primary-person text-cuaternary-person">
+                                <!-- Las opciones se llenarán dinámicamente con JavaScript -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject-modify-description" class="form-label text-primary-person">Descripción</label>
+                            <input type="text" class="form-control bg-primary-person text-cuaternary-person" id="subject-modify-description">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Modificar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal para Eliminar Asignaturas -->
+    <div class="modal fade" id="deleteSubjectModal" tabindex="-1" aria-labelledby="deleteSubjectModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-cuaternary-person">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary-person" id="deleteSubjectModalLabel">Eliminar Asignatura</h5>
+                    <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que deseas eliminar esta asignatura?</p>
+                    <form id="deleteSubjectForm">
+                        <div class="mb-3">
+                            <label for="subject-delete-select-modal" class="form-label text-primary-person">Seleccionar Asignatura</label>
+                            <select id="subject-delete-select-modal" class="form-select bg-primary-person text-cuaternary-person">
+                                <!-- Las opciones se llenarán dinámicamente con JavaScript -->
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src='../Admin/js/page-subject.js'></script>
+</body>
+</html>
