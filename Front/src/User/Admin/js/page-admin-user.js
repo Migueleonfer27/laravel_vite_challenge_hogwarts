@@ -24,8 +24,8 @@ const addUsersBtn = document.querySelector('#btn-students')
 const createUserBtn = document.querySelector('#modal-create-user')
 
 addUsersBtn.addEventListener('click', () => {
-        const addUserModal = new bootstrap.Modal(document.getElementById('addUserModal'))
-        addUserModal.show()
+    const addUserModal = new bootstrap.Modal(document.getElementById('addUserModal'))
+    addUserModal.show()
 })
 
 createUserBtn.addEventListener('click', async (e) => {
@@ -37,30 +37,30 @@ createUserBtn.addEventListener('click', async (e) => {
     const errorMessage = document.querySelector('#email-error-message'); // Un mensaje de error debajo del campo email
 
     if (validateForm([name, email, password]) && validateEmail(email.value) && validatePassword(password.value)) {
-            const data = {
-                name: name.value,
-                email: email.value,
-                password: password.value
-            };
+        const data = {
+            name: name.value,
+            email: email.value,
+            password: password.value
+        };
 
-            try {
-                await apiCreateUser(token, data)
-                    .then(data =>{
+        try {
+            await apiCreateUser(token, data)
+                .then(data =>{
+                    console.log(data);
+                    if (data.success){
+                        window.location.reload()
+                    }else {
                         console.log(data);
-                        if (data.success){
-                            window.location.reload()
-                        }else {
-                            console.log(data);
-                            email.classList.add('is-invalid');
-                            if (data.email[0] === 'the email already exists'){
-                                errorMessage.textContent = 'El correo electrónico ya está registrado. Intenta con otro.';
-                            }
-                            errorMessage.style.display = 'block';
+                        email.classList.add('is-invalid');
+                        if (data.email[0] === 'the email already exists'){
+                            errorMessage.textContent = 'El correo electrónico ya está registrado. Intenta con otro.';
                         }
-                    })
-            } catch (error) {
-                console.error('Error al crear usuario:', error);
-            }
+                        errorMessage.style.display = 'block';
+                    }
+                })
+        } catch (error) {
+            console.error('Error al crear usuario:', error);
+        }
     }
 });
 
