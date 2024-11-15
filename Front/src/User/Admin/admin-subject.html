@@ -20,7 +20,6 @@
                 </tr>
                 </thead>
                 <tbody id="body-user-table">
-                <!-- Las filas de usuarios se llenarán dinámicamente -->
                 </tbody>
             </table>
     </div>
@@ -28,7 +27,6 @@
 
 <div id="footer-container"></div>
 
-<!-- Modal de Añadir Asignatura -->
 <div class="modal fade" id="addSubjectModal" tabindex="-1" aria-labelledby="addSubjectModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content bg-cuaternary-person">
@@ -37,12 +35,10 @@
                 <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Formulario para seleccionar asignatura -->
                 <form id="addSubjectForm">
                     <div class="mb-3">
                         <label for="subject-select-modal" class="form-label text-primary-person">Seleccionar Asignatura</label>
                         <select class="form-select" id="subject-select-modal" required>
-                            <!-- Las opciones de asignaturas se llenan dinámicamente -->
                         </select>
                     </div>
                     <div id="assign-message" class="alert d-none" role="alert"></div>
@@ -53,7 +49,6 @@
     </div>
 </div>
 
-<!-- Modal de Confirmación de Eliminación -->
 <div class="modal fade" id="removeSubjectModal" tabindex="-1" aria-labelledby="removeSubjectModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content bg-cuaternary-person">

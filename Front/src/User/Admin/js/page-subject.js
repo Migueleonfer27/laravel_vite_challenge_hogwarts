@@ -1,10 +1,10 @@
 // Importaciones necesarias
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
-import { getToken } from "../../../../storage/tokenManager";
+import {getToken, removeToken} from "../../../../storage/tokenManager";
 import { apiGetUsers } from "./admin-provider";
 import { apiGetUserSubjects, apiGetSubjects, apiAssignSubject, apiRemoveSubject } from "./subject-provider";
-import { buildHeader, showLogoutButton } from "../../../components/buildHeader";
+import {buildHeader, showLogoutButton} from "../../../components/buildHeader";
 import { buildFooter } from "../../../components/buildFooter";
 
 // Referencias globales
@@ -201,14 +201,27 @@ const loadUserByRole = async () => {
     }
 };
 
-// Inicialización
+
+const logout = () => {
+    removeToken()
+}
+
+const setupLogoutBtn = () => {
+    const logoutButton = document.getElementById('logoutBtn')
+    if(logoutButton){
+        logoutButton.addEventListener('click',logout)
+    }
+}
+
+
+
 buildHeader();
 buildFooter();
-showLogoutButton();
+showLogoutButton()
+setupLogoutBtn();
 await loadUserByRole();
 
-// Añadir evento para el botón de confirmación de eliminación
 document.getElementById('confirmRemoveBtn').addEventListener('click', confirmRemoveSubject);
 
-// Añadir evento para el formulario de asignación
 addSubjectForm.addEventListener('submit', assignSubject);
+
