@@ -18,15 +18,21 @@
 html, body {
   height: 100%; /* Asegura que el body ocupe el 100% de la altura de la pantalla */
   margin: 0;
+  padding: 0;
+  overflow-xy: hidden;
   font-family: var(--primary-font);
 }
 
 #main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-image: url('../../../assets/img/fondo-admin.jpg') ;
-  background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+  background-size: cover;
   background-position: center;
-  min-height: calc(100vh - 56px - 48px); /* Ajusta con la altura exacta del nav y el footer */
-  padding-bottom: 60px; /* Deja espacio para el footer */
+  min-height: calc(100vh - 56px - 48px);
+  padding-bottom: 60px;
+  flex-direction: column;
 }
 
 footer {
@@ -125,7 +131,17 @@ footer {
 }
 
 #Containertable{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 8px;
   background-color: var(--cuaternary-color);
+  max-width: 90%;
+  width: auto;
+  margin-top: 20px;
+  box-sizing: border-box;
 }
 
 #table{
@@ -135,6 +151,31 @@ footer {
 td,tr,th{
   background-color: var(--cuaternary-color) !important;
   color: var(--primary-color) !important;
+
+}
+
+.alert-success {
+  color: green;
+  background-color: #d4edda;
+  border-color: #c3e6bc
+}
+
+.alert-danger{
+  color: red;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+h1, h2, h3, p, td, th{
+  font-size: var(--font-size-title);
+}
+
+tr:hover{
+  background-color: var(--hexa-color) !important;
+}
+
+td button{
+  margin-right: 10px;
 }
 
 

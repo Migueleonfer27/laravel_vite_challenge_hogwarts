@@ -152,7 +152,7 @@ const loadUserByRole = async () => {
 
             // Crear los botones de acción dentro del ciclo para cada usuario
             const addBtn = document.createElement("button");
-            addBtn.classList.add("btn", "btn-primary", "me-2");
+            addBtn.classList.add("btn","me-2");
             addBtn.textContent = "Añadir asignatura";
             addBtn.addEventListener('click', async (event) => {
                 const userRow = event.target.closest('tr');  // Encontrar la fila más cercana al botón
@@ -168,7 +168,7 @@ const loadUserByRole = async () => {
             });
 
             const removeBtn = document.createElement("button");
-            removeBtn.classList.add("btn", "btn-danger", "me-2");
+            removeBtn.classList.add("btn", "btn-custom-danger", "me-2");
             removeBtn.textContent = "Eliminar asignatura";
             removeBtn.addEventListener('click', async (event) => {
                 const userRow = event.target.closest('tr');  // Encontrar la fila más cercana al botón
