@@ -75,7 +75,7 @@ const construirCard = (house) => {
         let cardTitle = document.createElement('h5');
         cardTitle.className = 'card-title';
         if (role === 'admin') {
-            cardTitle.innerText = 'Administrador';
+            cardTitle.innerText = 'Admin';
         }else if (role === 'teacher') {
             cardTitle.innerText = 'Profesor';
         }else if (role === 'student') {
