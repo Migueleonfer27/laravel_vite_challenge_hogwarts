@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::delete('/user-rol/{id}', [AdminController::class, 'retireRole'])->middleware('ability:dumbledore,admin');
 });
 
+
 // Miguel León Fernández
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);

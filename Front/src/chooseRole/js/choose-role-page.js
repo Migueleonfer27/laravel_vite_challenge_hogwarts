@@ -1,23 +1,73 @@
 import '../../scss/styles.scss';
-import {apiGetRoles } from './choose-role-provider';
-import {handleLogout} from "../../auth/auth-provider";
+// import {apiGetRoles } from './choose-role-provider';
+// import {handleLogout} from "../../auth/auth-provider";
 
 import {buildHeader, showLogoutButton} from "../../components/buildHeader";
 import {buildFooter} from "../../components/buildFooter";
-import { loadPage } from "../../js/router";
+import {loadPage} from "../../js/router";
 import {removeToken} from "../../../storage/tokenManager";
+import {getUserHouse} from "./choose-role-provider";
+
+
+let houseUser = async () =>{
+    let res = await getUserHouse()
+    //console.log(house)
+    return res
+}
+
+const imgHouse = (house) => {
+    let img = document.querySelector('#img-house')
+    img.className = 'house-badge'
+
+    if (house === 'Gryffindor') {
+        img.src = '../../assets/img/gryffindor.png'
+    }else if (house === 'Hufflepuff') {
+        img.src = '../../assets/img/hufflepuff.png'
+    }else if (house === 'Ravenclaw'){
+        img.src = '../../assets/img/ravenclaw.png'
+    }else if (house === 'Slytherin'){
+        img.src = '../../assets/img/slytherin.png'
+    }
+}
+
 
 let rolesUser = localStorage.getItem('roles')
 let roles = rolesUser.split(',')
 console.log(roles)
 
-const construirRoles = () => {
+const construirCard = (house) => {
     let construirDiv = document.querySelector('#role-container');
+
     construirDiv.innerHTML = '';
 
     roles.forEach((role) => {
         let card = document.createElement('div');
         card.className = 'card';
+        card.setAttribute('class', house)
+        let contentContainer = document.querySelector('#content-container')
+        contentContainer.className = `container-div ${house}`
+        //console.log(house)
+
+        let cardIcon = document.createElement('div');
+        cardIcon.className = 'card-icon';
+        cardIcon.innerHTML = '';
+        if (role === 'admin') {
+            cardIcon.innerHTML =`
+                <i class="bi bi-person-workspace"></i>
+            `;
+        }else if (role === 'teacher') {
+            cardIcon.innerHTML =`
+                <i class="bi bi-highlighter"></i>
+            `;
+        }else if (role === 'student') {
+            cardIcon.innerHTML =`
+                <i class="bi bi-eyeglasses"></i>
+            `;
+        }else {
+            cardIcon.innerHTML =`
+               <i class="bi bi-feather"></i>
+            `;
+        }
 
         let cardBody = document.createElement('div');
         cardBody.className = 'card-body';
@@ -34,10 +84,9 @@ const construirRoles = () => {
             cardTitle.innerText = role;
         }
 
-
         let cardLink = document.createElement('a');
         cardLink.className = 'btn';
-        cardLink.innerText = 'Seleccionar';
+        cardLink.innerText = cardTitle.innerText;
         if (role === 'admin') {
             cardLink.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -57,18 +106,20 @@ const construirRoles = () => {
             cardTitle.innerText = role;
         }
 
+        cardBody.appendChild(cardIcon);
 
-        cardBody.appendChild(cardTitle);
+        // cardBody.appendChild(cardTitle);
         cardBody.appendChild(cardLink);
-
 
         card.appendChild(cardBody);
 
         // Append card to the desired container
         document.getElementById('role-container').appendChild(card);
     })
-
 }
+
+
+
 //TODO: Implementar la función de cerrar sesión
 const logout = () => {
     removeToken()
@@ -81,8 +132,13 @@ const setupLogoutBtn = () => {
     }
 }
 
+
+
 buildHeader()
 showLogoutButton()
 buildFooter()
 setupLogoutBtn()
-construirRoles()
+
+const house = await houseUser()
+imgHouse(house)
+construirCard(house)

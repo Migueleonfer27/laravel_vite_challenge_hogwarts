@@ -1,16 +1,33 @@
-const apiGetRoles = async (token) => {
-    const option = {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+import {getToken} from "../../../storage/tokenManager";
+
+
+const getUserHouse = async () => {
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/getHouse', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${getToken()}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            //console.log("House asigned:", data.house);
+
+            return data.house;
+        } else {
+            console.error("Error:", data.message);
+            return null;
         }
-    };
-    const url = 'http://127.0.0.1:8000/api/admin/role'
-    const response = await fetch(url, option);
-    const data = await response.json();
-    return data;
-}
+    } catch (error) {
+        console.error("Error:", error);
+        return null;
+    }
+};
+
 
 export {
-    apiGetRoles };
+    getUserHouse
+};
