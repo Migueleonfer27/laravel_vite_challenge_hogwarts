@@ -3,7 +3,7 @@ export async function loadPage(path) {
 
     if (path === '/index.html'){
         if(token != null && token !== ''){
-            loadPage('/admin')
+            window.location.href = '../chooseRole/index.html'
         }
         else {
             const { initAuth } = await import('../auth/page-auth.js');
@@ -15,6 +15,12 @@ export async function loadPage(path) {
     }
     else if (path === '/admin' && token != null && token !== ''){
         window.location.href = '../User/Admin/index.html'
+    }
+    else if (path === '/teacher' && token != null && token !== ''){
+        // window.location.href = ''
+    }
+    else if (path === '/estudent' && token != null && token !== ''){
+        // window.location.href = ''
     }
     else {
         window.location.href = '../index.html'

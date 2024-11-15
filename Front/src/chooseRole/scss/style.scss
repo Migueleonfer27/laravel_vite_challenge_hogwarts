@@ -1,0 +1,223 @@
+@import "~bootstrap/scss/bootstrap";
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+:root {
+  // Colors variables
+  --primary-color: #CACEC8FF;
+  --secondary-color: #7fa19b;
+  --ternary-color: #466753;
+  --cuaternary-color: #26334b;
+  --penta-color: #466753;
+  --hexa-color: #7c857f;
+  --hepta-color: #2d2540;
+
+  // Typography variables
+  --primary-font: Cinzel;
+}
+
+
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  color:var(--primary-color) !important;
+  font-family: var(--primary-font);
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+main{
+    background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../assets/img/fondo-choose-role.png')!important;
+    background-size: cover;
+    background-position: center;
+    min-height: 80vh;
+}
+
+#content-container{
+    background-color: var(--cuaternary-color) !important;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+    width: 100%;
+
+
+}
+
+#content-container .tittle {
+  max-width: 100%; /* Ajusta el valor según el ancho deseado */
+  width: 99%;
+  padding: 3 3rem;
+  box-sizing: border-box;
+}
+
+.card{
+  width: 0.5rem;
+  height: 0.5rem;
+  padding: -15px;
+  margin: 0;
+
+}
+
+.card-icon i {
+  font-size: 1.5rem; /* Use rem units for better responsiveness */
+  padding: 0;
+  margin: 0;
+}
+
+footer {
+  height: auto; /* Ajusta a la altura real del footer */
+}
+
+//colores en funcion de las casas
+//1
+.Gryffindor *{
+  color: #a10404 !important;
+
+}
+.Gryffindor {
+  box-shadow: 0 0 10px rgba(116, 0, 1, 0.3) !important;
+  border: 1px solid #a10404 !important;
+  border-radius: 1.25rem;
+
+}
+
+//2
+.Hufflepuff *{
+  color: #ecb939 !important;
+
+}
+.Hufflepuff {
+  box-shadow: 0 0 10px rgba(116, 0, 1, 0.3) !important;
+  border: 1px solid #f7d117 !important;
+  border-radius: 1.25rem;
+
+
+}
+
+//3
+.Ravenclaw *{
+  color: #0a132f !important;
+
+}
+.Ravenclaw {
+  box-shadow: 0 0 10px rgba(10, 19, 47, 0.3) !important;
+  border: 1px solid #000000 !important;
+  border-radius: 1.25rem;
+
+}
+
+//4
+.Slytherin *{
+  color: #163b23 !important;
+}
+
+.Slytherin {
+  box-shadow: 0 0 10px rgba(93, 93, 93, 0.3) !important;
+  border: 1px solid #1a472a !important;
+  border-radius: 1.25rem;
+  padding: 0.625rem;
+}
+
+.container-div {
+    height: 70%;
+    background-color: #7fa19b  !important;
+    max-width: 90vh;
+    max-height: 60vh;
+
+
+  p{
+    aling-text: center;
+    color: var(--primary-color)!important;
+  }
+
+  .card-icon{
+    display: flex;
+    justify-content: center;
+
+  }
+}
+.Gryffindor .card {
+  background-color: #f8d7da;
+}
+
+.Gryffindor .house-badge {
+  height: 6rem;
+  width: 6rem;
+  border-radius: 50%;
+  margin-right: auto;
+  margin-top: -5px;
+  padding: 0.5rem;
+  filter: drop-shadow(0 0 10px rgba(116, 0, 1, 0.8));
+}
+.container-div .Gryffindor {
+  background-color: #da9090 !important;
+  .btn {
+    text-shadow: 2px 2px 4px rgba(116, 0, 1, 0.5);
+    font-size: math(1.5rem + 0.5rem);
+  }
+}
+
+.Hufflepuff .house-badge {
+  height: 7rem;
+  width: 8rem;
+  border-radius: 50%;
+  margin-right: auto;
+  margin-top: -5px;
+  padding: 0.5rem;
+  filter: drop-shadow(0 0 10px rgba(247, 209, 23, 0.8));
+}
+
+.container-div .Hufflepuff {
+  background-color: #e3d7b8 !important;
+  .btn {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    font-size: math(1.5rem + 0.5rem);
+  }
+}
+
+.Ravenclaw .house-badge {
+  height: 7rem;
+  width: 6rem;
+  border-radius: 50%;
+  margin-right: auto;
+  margin-top: -5px;
+  padding: 0.5rem;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.8));
+}
+.container-div .Ravenclaw {
+  background-color: #869be0 !important;
+  .btn {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: math(1.5rem + 0.5rem);
+  }
+}
+
+.Slytherin .house-badge {
+  height: 7rem;
+  width: 7rem;
+  border-radius: 50%;
+  margin-right: auto;
+  margin-top: -5px;
+  padding: 0.5rem;
+  filter: drop-shadow(0 0 10px rgba(26, 71, 42, 0.8));
+}
+.container-div .Slytherin {
+  background-color: #97b29d !important;
+  .btn {
+    text-shadow: 2px 2px 4px rgba(26, 71, 42, 0.5);
+    font-size: math(1.5rem + 0.5rem);
+  }
+}
+
+
+.Gryffindor, .Hufflepuff, .Ravenclaw, .Slytherin {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+}
+
+
+
+
+

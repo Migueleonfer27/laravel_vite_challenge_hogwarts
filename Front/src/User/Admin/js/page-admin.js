@@ -244,7 +244,7 @@ const construirModalRoles = (roles, rolesUser, userID) => {
     let modalBody = document.querySelector('.modal-body');
     modalBody.innerHTML = ''; // Clear previous content
 
-    console.log(rolesUser);
+
     roles.forEach(role => {
         let div = document.createElement('div');
         div.classList.add('form-check');
