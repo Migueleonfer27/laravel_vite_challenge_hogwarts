@@ -1,107 +1,42 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="scss/style.scss">
-    <title>Bootstrap w/ Vite</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <link rel="stylesheet" href="./scss/style.scss">
 </head>
 <body>
 
 <div id="header-container"></div>
 
-<!--Monica-->
-<div id="main-container" class="container-fluid">
-
-    <div class="row justify-content-center p-5" id="admin-alumns">
-
-        <div class="col-12  mb-3" id="container-btn">
-            <button class="btn btn-input" id="btn-students">Crear Usuario</button>
+<main id="main-container" class="container-fluid">
+    <div class="row justify-content-center p-5">
+        <!-- Card 1 -->
+        <div class="col-sm-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Administrar Usuarios</h5>
+                    <p class="card-text">Gestiona los usuarios de la plataforma.</p>
+                    <button id="admin-button" class="btn w-100">Administrar Usuarios</button>
+                </div>
+            </div>
         </div>
 
-        <p class="h2 text-center text-white col-12">Administración usuarios</p>
-        <div id="Containertable" class="container text-white m-5 p-3">
-            <table id="user-table" class="table table-borderless text-center">
-                <thead id="header"></thead>
-                <tbody id="body"></tbody>
-            </table>
+        <!-- Card 2 -->
+        <div class="col-sm-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Gestionar Asignaturas</h5>
+                    <p class="card-text">Gestiona las asignaturas disponibles en el sistema.</p>
+                    <button id="manage-subjects-button" class="btn w-100">Gestionar Asignaturas</button>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</main>
 
 <div id="footer-container"></div>
-
-
-
-
-<div class="modal fade" id="rolesModal" tabindex="-1" aria-labelledby="rolesModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content bg-cuaternary-person">
-            <div class="modal-header">
-                <h5 class="modal-title text-primary-person" id="rolesModalLabel">Administrar Roles</h5>
-                <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content bg-cuaternary-person">
-      <div class="modal-header">
-        <h5 class="modal-title text-primary-person" id="addUserModalLabel">Crear Usuario</h5>
-        <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body ">
-        <form id="addUserForm">
-          <div class="mb-3">
-            <label for="name-modal" class="form-label text-primary-person">Nombre de usuario</label>
-            <input type="text" class="form-control bg-primary-person text-cuaternary-person" id="name-modal" required>
-          </div>
-          <div class="mb-3">
-            <label for="email-modal" class="form-labe text-primary-person">Correo electrónico</label>
-            <input type="email" class="form-control bg-primary-person text-cuaternary-person" id="email-modal" required>
-            <small id="email-error-message" class="text-danger" style="display:none;"></small>
-          </div>
-          <div class="mb-3">
-            <label for="password-modal" class="form-label text-primary-person">Contraseña</label>
-            <input type="password" class="form-control bg-primary-person text-cuaternary-person" id="password-modal" required>
-          </div>
-          <button type="submit" id="modal-create-user" class="btn btn-secondary">Crear</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="updateUserModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content bg-cuaternary-person">
-      <div class="modal-header">
-        <h5 class="modal-title text-primary-person" id="updateUserModalLabel">Actualizar Usuario</h5>
-        <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="updateUserForm">
-          <div class="mb-3">
-            <label for="update-name-modal" class="form-label text-primary-person">Nombre de usuario</label>
-            <input type="text" class="form-control bg-primary-person text-cuaternary-person" id="update-name-modal" required>
-          </div>
-          <div class="mb-3">
-            <label for="update-email-modal" class="form-label text-primary-person">Correo electrónico</label>
-            <input type="email" class="form-control bg-primary-person text-cuaternary-person" id="update-email-modal" required>
-          </div>
-          <button type="submit" id="modal-update-user" class="btn btn-secondary">Actualizar</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script type="module" src="js/page-admin.js"></script>
 </body>

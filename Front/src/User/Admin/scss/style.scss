@@ -16,32 +16,36 @@
 }
 
 html, body {
-  height: 100%; /* Asegura que el body ocupe el 100% de la altura de la pantalla */
+  height: 100%;
   margin: 0;
+  padding: 0;
+  overflow-xy: hidden;
   font-family: var(--primary-font);
 }
 
 #main-container {
-  background-image: url('../../../assets/img/fondo-admin.jpg') ;
-  background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../../../assets/img/fondo-admin.jpg');
+  background-size: cover;
   background-position: center;
-  min-height: calc(100vh - 56px - 48px); /* Ajusta con la altura exacta del nav y el footer */
-  padding-bottom: 60px; /* Deja espacio para el footer */
+  min-height: calc(100vh - 56px - 48px);
+  padding-bottom: 60px;
+  flex-direction: column;
 }
 
 footer {
   height: 48px; /* Ajusta a la altura real del footer */
 }
 
-
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-/* From Uiverse.io by WhiteNervosa */
+/* Estilo para los botones */
 .btn {
-
   font-weight: 800;
   cursor: pointer;
   position: relative;
@@ -76,64 +80,158 @@ footer {
   transition-duration: 600ms;
   transition-property: width, left;
 }
-.btn-input {
-  color: var(--primary-color) !important;
+
+/* Estilo para las cards */
+.card {
+  background-color: var(--cuaternary-color); /* Mismo color de fondo que en tablas */
+  border: 2px solid var(--primary-color); /* Borde similar al de los botones */
+  border-radius: 8px; /* Esquinas redondeadas */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Añade sombra para un efecto 3D */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.card-text {
+  font-size: 1rem;
+  color: var(--hexa-color);
+  margin-bottom: 20px;
+}
+
+/* Estilo para las columnas */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Asegura que las columnas ocupen el mismo espacio */
+.col-sm-6 {
+  flex: 1 1 45%;
+  max-width: 100%;
+}
+
+/* Estilo de los botones dentro de las cards */
+.btn {
   font-weight: 800;
   cursor: pointer;
   position: relative;
   border: 2px solid var(--primary-color) !important;
+  color: var(--primary-color) !important;
   transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
   transition-duration: 600ms;
   transition-property: color, box-shadow, transform;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds shadow for 3D effect */
-}
-.btn-custom-danger {
-  font-weight: 800;
-  cursor: pointer;
-  position: relative;
-  border: 2px solid red !important;
-  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-  transition-duration: 600ms;
-  transition-property: color;
-  color: blue !important; /* Adds shadow for 3D effect */
+  margin-top: auto; /* Alinea los botones al fondo */
 }
 
-.btn-custom-danger:focus,
-.btn-custom-danger:hover {
-  color: red;
+.btn:hover, .btn:focus {
+  color: var(--primary-color);
 }
 
-.btn-custom:focus:after,
-.btn-custom:hover:after {
-  width: 100%;
-  left: 0%;
+.card .btn {
+  width: 100%; /* Hace que el botón ocupe todo el ancho de la card */
 }
 
-.btn-custom-danger:after {
-  content: "";
-  pointer-events: none;
-  bottom: -2px;
-  left: 50%;
-  position: absolute;
-  width: 0%;
-  height: 2px;
+/* Personalización de colores para los botones */
+.btn-primary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.btn-primary:hover, .btn-primary:focus {
   background-color: var(--primary-color);
-  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-  transition-duration: 600ms;
-  transition-property: width, left;
+  border-color: var(--primary-color);
+  color: white;
 }
 
-#Containertable{
+.btn-secondary {
+  background-color: var(--ternary-color);
+  border-color: var(--ternary-color);
+}
+
+.btn-secondary:hover, .btn-secondary:focus {
+  background-color: var(--hexa-color);
+  border-color: var(--hexa-color);
+  color: white;
+}
+
+/* Estilo para el contenedor de la tabla */
+#Containertable {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 8px;
   background-color: var(--cuaternary-color);
+  max-width: 90%;
+  width: auto;
+  margin-top: 20px;
+  box-sizing: border-box;
 }
 
-#table{
+#table {
   background-color: var(--cuaternary-color) !important;
 }
 
-td,tr,th{
+td, tr, th {
   background-color: var(--cuaternary-color) !important;
   color: var(--primary-color) !important;
 }
 
+.alert-success {
+  color: green;
+  background-color: #d4edda;
+  border-color: #c3e6bc;
+}
 
+.alert-danger {
+  color: red;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+h1, h2, h3, p, td, th {
+  font-size: var(--font-size-title);
+}
+
+tr:hover {
+  background-color: var(--hexa-color) !important;
+}
+
+td button {
+  margin-right: 10px;
+}
+
+
+.card {
+  height: 100%;
+  color: var(--primary-color) !important;
+  background-color: var(--cuaternary-color) !important;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: var(--primary-color)
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}

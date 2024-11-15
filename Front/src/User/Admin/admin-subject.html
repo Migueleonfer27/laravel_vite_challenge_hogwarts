@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="scss/style.scss">
+    <title>Gestión asignaturas</title>
+</head>
+<body>
+<div id="header-container"></div>
+<div id="main-container" class="container-fluid">
+        <p class="h2 text-center text-white col-12">Usuarios</p>
+        <div id="Containertable" class="container text-white m-5 p-3">
+            <table id="teacher-table" class="table table-borderless text-center">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody id="body-user-table">
+                </tbody>
+            </table>
+    </div>
+</div>
+
+<div id="footer-container"></div>
+
+<div class="modal fade" id="addSubjectModal" tabindex="-1" aria-labelledby="addSubjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-cuaternary-person">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary-person" id="addSubjectModalLabel">Asignar Asignatura</h5>
+                <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addSubjectForm">
+                    <div class="mb-3">
+                        <label for="subject-select-modal" class="form-label text-primary-person">Seleccionar Asignatura</label>
+                        <select class="form-select" id="subject-select-modal" required>
+                        </select>
+                    </div>
+                    <div id="assign-message" class="alert d-none" role="alert"></div>
+                    <button type="submit" class="btn btn-secondary">Asignar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="removeSubjectModal" tabindex="-1" aria-labelledby="removeSubjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-cuaternary-person">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary-person" id="removeSubjectModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-primary-person">¿Estás seguro de que quieres eliminar esta asignatura?</p>
+                <div id="remove-message-container" class="d-none"></div>
+                <div class="mb-3">
+                    <label for="remove-subject-select" class="form-label text-primary-person">Seleccionar Asignatura</label>
+                    <select class="form-select" id="remove-subject-select" required>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-secondary" id="confirmRemoveBtn">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="../Admin/js/page-subject.js"></script>
+</body>
+</html>
