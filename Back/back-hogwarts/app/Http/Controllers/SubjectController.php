@@ -87,69 +87,41 @@ class SubjectController extends Controller{
     }
 
 
-    public function assignSubject(Request $request, $subjectId){
-
-        $input = $request->all();
-        $rules = [
-            'user_id' => 'required|integer|exists:users,id',
-        ];
-
-        $validator =  Validator::make($input, $rules);
-
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        }
-
+    public function assignSubject(Request $request, $subjectId)
+    {
+        $userId = $request->input('user_id');
+        $user = User::find($userId);
         $subject = Subject::find($subjectId);
 
-        if(!$subject){
-            return response()->json('Not found subject', 404);
+        if ($user && $subject) {
+            $user->subjects()->syncWithoutDetaching([$subjectId]); // Sincroniza la asignatura sin eliminar las anteriores
+            return response()->json(['message' => 'Asignatura asignada correctamente'], 200);
         }
 
-        $user = User::find($request->input('user_id'));
-        if(!$user){
-            return response()->json('Not found user', 404);
-        }
-
-        //Asigna nuevas asignaturas sin eliminar las anteriores (funcion de laravel)
-        $subject->users()->syncWithoutDetaching([$user->id]);
-
-        return response()->json([
-            'message' => 'Subject has been assigned',
-            'success' => true
-        ],200);
+        return response()->json(['message' => 'Error al asignar la asignatura'], 400);
     }
 
-    public function deleteUserSubject(Request $request, $subjectId){
-        $input = $request->all();
-        $rules = [
-            'user_id' => 'required|integer|exists:users,id',
-        ];
-
-        $validator =  Validator::make($input, $rules);
-
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        }
-
+    public function removeSubject(Request $request, $subjectId)
+    {
         $subject = Subject::find($subjectId);
-
-        if(!$subject){
-            return response()->json('Not found subject', 404);
+        if ($subject) {
+            $subject->users()->detach();  // Desvincula la asignatura de todos los usuarios
+            return response()->json(['message' => 'Asignatura eliminada correctamente'], 200);
         }
 
-        $user = User::find($request->input('user_id'));
+        return response()->json(['message' => 'Asignatura no encontrada'], 404);
+    }
+
+    public function getUserSubject($userId){
+        $user = User::find($userId);
+
         if(!$user){
             return response()->json('Not found user', 404);
         }
 
-        //Elimina una funcion de muchos a muchos (funcion de laravel)
-        $subject->users()->detach([$user->id]);
+        $subjects = $user -> subjects;
 
-        return response()->json([
-            'message' => 'Subject has been removed',
-            'success' => true
-        ],200);
+        return response()->json($subjects, 200);
     }
 
 }

@@ -41,4 +41,5 @@ Route::put('/subject/{id}', [SubjectController::class, 'update']);
 Route::delete('/subject/{id}', [SubjectController::class, 'destroy']);
 
 Route::post('/subjects/{subjectId}/assign-subject',[SubjectController::class, 'assignSubject']);
-Route::delete('/subjects/{subjectId}/remove-subject',[SubjectController::class, 'deleteUserSubject']);
+Route::delete('/subjects/{subjectId}/remove-subject',[SubjectController::class, 'removeSubject']);
+Route::get('/user/{id}/subjects',[SubjectController::class, 'getUserSubject']);

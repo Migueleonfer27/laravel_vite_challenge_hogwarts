@@ -31,6 +31,7 @@ addUsersBtn.addEventListener('click', () => {
 createUserBtn.addEventListener('click', async (e) => {
     e.preventDefault();
 
+
     const name = document.querySelector('#name-modal');
     const email = document.querySelector('#email-modal');
     const password = document.querySelector('#password-modal');

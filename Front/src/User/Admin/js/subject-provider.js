@@ -17,12 +17,12 @@ export const apiAssignSubject = async (token, subjectId, userId) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization' : 'Bearer' + token
+            'Authorization' : `Bearer ${token}`
         },
-        body:JSON.stringify({user_id: userId})
+        body: JSON.stringify({ user_id: userId })
     }
-    const url = 'http://127.0.0.1:8000/api/subjects/${subjectId}/assign-subject'
-    const response = await fetch (url,option)
+    const url = `http://127.0.0.1:8000/api/subjects/${subjectId}/assign-subject`
+    const response = await fetch(url, option);
     return await response.json();
 }
 
@@ -31,11 +31,38 @@ export const apiRemoveSubject = async (token,subjectId)=> {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization' : 'Bearer' + token
+            'Authorization' : `Bearer ${token}`
         }
     }
-    const url = 'http://127.0.0.1:8000/api/subjects/${subjectId}/remove-subjec'
+    const url = `http://127.0.0.1:8000/api/subjects/${subjectId}/remove-subject`
     const response = await fetch(url,option)
     return await response.json();
 }
+export const apiGetUserSubjects = async (token, userId) => {
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/user/${userId}/subjects`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al obtener las asignaturas del usuario');
+        }
+
+        const data = await response.json();
+        return data; // Retorna las asignaturas del usuario
+    } catch (error) {
+        console.error("Error al cargar las asignaturas del usuario:", error);
+        throw error; // Lanza el error para ser manejado más arriba
+    }
+};
+
+
+
+
+
+
 
