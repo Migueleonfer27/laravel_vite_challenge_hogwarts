@@ -46,15 +46,12 @@ return new class extends Migration
      */
 
         public function down(): void{
-        // Desactiva las restricciones de clave foránea
         Schema::disableForeignKeyConstraints();
 
-        // Elimina las tablas especificadas
         Schema::dropIfExists('sessions');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('users');
 
-        // Vuelve a activar las restricciones de clave foránea
         Schema::enableForeignKeyConstraints();
     }
 };

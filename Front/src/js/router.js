@@ -15,6 +15,8 @@ export async function loadPage(path) {
     }
     else if (path === '/admin' && token != null && token !== ''){
         window.location.href = '../User/Admin/index.html'
+    }else if(path === '/dumbledore' && token != null && token !== ''){
+        window.location.href = '../User/Admin/index.html'
     }
     else if (path === '/teacher' && token != null && token !== ''){
         // window.location.href = ''

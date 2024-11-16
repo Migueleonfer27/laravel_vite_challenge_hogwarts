@@ -77,4 +77,23 @@ class User extends Authenticatable
     }
 
 
+    public function updateLevelBasedOnExperience() :void{
+        if($this -> experience >= 0 && $this -> experience <= 49){
+            $this -> level = 1;
+        }elseif ($this -> experience >= 50 && $this -> experience <= 149){
+            $this -> level = 2;
+        }elseif ($this -> experience >= 150 && $this -> experience <= 299){
+            $this -> level = 3;
+        }elseif ($this -> experience >= 300 && $this -> experience <= 499){
+            $this -> level = 4;
+        }elseif ($this -> experience >= 500){
+            $this -> level = 5;
+        }
+
+        if($this -> isDirty('level')){
+            $this->save();
+        }
+    }
+
+
 }

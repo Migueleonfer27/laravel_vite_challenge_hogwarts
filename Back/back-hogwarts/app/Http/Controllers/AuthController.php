@@ -126,4 +126,17 @@ class AuthController extends Controller
             'message' => 'You have been logged out!'
         ], 200);
     }
+
+
+    public function addExperience(Request $request, $id) {
+        $user = User::findOrFail($id);
+
+        $user->experience += $request->input('experience');
+        $user->updateLevelBasedExperience();
+        return response()->json([
+            'success' => true,
+            'message' => 'Experiencia actualizada correctamente.',
+            'data'=>$user
+        ],200);
+    }
 }

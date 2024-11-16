@@ -102,6 +102,11 @@ const construirCard = (house) => {
                 e.preventDefault();
                 loadPage('/student');
             })
+        }else if (role === 'dumbledore') {
+            cardLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                loadPage('/dumbledore');
+            })
         }else {
             cardTitle.innerText = role;
         }
