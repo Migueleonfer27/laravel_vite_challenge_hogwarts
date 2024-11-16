@@ -45,3 +45,8 @@ Route::delete('/subject/{id}', [SubjectController::class, 'destroy']);
 Route::post('/subjects/{subjectId}/assign-subject',[SubjectController::class, 'assignSubject']);
 Route::delete('/subjects/{subjectId}/remove-subject',[SubjectController::class, 'removeSubject']);
 Route::get('/user/{id}/subjects',[SubjectController::class, 'getUserSubject']);
+
+
+Route::post('addpointsteacherspell',[AuthController::class, 'addPointsTeacherSpell'])->middleware('auth:sanctum');
+Route::post('addPointsStudentPotion',[AuthController::class, 'addPointsStudentPotion']);
+Route::middleware('auth:sanctum')->post('/addPointsStudentSpell',[AuthController::class, 'addPointsStudentSpell']);

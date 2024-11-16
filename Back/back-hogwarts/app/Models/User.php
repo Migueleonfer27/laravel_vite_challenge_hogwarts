@@ -76,6 +76,10 @@ class User extends Authenticatable
         return $this->hasMany(Spell::class);
     }
 
+    public function hasRole($roleName){
+        return $this->roles()->where('name', $roleName)->exists();
+    }
+
 
     public function updateLevelBasedOnExperience() :void{
         if($this -> experience >= 0 && $this -> experience <= 49){
@@ -92,6 +96,38 @@ class User extends Authenticatable
 
         if($this -> isDirty('level')){
             $this->save();
+        }
+    }
+
+    public function addExperienceTeacherSpell(){
+        $this->experience += 10;
+
+        // Obtener la casa del usuario
+        $house = $this->house;
+
+        // Aumentar los puntos de la casa en 2
+        if ($house) {
+            $house->points += 2;
+            $house->save(); // Guardar los cambios en la casa
+        }
+
+        // Guardar los cambios en el usuario
+        $this->save();
+    }
+
+    public function addExperienceStudentPotion(){
+        if($this->hasRole('student') && $this->subjects->contains('name','pócimas')){
+            $this->experience +=2;
+            $this->save();
+        }
+    }
+
+    public function addExperienceStudentSpell(){
+        if($this->hasRole('student') && $this->subjects->contains('name','hechizos')){
+            $this->experience +=2;
+            $this->house->points +=1;
+            $this->save();
+            $this->house->save();
         }
     }
 

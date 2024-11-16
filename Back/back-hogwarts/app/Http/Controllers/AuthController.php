@@ -139,4 +139,63 @@ class AuthController extends Controller
             'data'=>$user
         ],200);
     }
+
+
+    public function addPointsTeacherSpell(Request $request){
+        $user = Auth::user();  // Usuario autenticado (Dumbledore)
+
+        // Verificar si el usuario tiene el rol 'dumbledore'
+        if (!$user || !$user->hasRole('dumbledore')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permisos para realizar esta acción.'
+            ], 403);
+        }
+
+        // Validar que se pase el ID del usuario que va a recibir los puntos
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $targetUser = User::find($validated['user_id']);
+
+        // Verificar que el usuario objetivo exista
+        if (!$targetUser) {
+            return response()->json([
+                'success' => false,
+                'message' => 'El usuario al que se le van a sumar los puntos no existe.'
+            ], 404);
+        }
+
+        // Ahora sumamos los puntos de experiencia y los puntos de la casa al usuario seleccionado
+        $targetUser->addExperienceTeacherSpell();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Se han sumado 10 puntos de experiencia y 2 puntos a la casa del usuario.',
+            'user' => $targetUser
+        ], 200);
+    }
+
+    public function addPointsStudentPotion(){
+        $user = Auth::user();
+        $user->addExperienceStudentPotion();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Se han sumado 2 puntos de experiencia',
+            'user' => $user
+        ],200);
+    }
+
+    public function addPointsStudentSpell(){
+        $user = Auth::user();
+        $user->addExperienceStudentSpell();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Se han sumado 2 puntos de experiencia y 1 punto a la casa',
+            'user' => $user
+        ],200);
+    }
 }
