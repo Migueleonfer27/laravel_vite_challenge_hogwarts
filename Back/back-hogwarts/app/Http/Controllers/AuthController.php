@@ -142,7 +142,48 @@ class AuthController extends Controller
 
 
     public function addPointsTeacherSpell(Request $request){
-        $user = Auth::user();  // Usuario autenticado (Dumbledore)
+        $user = Auth::user();
+
+        // Verificar si el usuario autenticado es Dumbledore
+        if (!$user || $user->name !== 'Dumbledore') {
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permisos para realizar esta acción. Solo Dumbledore puede agregar puntos.'
+            ], 403); // Error 403 por falta de permisos
+        }
+
+        // Validar que se pase el ID del usuario al que se le van a sumar los puntos
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $targetUser = User::find($validated['user_id']);
+
+        if (!$targetUser) {
+            return response()->json([
+                'success' => false,
+                'message' => 'El usuario al que se le van a sumar los puntos no existe.'
+            ], 404); // Error 404 si no se encuentra el usuario
+        }
+
+        if (!$targetUser->hasRole('teacher')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'El usuario seleccionado no es un profesor.'
+            ], 400); // Error 400 si el usuario no es un profesor
+        }
+
+        $targetUser->addExperienceTeacherSpell();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Se han sumado los puntos de experiencia al profesor.',
+            'user' => $targetUser
+        ], 200);
+    }
+
+    public function addPointsStudentPotion(Request $request){
+        $user = Auth::user();
 
         // Verificar si el usuario tiene el rol 'dumbledore'
         if (!$user || !$user->hasRole('dumbledore')) {
@@ -152,50 +193,83 @@ class AuthController extends Controller
             ], 403);
         }
 
-        // Validar que se pase el ID del usuario que va a recibir los puntos
+        // Validar que se pase el ID del estudiante al que se le van a sumar los puntos
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
         ]);
 
+        // Buscar al usuario objetivo
         $targetUser = User::find($validated['user_id']);
 
         // Verificar que el usuario objetivo exista
         if (!$targetUser) {
             return response()->json([
                 'success' => false,
-                'message' => 'El usuario al que se le van a sumar los puntos no existe.'
+                'message' => 'El estudiante al que se le van a sumar los puntos no existe.'
             ], 404);
         }
 
-        // Ahora sumamos los puntos de experiencia y los puntos de la casa al usuario seleccionado
-        $targetUser->addExperienceTeacherSpell();
+        // Verificar si el usuario objetivo tiene el rol de 'student'
+        if (!$targetUser->hasRole('student')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'El usuario seleccionado no es un estudiante.'
+            ], 400); // Error 400 porque es una mala solicitud
+        }
+
+        // Llamar a la función que suma los puntos al estudiante
+        $targetUser->addExperienceStudentPotion();
 
         return response()->json([
             'success' => true,
-            'message' => 'Se han sumado 10 puntos de experiencia y 2 puntos a la casa del usuario.',
+            'message' => 'Se han sumado 2 puntos de experiencia al estudiante.',
             'user' => $targetUser
         ], 200);
     }
 
-    public function addPointsStudentPotion(){
+    public function addPointsStudentSpell(Request $request)
+    {
         $user = Auth::user();
-        $user->addExperienceStudentPotion();
+
+        // Verificar si el usuario tiene el rol 'dumbledore'
+        if (!$user || !$user->hasRole('dumbledore')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permisos para realizar esta acción.'
+            ], 403);
+        }
+
+        // Validar que se pase el ID del estudiante al que se le van a sumar los puntos
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        // Buscar al usuario objetivo
+        $targetUser = User::find($validated['user_id']);
+
+        // Verificar que el usuario objetivo exista
+        if (!$targetUser) {
+            return response()->json([
+                'success' => false,
+                'message' => 'El estudiante al que se le van a sumar los puntos no existe.'
+            ], 404);
+        }
+
+        // Verificar si el usuario objetivo tiene el rol de 'student'
+        if (!$targetUser->hasRole('student')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'El usuario seleccionado no es un estudiante.'
+            ], 400);
+        }
+
+        // Llamar a la función que suma los puntos al estudiante
+        $targetUser->addExperienceStudentSpell();
 
         return response()->json([
             'success' => true,
-            'message' => 'Se han sumado 2 puntos de experiencia',
-            'user' => $user
-        ],200);
-    }
-
-    public function addPointsStudentSpell(){
-        $user = Auth::user();
-        $user->addExperienceStudentSpell();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Se han sumado 2 puntos de experiencia y 1 punto a la casa',
-            'user' => $user
-        ],200);
+            'message' => 'Se han sumado 2 puntos de experiencia y 1 punto a la casa del estudiante.',
+            'user' => $targetUser
+        ], 200);
     }
 }
