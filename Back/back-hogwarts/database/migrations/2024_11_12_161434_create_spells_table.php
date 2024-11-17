@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('action')->check('action >= 0 and action <= 100');
             $table->foreignId('creator')->nullable()->constrained('users')->onDelete('cascade');
             $table->integer('level')->check('level >= 1 and level <= 5');
+            $table->string('validation_status')->default('pending');
             $table->timestamps();
         });
     }

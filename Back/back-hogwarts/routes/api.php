@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\SpellController;
 
 
 //Monica
@@ -44,3 +45,12 @@ Route::delete('/subject/{id}', [SubjectController::class, 'destroy']);
 
 Route::post('/subjects/{subjectId}/assign-subject',[SubjectController::class, 'assignSubject']);
 Route::delete('/subjects/{subjectId}/remove-subject',[SubjectController::class, 'deleteUserSubject']);
+
+
+//Monica
+Route::middleware('auth:sanctum')->prefix('spell')->group(function () {
+    Route::get('/', [SpellController::class, 'index'])->middleware('ability:student,teacher');
+    Route::post('/', [SpellController::class, 'create'])->middleware('ability:student,teacher');
+    Route::put('/{id}', [SpellController::class, 'update'])->middleware('ability:teacher');
+    Route::delete('/{id}', [SpellController::class, 'destroy'])->middleware('ability:teacher');
+});
