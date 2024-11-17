@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ingredient;
 use App\Models\Potion;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 // Miguel León Fernández
@@ -38,14 +39,23 @@ class PotionController extends Controller
         try {
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255|unique:potions',
-                'creator' => 'required|exists:users,id',
+                'creator' => 'required|string|exists:users,name',
                 'ingredients' => 'required|array',
                 'ingredients.*' => 'exists:ingredients,id',
             ]);
 
+            $creatorId = User::where('name', $validatedData['creator'])->value('id');
+
+            if (!$creatorId) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No se encontró un usuario con ese nombre.'
+                ], 404);
+            }
+
             $potion = Potion::create([
                 'name' => $validatedData['name'],
-                'creator' => $validatedData['creator'],
+                'creator' => $creatorId,
             ]);
 
             $potion->ingredients()->attach($validatedData['ingredients']);
@@ -54,13 +64,13 @@ class PotionController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Potion created successfully.',
+                'message' => 'Poción creada con éxito.',
                 'potion' => $potion
             ], 201);
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
-                'message' => 'An error occurred while creating the potion.',
+                'message' => 'Ocurrió un error al crear la poción.',
                 'error' => $th->getMessage()
             ], 500);
         }
@@ -93,9 +103,8 @@ class PotionController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'name' => 'sometimes|string|max:255|unique:potions,name,'.$id,
-                'creator' => 'sometimes|exists:users,id',
-                'ingredients' => 'required|sometimes|array',
+                'name' => 'sometimes|string|max:255|unique:potions,name,' . $id,
+                'ingredients' => 'array',
                 'ingredients.*' => 'exists:ingredients,id',
             ]);
 
@@ -105,28 +114,32 @@ class PotionController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Potion not found',
-                ], 404);
+                ]);
             }
 
-            $potion->update($validatedData);
-            $potion->update(['approves' => false]);
+            if ($request->has('name')) {
+                $potion->name = $validatedData['name'];
+            }
 
-            if (isset($validatedData['ingredients'])) {
+            if ($request->has('ingredients')) {
                 $potion->ingredients()->sync($validatedData['ingredients']);
                 [$goodLevel, $badLevel] = $this->calculateLevels($validatedData['ingredients']);
-                $potion->update(['good_level' => $goodLevel, 'bad_level' => $badLevel]);
+                $potion->good_level = $goodLevel;
+                $potion->bad_level = $badLevel;
             }
+
+            $potion->save();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Potion updated successfully.',
-                'potion' => $potion
+                'message' => 'Potion updated successfully',
+                'potion' => $potion->load('ingredients')
             ], 200);
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'An error occurred while updating the potion.',
-                'error' => $th->getMessage()
+                'message' => 'Error updating potion',
+                'error' => $e->getMessage()
             ], 500);
         }
     }

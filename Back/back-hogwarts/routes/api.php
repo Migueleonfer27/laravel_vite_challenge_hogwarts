@@ -48,14 +48,19 @@ Route::delete('/subjects/{subjectId}/remove-subject',[SubjectController::class, 
 
 // Miguel León Fernández
 // Añadir autenticación más adelante
-Route::get('/ingredients', [IngredientController::class, 'index']);
-Route::post('/ingredients', [IngredientController::class, 'store']);
-Route::delete('/ingredients/{id}', [IngredientController::class, 'destroy']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('/ingredients', [IngredientController::class, 'index']);
+    Route::post('/ingredients', [IngredientController::class, 'store']);
+    Route::delete('/ingredients/{id}', [IngredientController::class, 'destroy']);
+});
 
 // Miguel León Fernández
 // Añadir autenticación más adelante
-Route::get('/potions', [PotionController::class, 'index']);
-Route::post('/potions', [PotionController::class, 'store']);
-Route::get('/potions/{id}', [PotionController::class, 'show']);
-Route::put('/potions/{id}', [PotionController::class, 'update']);
-Route::delete('/potions/{id}', [PotionController::class, 'destroy']);
+//Route::middleware('auth:api')->group(function () {
+    Route::get('/potions', [PotionController::class, 'index']);
+    Route::post('/potions', [PotionController::class, 'store']);
+    Route::get('/potions/{id}', [PotionController::class, 'show']);
+    Route::put('/potions/{id}', [PotionController::class, 'update']);
+    Route::delete('/potions/{id}', [PotionController::class, 'destroy']);
+//});
