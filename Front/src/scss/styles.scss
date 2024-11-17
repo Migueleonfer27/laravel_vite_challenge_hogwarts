@@ -2,12 +2,11 @@
 @import "~bootstrap/scss/bootstrap";
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
-@import "potions";
+@import "./potions.scss";
 
 //Miguel León Fernández
-
 body {
-  background: url("./assets/img/background.png") no-repeat center center fixed;
+  background: url("./assets/img/background.png") no-repeat center center fixed !important;
   background-size: cover;
   background-position: center;
   min-height: calc(100vh - 56px - 40px);
@@ -15,6 +14,7 @@ body {
   font-family: var(--primary-font);
 }
 
+//Miguel León Fernández
 .animated-owl {
   width: 75%;
   animation: fly 6s ease-in-out infinite;
@@ -106,6 +106,7 @@ body {
   border-color: var(--hepta-color) !important;
 }
 
+//Miguel León Fernández
 @keyframes fly {
   0% {
     transform: translate(0px, 0px) rotate(0deg);
@@ -228,18 +229,20 @@ body {
   text-decoration: none;
 }
 
+//Miguel León Fernández
 .img-houses {
   width: 200px !important;
   height: 200px !important;
-  object-fit: cover !important;
   filter: drop-shadow(0px 0px 10px var(--cuaternary-color)) !important;
 }
 
+//Miguel León Fernández
 .img-house-animation {
   animation: pulse 1.5s infinite;
   transition: transform 0.2s ease-in-out;
 }
 
+//Miguel León Fernández
 @keyframes pulse {
   0% {
     transform: scale(1);

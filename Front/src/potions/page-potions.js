@@ -108,12 +108,12 @@ const buildPotionFormAccordion = async () => {
                     Creador de Pócimas
                 </button>
             </h2>
-            <div id="collapseForm" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#potionFormAccordion">
-                <div class="accordion-body bg-primary-person">
-                    <form id="createPotionForm">
+            <div id="collapseForm" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#potionFormAccordion">
+                <div class="accordion-body bg-gradient-creator">
+                    <form id="createPotionForm" class="px-5 py-3">
                         <div class="mb-4 d-flex flex-column justify-content-center">
-                            <label for="potionName" class="form-label text-cuaternary-person fs-4 fs-md-2">Nombre de la Poción</label>
-                            <input type="text" class="form-control bg-secondary-person text-cuaternary-person w-100 w-md-75 fs-4" placeholder="Ej: poción de velocidad..." id="potionName" minlength="5" maxlength="40" required>
+                            <label for="potionName" class="form-label text-primary-person fs-2 fs-md-2">Nombre de la Poción</label>
+                            <input type="text" class="form-control bg-hexa-person text-cuaternary-person w-100 w-md-75 fs-4" placeholder="Ej: poción de velocidad..." id="potionName" minlength="5" maxlength="40" required>
                         </div>
 
                         <div class="mb-3">
@@ -250,16 +250,16 @@ const buildShowDetails = (potion) => {
     `;
 
     modal.innerHTML = `
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
-                <div class="modal-header bg-cuaternary-person">
+                <div class="modal-header bg-cuaternary-person bg-gradient-potions">
                     <h5 class="modal-title text-primary-person" id="potionDetailsModalLabel">Detalles de la Poción</h5>
                     <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body bg-primary-person">
                     ${detailsTable}
                 </div>
-                <div class="modal-footer bg-cuaternary-person">
+                <div class="modal-footer bg-cuaternary-person bg-gradient-potions">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -293,7 +293,7 @@ const buildModifyPotion = async (potion) => {
     modal.innerHTML = `
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
-                <div class="modal-header bg-cuaternary-person">
+                <div class="modal-header bg-gradient-potions">
                     <h5 class="modal-title text-primary-person">Modificar Poción</h5>
                     <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal"></button>
                 </div>
@@ -319,7 +319,7 @@ const buildModifyPotion = async (potion) => {
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer bg-cuaternary-person">
+                <div class="modal-footer bg-gradient-potions">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="button" class="btn btn-primary" id="saveChanges">Guardar Cambios</button>
                 </div>
