@@ -28,16 +28,44 @@ const loadPotions = async () => {
 };
 
 // Miguel León Fernández
-const buildCard = (potion) => {
+const pickImage = (potion) => {
+    let img = '';
+    const goodLevel = potion.good_level;
+    const badLevel = potion.bad_level;
+
+    switch (true) {
+        case badLevel === 0:
+            img = '../assets/img/potion_1.png';
+            break;
+        case goodLevel === 0:
+            img = '../assets/img/potion_5.png';
+            break;
+        case goodLevel - badLevel >= 40:
+            img = '../assets/img/potion_2.png';
+            break;
+        case goodLevel - badLevel >= 20:
+            img = '../assets/img/potion_3.png';
+            break;
+        default:
+            img = '../assets/img/potion_4.png';
+            break;
+    }
+
+    return img;
+}
+
+// Miguel León Fernández
+const buildCard = async (potion) => {
     const potionsContainer = document.getElementById("potions-container");
     const card = document.createElement("div");
     card.className = "col";
+    const url = pickImage(potion);
 
     card.innerHTML = `
         <div class="card h-100 rounded-5">
-            <div class="card-body rounded-5 d-flex flex-column align-items-center bg-secondary-person">
-                <img class="img-fluid mb-3 img-houses" src="https://genesistoxical.com/wp-content/uploads/2021/05/Pocion_animada_png.png" alt="img-potion" height="200px" width="200px">
-                <h4 class="card-title mb-3">${potion.name}</h4>
+            <div class="card-body rounded-5 d-flex flex-column align-items-center bg-gradient-potions">
+                <img class="img-fluid mb-3 bg-shadow-potions" src="${url}" alt="img-potion" height="200px" width="200px">
+                <h4 class="card-title mb-3 text-primary-person">${potion.name}</h4>
                 <button class="btn btn-primary my-1 w-75 showDetailsPotionBtn">Ver Detalles</button>
                 <button class="btn btn-secondary my-1 w-75 showModifyPotionBtn" data-id="${potion.id}">Modificar</button>
                 <button class="btn btn-danger my-1 w-75 deletePotionBtn" data-id="${potion.id}">Eliminar</button>
@@ -76,7 +104,7 @@ const buildPotionFormAccordion = async () => {
     accordionContainer.innerHTML = `
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button text-cuaternary-person bg-secondary-person fs-3 fs-md-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseForm" aria-expanded="true" aria-controls="collapseForm">
+                <button class="accordion-button text-primary-person bg-gradient-potions fs-3 fs-md-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseForm" aria-expanded="true" aria-controls="collapseForm">
                     Creador de Pócimas
                 </button>
             </h2>
