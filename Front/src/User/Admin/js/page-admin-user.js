@@ -14,6 +14,7 @@ import * as validations from './validations';
 import {getToken, removeToken} from "../../../../storage/tokenManager";
 import {buildHeader, showLogoutButton} from "../../../components/buildHeader";
 import {buildFooter} from "../../../components/buildFooter";
+import data from "bootstrap/js/src/dom/data";
 
 
 const tbody = document.getElementById('body-table');
@@ -104,11 +105,16 @@ document.getElementById('rolesModal').addEventListener('hidden.bs.modal', () => 
 });
 
 
+
+const getCurrentUserDetails = async (token) => {
+    const userDetails = await apiGetUsers(token)
+    return userDetails.find(user => user.email === 'Dumbledore@root.com')
+}
 const getUsers = async () => {
+    const currentUserDetails = await getCurrentUserDetails(token)
     const res = await apiGetUsers(token);
-    console.log(res[0]);
     construirCabecera(res[0]);
-    construirCuerpo(res);
+    construirCuerpo(res, currentUserDetails);
 
 }
 
@@ -134,6 +140,9 @@ const construirCabecera = (objeto) => {
 
 const construirCuerpo = (users) => {
     let cuerpo = document.querySelector('#body');
+
+    const currentUser = 'dumbledore'
+
 
     users.forEach(user => {
         let tr = document.createElement('tr');
@@ -236,8 +245,24 @@ const construirCuerpo = (users) => {
 
         tdBotones.appendChild(botonEliminar);
 
+        //if(currentUserDetails && currentUserDetails.email === 'Dumbledore@root.com'){
+            const addPointsBtn = document.createElement('button')
+            addPointsBtn.textContent = '+'
+            addPointsBtn.classList.add('round-button')
+            addPointsBtn.addEventListener('click', () => {
+                console.log('Sumando puntos')
+            })
+            tdBotones.appendChild(addPointsBtn)
+        //}
+
+
+
+
         tr.appendChild(tdBotones);
         cuerpo.appendChild(tr);
+
+
+
     });
 }
 
