@@ -34,20 +34,20 @@ const pickImage = (potion) => {
     const badLevel = potion.bad_level;
 
     switch (true) {
-        case badLevel === 0:
-            img = '../assets/img/potion_1.png';
-            break;
-        case goodLevel === 0:
+        case goodLevel === 0 && badLevel !== 0 :
             img = '../assets/img/potion_5.png';
             break;
-        case goodLevel - badLevel >= 40:
+        case badLevel === 0 && goodLevel !== 0 :
+            img = '../assets/img/potion_1.png';
+            break;
+        case goodLevel > badLevel:
             img = '../assets/img/potion_2.png';
             break;
-        case goodLevel - badLevel >= 20:
-            img = '../assets/img/potion_3.png';
+        case badLevel > goodLevel:
+            img = '../assets/img/potion_4.png';
             break;
         default:
-            img = '../assets/img/potion_4.png';
+            img = '../assets/img/potion_3.png';
             break;
     }
 

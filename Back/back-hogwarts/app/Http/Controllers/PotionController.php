@@ -104,7 +104,7 @@ class PotionController extends Controller
         try {
             $validatedData = $request->validate([
                 'name' => 'sometimes|string|max:255|unique:potions,name,' . $id,
-                'ingredients' => 'array',
+                'ingredients' => 'array|required',
                 'ingredients.*' => 'exists:ingredients,id',
             ]);
 

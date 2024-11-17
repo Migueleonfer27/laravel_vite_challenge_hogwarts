@@ -73,6 +73,7 @@ export const handleLogin = (callback) => {
                     console.log('User logged in successfully', data);
                     setToken(data.data.token);
                     localStorage.setItem('name', data.data.name);
+                    localStorage.setItem('roles', data.data.roles);
                     toggleAuthButtons(true);
                     callback();
                 } else {
@@ -90,11 +91,12 @@ export const handleLogin = (callback) => {
 //Miguel León Fernández
 export async function handleLogout() {
     localStorage.removeItem('name');
-
+    localStorage.removeItem('roles');
     try {
         const response = await fetch('http://127.0.0.1:8000/api/logout', {
             method: 'POST',
             headers: {
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
             }
         });
