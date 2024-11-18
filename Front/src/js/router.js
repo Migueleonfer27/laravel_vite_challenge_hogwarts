@@ -22,7 +22,7 @@ export async function loadPage(path) {
         // window.location.href = ''
     }
     else if (path === '/student' && token != null && token !== ''){
-        // window.location.href = ''
+         window.location.href = '../student/index.html'
     }
     else {
         window.location.href = '../index.html'
