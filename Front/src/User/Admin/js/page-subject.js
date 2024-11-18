@@ -1,4 +1,3 @@
-// Importaciones necesarias
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
 import {getToken, removeToken} from "../../../../storage/tokenManager";
@@ -7,7 +6,6 @@ import { apiGetUserSubjects, apiGetSubjects, apiAssignSubject, apiRemoveSubject 
 import {buildHeader, showLogoutButton} from "../../../components/buildHeader";
 import { buildFooter } from "../../../components/buildFooter";
 
-// Referencias globales
 const userTable = document.getElementById("body-user-table");
 const token = getToken();
 const addSubjectModal = new bootstrap.Modal(document.getElementById('addSubjectModal'));
@@ -17,13 +15,12 @@ const removeSubjectModal = new bootstrap.Modal(document.getElementById('removeSu
 const removeMessageContainer = document.getElementById('remove-message-container');
 const removeSubjectSelect = document.getElementById('remove-subject-select');
 
-let selectedUserId = null;  // Variable para almacenar el ID del usuario seleccionado
+let selectedUserId = null;
 
-// Función para llenar el select con asignaturas disponibles
 const populateSubjectSelect = async (selectElement) => {
     try {
-        const subjects = await apiGetSubjects(token); // Obtener las asignaturas disponibles
-        selectElement.innerHTML = ""; // Limpia el select de asignaturas previas
+        const subjects = await apiGetSubjects(token);
+        selectElement.innerHTML = "";
 
         if (subjects.length === 0) {
             const option = document.createElement("option");
@@ -43,15 +40,13 @@ const populateSubjectSelect = async (selectElement) => {
     }
 };
 
-// Función para llenar el select con las asignaturas del usuario
+
 const populateUserSubjectsSelect = async (userId) => {
     try {
-        // Obtener las asignaturas del usuario
         const userSubjects = await apiGetUserSubjects(token, userId);
 
-        // Obtener el select para las asignaturas
         const selectElement = document.getElementById('remove-subject-select');
-        selectElement.innerHTML = ""; // Limpiar el select de asignaturas previas
+        selectElement.innerHTML = "";
 
         if (userSubjects.length === 0) {
             const option = document.createElement("option");
@@ -76,22 +71,20 @@ const populateUserSubjectsSelect = async (userId) => {
         selectElement.appendChild(option);
     }
 };
-// Función para asignar una asignatura
 const assignSubject = async (event) => {
-    event.preventDefault(); // Previene la recarga de la página al enviar el formulario
-
-    const selectedSubjectId = subjectSelectModal.value; // Obtiene el ID de la asignatura seleccionada
+    event.preventDefault();
+    const selectedSubjectId = subjectSelectModal.value;
     if (!selectedSubjectId) {
         alert("Por favor, selecciona una asignatura válida.");
         return;
     }
 
     try {
-        await apiAssignSubject(token, selectedSubjectId, selectedUserId); // Aquí pasamos el ID de la asignatura y el usuario
+        await apiAssignSubject(token, selectedSubjectId, selectedUserId);
         const messageContainer = document.getElementById('assign-message');
         messageContainer.classList.remove('d-none');
         messageContainer.classList.add('alert-success');
-        messageContainer.textContent = "Asignatura añadida correctamente";  // Mensaje de éxito
+        messageContainer.textContent = "Asignatura añadida correctamente";
         setTimeout(() => {
             addSubjectModal.hide();
         }, 2000);
@@ -99,88 +92,83 @@ const assignSubject = async (event) => {
         const messageContainer = document.getElementById('assign-message');
         messageContainer.classList.remove('d-none');
         messageContainer.classList.add('alert-danger');
-        messageContainer.textContent = "Hubo un error al asignar la asignatura.";  // Mensaje de error
+        messageContainer.textContent = "Hubo un error al asignar la asignatura.";
     }
 };
 
-// Función para eliminar la asignatura
 const confirmRemoveSubject = async () => {
     const selectedSubjectId = removeSubjectSelect.value;
 
     if (!selectedSubjectId) {
         removeMessageContainer.classList.remove('d-none');
         removeMessageContainer.classList.add('alert-warning');
-        removeMessageContainer.textContent = "Por favor, selecciona una asignatura a eliminar."; // Mensaje de advertencia
+        removeMessageContainer.textContent = "Por favor, selecciona una asignatura a eliminar.";
         return;
     }
 
     try {
-        await apiRemoveSubject(token, selectedSubjectId); // Eliminar asignatura
+        await apiRemoveSubject(token, selectedSubjectId);
         removeMessageContainer.classList.remove('d-none');
         removeMessageContainer.classList.add('alert-success');
-        removeMessageContainer.textContent = "Asignatura eliminada correctamente.";  // Mensaje de éxito
+        removeMessageContainer.textContent = "Asignatura eliminada correctamente.";
         setTimeout(() => {
             removeSubjectModal.hide();
         }, 2000);
     } catch (error) {
         removeMessageContainer.classList.remove('d-none');
         removeMessageContainer.classList.add('alert-danger');
-        removeMessageContainer.textContent = "Hubo un error al eliminar la asignatura.";  // Mensaje de error
+        removeMessageContainer.textContent = "Hubo un error al eliminar la asignatura.";
     }
 };
-
-// Carga usuarios con sus acciones
 const loadUserByRole = async () => {
     try {
-        const users = await apiGetUsers(token);
+        const users = await apiGetUsers(token)
 
         users.forEach(user => {
-            const tr = document.createElement("tr");
-            tr.setAttribute("data-user-id", user.id);  // Guardar el ID del usuario en un atributo de la fila
+            const tr = document.createElement("tr")
+            tr.setAttribute("data-user-id", user.id);
 
-            const tdName = document.createElement("td");
-            tdName.textContent = user.name;
+            const tdName = document.createElement("td")
+            tdName.textContent = user.name
 
-            const tdEmail = document.createElement("td");
-            tdEmail.textContent = user.email;
+            const tdEmail = document.createElement("td")
+            tdEmail.textContent = user.email
 
             const tdRol = document.createElement("td");
-            const rol = user.roles.find(rol => rol.name === 'teacher' || rol.name === 'student');
+            const rol = user.roles.find(rol => rol.name === 'teacher' || rol.name === 'student')
             tdRol.textContent = rol ? (rol.name === 'teacher' ? 'Profesor' : 'Estudiante') : '';
 
             const tdActions = document.createElement("td");
 
-            // Crear los botones de acción dentro del ciclo para cada usuario
             const addBtn = document.createElement("button");
             addBtn.classList.add("btn","me-2");
             addBtn.textContent = "Añadir asignatura";
             addBtn.addEventListener('click', async (event) => {
-                const userRow = event.target.closest('tr');  // Encontrar la fila más cercana al botón
-                selectedUserId = userRow.getAttribute('data-user-id');  // Obtener el ID del usuario desde un atributo 'data-user-id'
+                const userRow = event.target.closest('tr');
+                selectedUserId = userRow.getAttribute('data-user-id');
 
                 if (!selectedUserId) {
                     alert("No se ha seleccionado un usuario válido.");
                     return;
                 }
 
-                await populateSubjectSelect(subjectSelectModal);  // Llena el select con las asignaturas
-                addSubjectModal.show();  // Abre el modal de añadir asignatura
+                await populateSubjectSelect(subjectSelectModal);
+                addSubjectModal.show();
             });
 
             const removeBtn = document.createElement("button");
             removeBtn.classList.add("btn", "btn-custom-danger", "me-2");
             removeBtn.textContent = "Eliminar asignatura";
             removeBtn.addEventListener('click', async (event) => {
-                const userRow = event.target.closest('tr');  // Encontrar la fila más cercana al botón
-                selectedUserId = userRow.getAttribute('data-user-id');  // Obtener el ID del usuario desde un atributo 'data-user-id'
+                const userRow = event.target.closest('tr');
+                selectedUserId = userRow.getAttribute('data-user-id');
 
                 if (!selectedUserId) {
                     alert("No se ha seleccionado un usuario válido.");
                     return;
                 }
 
-                // Llamar a la función para llenar el select con las asignaturas del usuario
-                await populateUserSubjectsSelect(selectedUserId);  // Llena el select con las asignaturas del usuario
+                await populateUserSubjectsSelect(selectedUserId);
                 removeSubjectModal.show();
             });
 
@@ -212,8 +200,6 @@ const setupLogoutBtn = () => {
         logoutButton.addEventListener('click',logout)
     }
 }
-
-
 
 buildHeader();
 buildFooter();

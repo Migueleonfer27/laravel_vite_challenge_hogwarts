@@ -14,7 +14,6 @@ import * as validations from './validations';
 import {getToken, removeToken} from "../../../../storage/tokenManager";
 import {buildHeader, showLogoutButton} from "../../../components/buildHeader";
 import {buildFooter} from "../../../components/buildFooter";
-import data from "bootstrap/js/src/dom/data";
 
 
 const tbody = document.getElementById('body-table');
@@ -23,6 +22,9 @@ const token = getToken();
 const rolesModal = new bootstrap.Modal(document.getElementById('rolesModal'));
 const addUsersBtn = document.querySelector('#btn-students')
 const createUserBtn = document.querySelector('#modal-create-user')
+
+// let rolesUser = localStorage.getItem('roles')
+// let roles = rolesUser.split(',')
 
 addUsersBtn.addEventListener('click', () => {
     const addUserModal = new bootstrap.Modal(document.getElementById('addUserModal'))
@@ -104,17 +106,10 @@ document.getElementById('rolesModal').addEventListener('hidden.bs.modal', () => 
     location.reload();
 });
 
-
-
-const getCurrentUserDetails = async (token) => {
-    const userDetails = await apiGetUsers(token)
-    return userDetails.find(user => user.email === 'Dumbledore@root.com')
-}
 const getUsers = async () => {
-    const currentUserDetails = await getCurrentUserDetails(token)
     const res = await apiGetUsers(token);
     construirCabecera(res[0]);
-    construirCuerpo(res, currentUserDetails);
+    construirCuerpo(res);
 
 }
 
@@ -242,27 +237,18 @@ const construirCuerpo = (users) => {
                         window.location.reload()
                 })
         })
-
         tdBotones.appendChild(botonEliminar);
 
-        //if(currentUserDetails && currentUserDetails.email === 'Dumbledore@root.com'){
-            const addPointsBtn = document.createElement('button')
-            addPointsBtn.textContent = '+'
-            addPointsBtn.classList.add('round-button')
-            addPointsBtn.addEventListener('click', () => {
-                console.log('Sumando puntos')
-            })
-            tdBotones.appendChild(addPointsBtn)
-        //}
-
-
-
-
+        // if(roles.includes('dumbledore')){
+        //     const addPointsBtn = document.createElement('button')
+        //     addPointsBtn.textContent = '+'
+        //     addPointsBtn.classList.add('round-button')
+        //     addPointsBtn.addEventListener('click', () => {
+        //     })
+        //     tdBotones.appendChild(addPointsBtn)
+        // }
         tr.appendChild(tdBotones);
         cuerpo.appendChild(tr);
-
-
-
     });
 }
 
@@ -270,7 +256,6 @@ const construirModalRoles = (roles, rolesUser, userID) => {
     let modalBody = document.querySelector('.modal-body');
     modalBody.innerHTML = ''; // Clear previous content
 
-    console.log(rolesUser);
     roles.forEach(role => {
         let div = document.createElement('div');
         div.classList.add('form-check');

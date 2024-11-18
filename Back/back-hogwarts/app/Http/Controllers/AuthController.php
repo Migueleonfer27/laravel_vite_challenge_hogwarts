@@ -144,15 +144,13 @@ class AuthController extends Controller
     public function addPointsTeacherSpell(Request $request){
         $user = Auth::user();
 
-        // Verificar si el usuario autenticado es Dumbledore
         if (!$user || $user->name !== 'Dumbledore') {
             return response()->json([
                 'success' => false,
                 'message' => 'No tienes permisos para realizar esta acción. Solo Dumbledore puede agregar puntos.'
-            ], 403); // Error 403 por falta de permisos
+            ], 403);
         }
 
-        // Validar que se pase el ID del usuario al que se le van a sumar los puntos
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
         ]);
@@ -163,14 +161,14 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'El usuario al que se le van a sumar los puntos no existe.'
-            ], 404); // Error 404 si no se encuentra el usuario
+            ], 404);
         }
 
         if (!$targetUser->hasRole('teacher')) {
             return response()->json([
                 'success' => false,
                 'message' => 'El usuario seleccionado no es un profesor.'
-            ], 400); // Error 400 si el usuario no es un profesor
+            ], 400);
         }
 
         $targetUser->addExperienceTeacherSpell();
@@ -185,7 +183,6 @@ class AuthController extends Controller
     public function addPointsStudentPotion(Request $request){
         $user = Auth::user();
 
-        // Verificar si el usuario tiene el rol 'dumbledore'
         if (!$user || !$user->hasRole('dumbledore')) {
             return response()->json([
                 'success' => false,
@@ -193,15 +190,12 @@ class AuthController extends Controller
             ], 403);
         }
 
-        // Validar que se pase el ID del estudiante al que se le van a sumar los puntos
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
         ]);
 
-        // Buscar al usuario objetivo
         $targetUser = User::find($validated['user_id']);
 
-        // Verificar que el usuario objetivo exista
         if (!$targetUser) {
             return response()->json([
                 'success' => false,
@@ -209,15 +203,13 @@ class AuthController extends Controller
             ], 404);
         }
 
-        // Verificar si el usuario objetivo tiene el rol de 'student'
         if (!$targetUser->hasRole('student')) {
             return response()->json([
                 'success' => false,
                 'message' => 'El usuario seleccionado no es un estudiante.'
-            ], 400); // Error 400 porque es una mala solicitud
+            ], 400);
         }
 
-        // Llamar a la función que suma los puntos al estudiante
         $targetUser->addExperienceStudentPotion();
 
         return response()->json([
@@ -231,7 +223,6 @@ class AuthController extends Controller
     {
         $user = Auth::user();
 
-        // Verificar si el usuario tiene el rol 'dumbledore'
         if (!$user || !$user->hasRole('dumbledore')) {
             return response()->json([
                 'success' => false,
@@ -239,15 +230,12 @@ class AuthController extends Controller
             ], 403);
         }
 
-        // Validar que se pase el ID del estudiante al que se le van a sumar los puntos
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
         ]);
 
-        // Buscar al usuario objetivo
         $targetUser = User::find($validated['user_id']);
 
-        // Verificar que el usuario objetivo exista
         if (!$targetUser) {
             return response()->json([
                 'success' => false,
@@ -255,7 +243,6 @@ class AuthController extends Controller
             ], 404);
         }
 
-        // Verificar si el usuario objetivo tiene el rol de 'student'
         if (!$targetUser->hasRole('student')) {
             return response()->json([
                 'success' => false,
@@ -263,7 +250,6 @@ class AuthController extends Controller
             ], 400);
         }
 
-        // Llamar a la función que suma los puntos al estudiante
         $targetUser->addExperienceStudentSpell();
 
         return response()->json([

@@ -47,16 +47,14 @@ export const apiGetUserSubjects = async (token, userId) => {
                 'Content-Type': 'application/json'
             }
         });
-
         if (!response.ok) {
             throw new Error('Error al obtener las asignaturas del usuario');
         }
 
-        const data = await response.json();
-        return data; // Retorna las asignaturas del usuario
+        return await response.json();
     } catch (error) {
         console.error("Error al cargar las asignaturas del usuario:", error);
-        throw error; // Lanza el error para ser manejado más arriba
+        throw error;
     }
 };
 
