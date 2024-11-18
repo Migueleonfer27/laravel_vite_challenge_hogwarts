@@ -12,7 +12,7 @@ export async function loadPage(path) {
     } else if (path === '/email') {
         window.location.href = '../email/index.html'
     } else if (path === '/admin' && token != null && token !== '') {
-        window.location.href = '../User/Admin/index.html'
+        window.location.href = '../user/admin/index.html'
     } else if (path === '/potions' && token != null && token !== '') {
         window.location.href = '../potions/potions.html'
     } else if (path === '/ingredients' && token != null && token !== '') {

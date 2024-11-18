@@ -30,7 +30,7 @@ export const handleRegister = () => {
 
                 if (response.ok) {
                     setToken(data.data.token);
-                    console.log('User registered successfully', data);
+                    console.log('user registered successfully', data);
                     showSuccessMessage("Registro completado exitosamente.");
                     form.reset();
                     const house = await getUserHouse();
@@ -70,7 +70,7 @@ export const handleLogin = (callback) => {
                 const data = await response.json();
 
                 if (response.ok) {
-                    console.log('User logged in successfully', data);
+                    console.log('user logged in successfully', data);
                     setToken(data.data.token);
                     localStorage.setItem('name', data.data.name);
                     localStorage.setItem('roles', data.data.roles);
@@ -103,7 +103,7 @@ export async function handleLogout() {
 
         if (response.ok) {
             removeToken();
-            console.log('User logged out successfully');
+            console.log('user logged out successfully');
         } else {
             console.error('Logout failed');
         }

@@ -47,8 +47,6 @@ Route::post('/subjects/{subjectId}/assign-subject',[SubjectController::class, 'a
 Route::delete('/subjects/{subjectId}/remove-subject',[SubjectController::class, 'deleteUserSubject']);
 
 // Miguel León Fernández
-// Añadir autenticación más adelante
-
 Route::middleware('auth:api')->group(function () {
     Route::get('/ingredients', [IngredientController::class, 'index']);
     Route::post('/ingredients', [IngredientController::class, 'store']);
@@ -56,11 +54,10 @@ Route::middleware('auth:api')->group(function () {
 });
 
 // Miguel León Fernández
-// Añadir autenticación más adelante
-//Route::middleware('auth:api')->group(function () {
+Route::middleware('auth:api')->group(function () {
     Route::get('/potions', [PotionController::class, 'index']);
     Route::post('/potions', [PotionController::class, 'store']);
     Route::get('/potions/{id}', [PotionController::class, 'show']);
     Route::put('/potions/{id}', [PotionController::class, 'update']);
     Route::delete('/potions/{id}', [PotionController::class, 'destroy']);
-//});
+});

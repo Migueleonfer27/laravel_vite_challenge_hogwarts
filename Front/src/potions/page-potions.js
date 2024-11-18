@@ -1,7 +1,7 @@
 import * as bootstrap from 'bootstrap';
 import { buildHeader, showLogoutButton } from "../components/buildHeader";
 import { buildFooter } from "../components/buildFooter";
-import { getPotions, removePotion, updatePotion, createPotion } from "../potions/potions-provider";
+import { getPotions, removePotion, updatePotion, createPotion } from "./potions-provider";
 import { getIngredients } from "../ingredients/ingredients-provider";
 
 // Miguel León Fernández
@@ -24,12 +24,12 @@ const loadPotions = async () => {
         buildCard(potion);
     });
 
-    deletePotion();
+    await deletePotion();
 };
 
 // Miguel León Fernández
 const pickImage = (potion) => {
-    let img = '';
+    let img;
     const goodLevel = potion.good_level;
     const badLevel = potion.bad_level;
 
@@ -66,9 +66,9 @@ const buildCard = async (potion) => {
             <div class="card-body rounded-5 d-flex flex-column align-items-center bg-gradient-potions">
                 <img class="img-fluid mb-3 bg-shadow-potions" src="${url}" alt="img-potion" height="200px" width="200px">
                 <h4 class="card-title mb-3 text-primary-person">${potion.name}</h4>
-                <button class="btn btn-primary my-1 w-75 showDetailsPotionBtn">Ver Detalles</button>
-                <button class="btn btn-secondary my-1 w-75 showModifyPotionBtn" data-id="${potion.id}">Modificar</button>
-                <button class="btn btn-danger my-1 w-75 deletePotionBtn" data-id="${potion.id}">Eliminar</button>
+                <button class="btn btn-primary my-1 w-75 showDetailsPotionBtn bg-secondary-person">Ver Detalles</button>
+                <button class="btn btn-secondary my-1 w-75 showModifyPotionBtn bg-ternary-person" data-id="${potion.id}">Modificar</button>
+                <button class="btn btn-danger my-1 w-75 deletePotionBtn bg-hepta-person" data-id="${potion.id}">Eliminar</button>
             </div>
         </div>
     `;
@@ -94,8 +94,8 @@ const buildPotionFormAccordion = async () => {
         <tr>
             <td class="text-primary-person bg-hepta-person fs-5">${ingredient.name}</td>
             <td class="text-primary-person bg-hepta-person fs-5">
-                <button type="button" class="btn btn-success w-100 toggle-ingredient-btn" data-id="${ingredient.id}">
-                    Añadir
+                <button type="button" class="btn bg-ternary-person w-100 toggle-ingredient-btn" data-id="${ingredient.id}">
+                    <span class="text-primary-person">Añadir</span>
                 </button>
             </td>
         </tr>
@@ -112,6 +112,13 @@ const buildPotionFormAccordion = async () => {
                 <div class="accordion-body bg-gradient-creator">
                     <form id="createPotionForm" class="px-5 py-3">
                         <div class="mb-4 d-flex flex-column justify-content-center">
+                            <p class="text-center fs-4 p-5 text-primary-person bg-ternary-person rounded-3 border border-3">
+                                En esta sección podrás crear tus pócimas, las cuales serán aprobadas por tu profesor y posteriormente por el flamante y afable director Dumbledore.
+                                Para crear tus pócimas deberás añadirle un <span class="text-hepta-person fw-bold fst-italic">nombre</span> obligatoriamente y añadir alguno de los 
+                                <span class="text-hepta-person fw-bold fst-italic">ingredientes</span> que verás en la lista de ingredientes.
+                                Pulsa el botón para añadir y vuelve a pulsar para quitarlo si así lo deseas. <br><br>!No te demores en hacer pociones!, tus profesores y Dumbledore esperan
+                                tus resultados para que puedas <span class="text-hepta-person fw-bold fst-italic">progresar de nivel</span> y <span class="text-hepta-person fw-bold fst-italic">añadir puntos a tu casa</span>.
+                            </p>
                             <label for="potionName" class="form-label text-primary-person fs-2 fs-md-2">Nombre de la Poción</label>
                             <input type="text" class="form-control bg-hexa-person text-cuaternary-person w-100 w-md-75 fs-4" placeholder="Ej: poción de velocidad..." id="potionName" minlength="5" maxlength="40" required>
                         </div>
@@ -131,7 +138,7 @@ const buildPotionFormAccordion = async () => {
                         </div>
 
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn bg-secondary fs-4 w-100 w-sm-50 w-md-25 py-3">Crear Poción</button>
+                            <button type="submit" class="btn bg-ternary-person fs-4 w-100 w-sm-50 w-md-25 py-3">Crear Poción</button>
                         </div>
                     </form>
                 </div>
@@ -142,7 +149,6 @@ const buildPotionFormAccordion = async () => {
     nav.appendChild(accordionContainer);
     initIngredientTableEvents(selectedIngredients);
     const potionForm = document.getElementById("createPotionForm");
-
     potionForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const potionName = document.getElementById("potionName").value;
@@ -178,13 +184,13 @@ const toggleIngredientSelection = (button, selectedIngredients) => {
     if (selectedIngredients.has(ingredientId)) {
         selectedIngredients.delete(ingredientId);
         button.textContent = "Añadir";
-        button.classList.remove("btn-danger");
-        button.classList.add("btn-success");
+        button.classList.remove("bg-secondary-person");
+        button.classList.add("bg-ternary-person");
     } else {
         selectedIngredients.add(ingredientId);
         button.textContent = "Quitar";
-        button.classList.remove("btn-success");
-        button.classList.add("btn-danger");
+        button.classList.remove("bg-ternary-person");
+        button.classList.add("bg-secondary-person");
     }
 };
 
@@ -194,8 +200,8 @@ const resetIngredientSelection = (selectedIngredients) => {
     const buttons = document.querySelectorAll(".toggle-ingredient-btn");
     buttons.forEach(button => {
         button.textContent = "Añadir";
-        button.classList.remove("btn-secondary");
-        button.classList.add("btn-outline-secondary");
+        button.classList.remove("bg-secondary-person");
+        button.classList.add("bg-ternary-person");
     });
 };
 
@@ -379,7 +385,7 @@ const refreshIngredientsTable = (currentIngredients, allIngredients) => {
     currentIngredientsTable.innerHTML = currentIngredients.map((ingredient, index) => `
         <tr>
             <td class="align-middle bg-cuaternary-person text-primary-person text-center">${ingredient.name}</td>
-            <td class="align-middle bg-cuaternary-person text-primary-person"><button class="btn btn-danger btn-sm w-100" data-index="${index}">Eliminar</button></td>
+            <td class="align-middle bg-cuaternary-person text-primary-person"><button class="btn bg-primary-person btn-sm w-100" data-index="${index}"><span class="text-cuaternary-person">Eliminar</span></button></td>
         </tr>
     `).join("");
 
@@ -388,7 +394,7 @@ const refreshIngredientsTable = (currentIngredients, allIngredients) => {
     ).map(ingredient => `
         <tr>
             <td class="align-middle bg-cuaternary-person text-primary-person text-center">${ingredient.name}</td>
-            <td class="align-middle bg-cuaternary-person text-primary-person"><button class="btn btn-success btn-sm w-100" data-id="${ingredient.id}">Añadir</button></td>
+            <td class="align-middle bg-cuaternary-person text-primary-person"><button class="btn bg-secondary-person btn-sm w-100" data-id="${ingredient.id}"><span class="text-cuaternary-person">Añadir</span></button></td>
         </tr>
     `).join("");
 
@@ -423,7 +429,7 @@ const removeIngredient = (index, currentIngredients, allIngredients) => {
 };
 
 // Miguel León Fernández
-const deletePotion = () => {
+const deletePotion = async () => {
     const deleteButtons = document.querySelectorAll('.deletePotionBtn');
 
     deleteButtons.forEach(button => {
@@ -437,12 +443,13 @@ const deletePotion = () => {
             } else {
                 showToastMessages("Error al eliminar la poción");
             }
+            await buildPotionFormAccordion();
         });
     });
 };
 
 // Miguel León Fernández
-const showToastMessages = (message, isSuccess = true) => {
+const showToastMessages = (message, isSuccess) => {
     const toastMessage = `
         <div class="toast-container position-fixed bottom-0 end-0 p-3">
             <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -458,7 +465,7 @@ const showToastMessages = (message, isSuccess = true) => {
         </div>
     `;
 
-    if (!document.querySelector('#liveToast')) document.body.innerHTML += toastMessage;
+    if (!document.querySelector('#liveToast')) document.body.innerHTML = toastMessage;
     const toastElement = document.querySelector('#liveToast');
     const toast = new bootstrap.Toast(toastElement);
     toast.show();
@@ -468,4 +475,4 @@ const showToastMessages = (message, isSuccess = true) => {
     }, 5000);
 };
 
-initPagePotions();
+await initPagePotions();

@@ -1,6 +1,9 @@
 body.potions-page {
   background: url("/Users/miguel/Desktop/laravel_vite_challenge_hogwarts/Front/src/assets/img/bg-pociones.png") !important;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-attachment: fixed !important;
+  background-position: center center !important;
 }
 
 .bg-gradient-potions {
