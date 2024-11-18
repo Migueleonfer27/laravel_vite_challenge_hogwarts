@@ -104,21 +104,6 @@ const apiCreateUser = async (token, body) => {
     return data;
 }
 
-// const apiGetAutheticatedUser = async (token) => {
-//     const option = {
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'Authorization': 'Bearer ' + token
-//         }
-//     }
-//
-//     const url = `http://127.0.0.1:8000/api/users`
-//     const response = await fetch(url,option)
-//     return await response.json()
-// }
-
-
 export {
     apiGetUsers,
     apiUpdateUser,
@@ -127,7 +112,6 @@ export {
     apiAddRole,
     apiDeleteUser,
     apiCreateUser,
-    //apiGetAutheticatedUser
 };
 
 

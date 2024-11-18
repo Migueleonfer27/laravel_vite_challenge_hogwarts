@@ -56,7 +56,22 @@ export const apiGetUserSubjects = async (token, userId) => {
         console.error("Error al cargar las asignaturas del usuario:", error);
         throw error;
     }
-};
+}
+
+export const apiCreateSubject = async (token,subjectName) =>{
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({name: subjectName}),
+    }
+
+    const url = `http://127.0.0.1:8000/api/subjects`
+    const response = await fetch(url,options)
+    return await response.json()
+}
 
 
 

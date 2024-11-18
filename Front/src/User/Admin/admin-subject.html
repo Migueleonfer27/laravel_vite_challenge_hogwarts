@@ -8,6 +8,9 @@
 <body>
 <div id="header-container"></div>
 <div id="main-container" class="container-fluid">
+    <div class="col-12  mb-3" id="container-btn">
+        <button class="btn btn-input" id="btn-subject">Crear Asignatura</button>
+    </div>
         <p class="h2 text-center text-white col-12">Usuarios</p>
         <div id="Containertable" class="container text-white m-5 p-3">
             <table id="teacher-table" class="table table-borderless text-center">
@@ -48,6 +51,35 @@
         </div>
     </div>
 </div>
+
+<div class="modal" id="Create" tabindex="-1" aria-labelledby="createSubjectLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-cuaternary-person">
+            <form id="createSubjectForm">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary-person" id="createSubjectLabel">Crear Asignatura</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="subject-name-input" class="form-label text-primary-person">Nombre de la Asignatura</label>
+                        <input type="text" class="form-control" id="subject-name-input" required>
+                    </div>
+                    <div id="create-subject-message" class="alert d-none"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 
 <div class="modal fade" id="removeSubjectModal" tabindex="-1" aria-labelledby="removeSubjectModalLabel" aria-hidden="true">
     <div class="modal-dialog">

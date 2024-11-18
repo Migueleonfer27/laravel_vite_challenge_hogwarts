@@ -2,7 +2,7 @@ import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
 import {getToken, removeToken} from "../../../../storage/tokenManager";
 import { apiGetUsers } from "./admin-provider";
-import { apiGetUserSubjects, apiGetSubjects, apiAssignSubject, apiRemoveSubject } from "./subject-provider";
+import { apiGetUserSubjects, apiGetSubjects, apiAssignSubject, apiRemoveSubject,apiCreateSubject } from "./subject-provider";
 import {buildHeader, showLogoutButton} from "../../../components/buildHeader";
 import { buildFooter } from "../../../components/buildFooter";
 
@@ -14,8 +14,16 @@ const addSubjectForm = document.getElementById('addSubjectForm');
 const removeSubjectModal = new bootstrap.Modal(document.getElementById('removeSubjectModal'));
 const removeMessageContainer = document.getElementById('remove-message-container');
 const removeSubjectSelect = document.getElementById('remove-subject-select');
+const createSubjectModal = new bootstrap.Modal(document.getElementById('Create'))
+const createSubjectForm = document.getElementById('createSubjectForm')
+const createSubjectMessage = document.getElementById('create-subject-message')
 
 let selectedUserId = null;
+
+
+document.getElementById('btn-subject').addEventListener('click', () => {
+    createSubjectModal.show()
+})
 
 const populateSubjectSelect = async (selectElement) => {
     try {
@@ -120,6 +128,39 @@ const confirmRemoveSubject = async () => {
         removeMessageContainer.textContent = "Hubo un error al eliminar la asignatura.";
     }
 };
+
+
+const createSubject = async (e) => {
+    e.preventDefault()
+
+    const subjectNameInput = document.getElementById('subject-name-input')
+    const subjectName = subjectNameInput.value.trim()
+
+    if(!subjectName){
+        createSubjectMessage.classList.remove('d-none','alert-warning','alert-danger')
+        createSubjectMessage.classList.add('alert-warning')
+        createSubjectMessage.textContent = 'Por favor, pon un nombre válido'
+        return
+    }
+
+    const response = await apiCreateSubject(token,subjectName)
+
+    if(response.success){
+        createSubjectMessage.classList.remove('d-none','alert-warning','alert-danger')
+        createSubjectMessage.classList.add('alert-success')
+        createSubjectMessage.textContent = 'Asignatura creada correctamente'
+        setTimeout(() =>{
+            createSubjectForm.reset()
+            createSubjectModal.hide()
+            createSubjectMessage.classList.add('d-none')
+        },2000)
+    }else{
+        createSubjectMessage.classList.remove('d-none','alert-warning','alert-success')
+        createSubjectMessage.classList.add('alert-danger')
+        createSubjectMessage.textContent = 'Error al crear la asignatura'
+    }
+}
+
 const loadUserByRole = async () => {
     try {
         const users = await apiGetUsers(token)
@@ -210,4 +251,5 @@ await loadUserByRole();
 document.getElementById('confirmRemoveBtn').addEventListener('click', confirmRemoveSubject);
 
 addSubjectForm.addEventListener('submit', assignSubject);
+createSubjectForm.addEventListener('submit', createSubject)
 

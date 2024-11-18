@@ -38,7 +38,7 @@ createUserBtn.addEventListener('click', async (e) => {
     const name = document.querySelector('#name-modal');
     const email = document.querySelector('#email-modal');
     const password = document.querySelector('#password-modal');
-    const errorMessage = document.querySelector('#email-error-message'); // Un mensaje de error debajo del campo email
+    const errorMessage = document.querySelector('#email-error-message');
 
     if (validateForm([name, email, password]) && validateEmail(email.value) && validatePassword(password.value)) {
         const data = {

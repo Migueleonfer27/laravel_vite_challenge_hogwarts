@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const manageSubjectsButton = document.getElementById('manage-subjects-button');
     if (manageSubjectsButton) {
         manageSubjectsButton.addEventListener('click', () => {
-            window.location.href = '../../User/Admin/admin-subject.html'; // Ajusta la URL según corresponda
+            window.location.href = '../../User/Admin/admin-subject.html';
         });
     }
 
