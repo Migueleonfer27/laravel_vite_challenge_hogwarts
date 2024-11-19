@@ -1,7 +1,8 @@
+import * as bootstrap from "bootstrap";
 import {buildHeader, showLogoutButton} from "../components/buildHeader";
 import {buildFooter} from "../components/buildFooter";
 import {createIngredient, removeIngredient, getIngredients} from "./ingredients-provider";
-import * as bootstrap from "bootstrap";
+import {showToastMessages} from "../js/messages";
 
 // Miguel León Fernández
 const initPageIngredients = async () => {
@@ -118,7 +119,7 @@ const buildShowDetails = (ingredient) => {
                     <td class="text-primary-person text-center bg-hepta-person align-middle">${ingredient.inflammatory}</td>
                 </tr>
                 <tr>
-                    <td class="text-primary-person text-center bg-cuaternary-person align-middle"><strong>Antiinflamatorio</strong></td>
+                    <td class="text-primary-person text-center bg-cuaternary-person align-middle"><strong>Desinflamatorio</strong></td>
                     <td class="text-primary-person text-center bg-hepta-person align-middle">${ingredient.deinflammatory}</td>
                 </tr>
             </tbody>
@@ -136,7 +137,7 @@ const buildShowDetails = (ingredient) => {
                     ${detailsTable}
                 </div>
                 <div class="modal-footer bg-cuaternary-person bg-gradient-potions">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn bg-secondary-person" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -159,11 +160,13 @@ const deleteIngredient = async () => {
             const success = await removeIngredient(ingredientId);
 
             if (success) {
-                console.log('El ingrediente ha sido eliminado correctamente')
+                showToastMessages('El ingrediente ha sido eliminado correctamente', true)
                 await loadIngredients();
             } else {
-                console.log("Error al eliminar el ingrediente");
+                showToastMessages("Error al eliminar el ingrediente. Compruebe que no lo está usando en una poción", false);
             }
+            await loadIngredients();
+            await buildIngredientFormAccordion();
         });
     });
 };
@@ -200,7 +203,7 @@ const buildIngredientFormAccordion = async () => {
 
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="healing" class="form-label text-primary-person fs-4">Curación (0-100)</label>
+                                <label for="healing" class="form-label text-primary-person fs-4">Sanación (0-100)</label>
                                 <input type="number" id="healing" class="form-control bg-hexa-person text-primary-person fs-4" min="0" max="100" value="0" required>
                             </div>
                             <div class="col-md-6">
@@ -212,7 +215,7 @@ const buildIngredientFormAccordion = async () => {
                                 <input type="number" id="analgesic" class="form-control bg-hexa-person text-primary-person fs-4" min="0" max="100" value="0" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="pain" class="form-label text-primary-person fs-4">Dolor (0-100)</label>
+                                <label for="pain" class="form-label text-primary-person fs-4">Doloroso (0-100)</label>
                                 <input type="number" id="pain" class="form-control bg-hexa-person text-primary-person fs-4" min="0" max="100" value="0" required>
                             </div>
                             <div class="col-md-6">
@@ -220,7 +223,7 @@ const buildIngredientFormAccordion = async () => {
                                 <input type="number" id="curative" class="form-control bg-hexa-person text-primary-person fs-4" min="0" max="100" value="0" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="sickening" class="form-label text-primary-person fs-4">Enfermizo (0-100)</label>
+                                <label for="sickening" class="form-label text-primary-person fs-4">Enfermante (0-100)</label>
                                 <input type="number" id="sickening" class="form-control bg-hexa-person text-primary-person fs-4" min="0" max="100" value="0" required>
                             </div>
                             <div class="col-md-6">
@@ -228,7 +231,7 @@ const buildIngredientFormAccordion = async () => {
                                 <input type="number" id="inflammatory" class="form-control bg-hexa-person text-primary-person fs-4" min="0" max="100" value="0" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="deinflammatory" class="form-label text-primary-person fs-4">Antiinflamatorio (0-100)</label>
+                                <label for="deinflammatory" class="form-label text-primary-person fs-4">Desinflamatorio (0-100)</label>
                                 <input type="number" id="deinflammatory" class="form-control bg-hexa-person text-primary-person fs-4" min="0" max="100" value="0" required>
                             </div>
                         </div>
@@ -270,15 +273,16 @@ const handleCreateIngredient = async (event) => {
         const newIngredient = await createIngredient(formData);
 
         if (newIngredient) {
-            console.log("Ingrediente creado con éxito:", newIngredient);
+            showToastMessages("Ingrediente creado con éxito:", true);
             event.target.reset();
         } else {
-            console.log("Hubo un problema al crear el ingrediente.");
+            showToastMessages("Hubo un problema al crear el ingrediente.", false);
         }
     } catch (error) {
-        console.error("Error al crear el ingrediente:", error.message);
+        showToastMessages("Error al crear el ingrediente:", false);
     }
     await loadIngredients();
+    await buildIngredientFormAccordion();
 };
 
 await initPageIngredients();

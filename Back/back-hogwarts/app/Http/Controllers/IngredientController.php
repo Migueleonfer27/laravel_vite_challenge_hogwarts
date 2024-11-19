@@ -92,6 +92,15 @@ class IngredientController extends Controller
                 ], 404);
             }
 
+            $isUsedInPotion = $ingredient->potions()->exists();
+
+            if ($isUsedInPotion) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Ingredient cannot be deleted because it is used in a potion.',
+                ], 400);
+            }
+
             $ingredient->delete();
 
             return response()->json([

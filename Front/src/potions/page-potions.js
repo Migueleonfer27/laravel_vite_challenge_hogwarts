@@ -3,6 +3,7 @@ import { buildHeader, showLogoutButton } from "../components/buildHeader";
 import { buildFooter } from "../components/buildFooter";
 import { getPotions, removePotion, updatePotion, createPotion } from "./potions-provider";
 import { getIngredients } from "../ingredients/ingredients-provider";
+import { showToastMessages } from "../js/messages";
 
 // Miguel León Fernández
 const initPagePotions = async () => {
@@ -266,7 +267,7 @@ const buildShowDetails = (potion) => {
                     ${detailsTable}
                 </div>
                 <div class="modal-footer bg-cuaternary-person bg-gradient-potions">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn bg-secondary-person" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -326,8 +327,8 @@ const buildModifyPotion = async (potion) => {
                     </div>
                 </div>
                 <div class="modal-footer bg-gradient-potions">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="saveChanges">Guardar Cambios</button>
+                    <button type="button" class="btn bg-secondary-person" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn bg-cuaternary-person" id="saveChanges">Guardar Cambios</button>
                 </div>
             </div>
         </div>
@@ -365,9 +366,9 @@ const showMessagesAlerts = (message, success) => {
     const existingAlert = modalBody.querySelector(".alert");
     if (existingAlert) existingAlert.remove();
 
-    const alertType = success ? 'alert-success' : 'alert-danger';
+    const alertType = success ? 'bg-ternary-person' : 'bg-hepta-person';
     const alertMessage = document.createElement("div");
-    alertMessage.classList.add('alert', 'text-center', 'd-flex', 'justify-content-center', 'mx-auto', 'w-75', alertType);
+    alertMessage.classList.add('alert', 'text-center', 'd-flex', 'justify-content-center', 'mx-auto', 'w-75', 'text-primary-person', alertType);
     alertMessage.role = "alert";
     alertMessage.innerHTML = message;
     modalBody.appendChild(alertMessage);
@@ -438,41 +439,14 @@ const deletePotion = async () => {
             const success = await removePotion(potionId);
 
             if (success) {
-                showToastMessages('La poción ha sido eliminada correctamente')
+                showToastMessages('La poción ha sido eliminada correctamente', true)
                 await loadPotions();
             } else {
-                showToastMessages("Error al eliminar la poción");
+                showToastMessages("Error al eliminar la poción", false);
             }
             await buildPotionFormAccordion();
         });
     });
-};
-
-// Miguel León Fernández
-const showToastMessages = (message, isSuccess) => {
-    const toastMessage = `
-        <div class="toast-container position-fixed bottom-0 end-0 p-3">
-            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header bg-cuaternary-person">
-                    <strong class="me-auto text-primary-person">${isSuccess ? 'Éxito' : 'Error'}</strong>
-                    <small class="text-primary-person">Ahora</small>
-                    <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body bg-cuaternary-person text-primary-person">
-                    ${message}
-                </div>
-            </div>
-        </div>
-    `;
-
-    if (!document.querySelector('#liveToast')) document.body.innerHTML = toastMessage;
-    const toastElement = document.querySelector('#liveToast');
-    const toast = new bootstrap.Toast(toastElement);
-    toast.show();
-
-    setTimeout(() => {
-        toastElement.remove();
-    }, 5000);
 };
 
 await initPagePotions();
