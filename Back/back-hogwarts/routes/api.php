@@ -49,4 +49,6 @@ Route::get('/user/{id}/subjects',[SubjectController::class, 'getUserSubject']);
 
 Route::post('addpointsteacherspell',[AuthController::class, 'addPointsTeacherSpell'])->middleware('auth:sanctum');
 Route::post('addpointsstudentpotion',[AuthController::class, 'addPointsStudentPotion'])->middleware('auth:sanctum');
-Route::post('/addpointsstudentspell',[AuthController::class, 'addPointsStudentSpell'])->middleware('auth:sanctum');
+Route::post('addpointsstudentspell',[AuthController::class, 'addPointsStudentSpell'])->middleware('auth:sanctum');
+
+Route::get('/user/profile',[AuthController::class, 'profile'])->middleware('auth:sanctum');

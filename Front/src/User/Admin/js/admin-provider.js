@@ -41,8 +41,7 @@ const apiGetRoles = async (token) => {
     };
     const url = 'http://127.0.0.1:8000/api/admin/role'
     const response = await fetch(url, option);
-    const data = await response.json();
-    return data;
+    return await response.json();
 }
 
 const apiDeleteRole = async (token, userID, roleID) => {
@@ -56,8 +55,7 @@ const apiDeleteRole = async (token, userID, roleID) => {
     }
     const url = `http://127.0.0.1:8000/api/admin/user-rol/${userID}`
     const response = await fetch(url, option);
-    const data = await response.json();
-    return data;
+    return await response.json();
 }
 
 const apiAddRole = async (token, userID, roleID) => {
@@ -71,8 +69,7 @@ const apiAddRole = async (token, userID, roleID) => {
     }
     const url = `http://127.0.0.1:8000/api/admin/user-rol/${userID}`
     const response = await fetch(url, option);
-    const data = await response.json();
-    return data;
+    return await response.json();
 }
 
 const apiDeleteUser = async (token, id) => {
@@ -85,8 +82,7 @@ const apiDeleteUser = async (token, id) => {
     }
     const url = `http://127.0.0.1:8000/api/admin/user/${id}`
     const response = await fetch(url, option);
-    const data = await response.json();
-    return data;
+    return await response.json();
 }
 
 const apiCreateUser = async (token, body) => {
@@ -100,8 +96,7 @@ const apiCreateUser = async (token, body) => {
     }
     const url = `http://127.0.0.1:8000/api/admin/user`
     const response = await fetch(url, option);
-    const data = await response.json();
-    return data;
+    return await response.json();
 }
 
 export {

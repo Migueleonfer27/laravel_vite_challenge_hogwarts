@@ -11,9 +11,12 @@
   --hexa-color: #7c857f;
   --hepta-color: #2d2540;
 
+  --student-background: url('../../assets/img/background4.png');
+  --teacher-background: url('../../assets/img/backgroung5.png');
   // Typography variables
   --primary-font: Cinzel;
 }
+
 
 html, body {
   height: 100%;
@@ -27,12 +30,19 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('../../assets/img/background4.png');
   background-size: cover;
   background-position: center;
   min-height: calc(100vh - 56px - 48px);
   padding-bottom: 60px;
   flex-direction: column;
+}
+
+#main-cointainer, .student-background {
+  background-image: var(--student-background) !important;
+}
+
+.teacher-background {
+  background-image: var(--teacher-background) !important;
 }
 
 footer {
@@ -181,8 +191,15 @@ footer {
   box-sizing: border-box;
 }
 
-#table {
+#table, {
   background-color: var(--cuaternary-color) !important;
+}
+
+.profille-info{
+  background-color: var(--cuaternary-color) !important;
+  color: var(--primary-color) !important;
+  margin:auto;
+  padding: 40px;
 }
 
 td, tr, th {
