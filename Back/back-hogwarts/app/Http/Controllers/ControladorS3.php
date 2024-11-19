@@ -36,6 +36,10 @@ class ControladorS3 extends Controller
                 // }
 
                 $url = Storage::disk('s3')->url($path);
+                $user = $request->user();
+                $user->url_photo = $url;
+                $user->save();
+
                 return response()->json(['path' => $path, 'url' => $url], 200);
             } catch (\Exception $e) {
                 return response()->json(['error' => 'Hubo un error al subir la imagen: ' . $e->getMessage()], 500);
@@ -44,5 +48,20 @@ class ControladorS3 extends Controller
 
         return response()->json(['error' => 'No se recibió ningún archivo.'], 400);
 
+    }
+
+    public function updateProfileImage(Request $request){
+        $request->validate([
+            'profile_image' => 'required|url',
+        ]);
+
+        $user = auth()->user();
+        $user->url_photo = $request->input('profile_image');
+        $user->save();
+
+        return response()->json([
+            'message' => 'Imagen actualizada correctamente',
+            'url' => $user->url_photo,
+        ]);
     }
 }

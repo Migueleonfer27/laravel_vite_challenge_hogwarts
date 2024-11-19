@@ -271,6 +271,7 @@ class AuthController extends Controller
                 'email' => $user->email,
                 'level' => $user ->level,
                 'experience' => $user->experience,
+                'url_photo' => $user->url_photo,
                 'house' => [
                     'name' => $house->name,
                     'points' => $house->points,
