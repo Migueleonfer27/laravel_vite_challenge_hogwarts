@@ -73,6 +73,7 @@ export const handleLogin = (callback) => {
                     console.log('User logged in successfully', data);
                     setToken(data.data.token);
                     localStorage.setItem('name', data.data.name);
+                    localStorage.setItem('roles', data.data.roles);
                     toggleAuthButtons(true);
                     callback();
                 } else {
