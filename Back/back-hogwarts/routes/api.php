@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HouseController;
+use App\Http\Controllers\IngredientController;
+use App\Http\Controllers\PotionController;
 use App\Http\Controllers\SubjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -50,3 +52,19 @@ Route::get('/user/{id}/subjects',[SubjectController::class, 'getUserSubject']);
 Route::post('addpointsteacherspell',[AuthController::class, 'addPointsTeacherSpell'])->middleware('auth:sanctum');
 Route::post('addpointsstudentpotion',[AuthController::class, 'addPointsStudentPotion'])->middleware('auth:sanctum');
 Route::post('/addpointsstudentspell',[AuthController::class, 'addPointsStudentSpell'])->middleware('auth:sanctum');
+
+// Miguel León Fernández
+Route::middleware('auth:api')->group(function () {
+    Route::get('/ingredients', [IngredientController::class, 'index']);
+    Route::post('/ingredients', [IngredientController::class, 'store']);
+    Route::delete('/ingredients/{id}', [IngredientController::class, 'destroy']);
+});
+
+// Miguel León Fernández
+Route::middleware('auth:api')->group(function () {
+    Route::get('/potions', [PotionController::class, 'index']);
+    Route::post('/potions', [PotionController::class, 'store']);
+    Route::get('/potions/{id}', [PotionController::class, 'show']);
+    Route::put('/potions/{id}', [PotionController::class, 'update']);
+    Route::delete('/potions/{id}', [PotionController::class, 'destroy']);
+});

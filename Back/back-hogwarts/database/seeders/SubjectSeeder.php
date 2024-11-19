@@ -12,7 +12,7 @@ class SubjectSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void{
-        $subjects = ['Hechizos', 'Pòcimas'];
+        $subjects = ['spells', 'potions'];
 
         foreach ($subjects as $subjectName) {
             Subject::firstOrCreate(['name' => $subjectName]);

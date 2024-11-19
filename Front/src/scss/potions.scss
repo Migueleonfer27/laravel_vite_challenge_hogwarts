@@ -1,0 +1,23 @@
+body.potions-page {
+  background: url("/Users/miguel/Desktop/laravel_vite_challenge_hogwarts/Front/src/assets/img/bg-pociones.png") !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-attachment: fixed !important;
+  background-position: center center !important;
+}
+
+.bg-gradient-potions {
+  background: linear-gradient(200deg, var(--ternary-color), var(--cuaternary-color)) !important;
+}
+
+.bg-gradient-creator {
+  background: linear-gradient(180deg, var(--hexa-color), var(--hepta-color)) !important;
+}
+
+.bg-shadow-potions {
+  filter: drop-shadow(0px 0px 10px var(--primary-color)) !important;
+}
+
+.textarea {
+  resize: none;
+}

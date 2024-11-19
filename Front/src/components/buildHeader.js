@@ -1,5 +1,6 @@
 import '../scss/styles.scss'
 import {handleLogout} from "../auth/auth-provider";
+import {buildNavIngredients} from "./buildNavIngredients";
 
 export const buildHeader = (idContainer) => {
     const container = document.querySelector(idContainer || '#header-container');
@@ -22,6 +23,7 @@ export const buildHeader = (idContainer) => {
             </div>
         </nav>
     `;
+    buildNavIngredients('#header-container');
     showName();
     setupLogoutBtn();
 }
