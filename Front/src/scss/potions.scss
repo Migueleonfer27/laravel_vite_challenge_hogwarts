@@ -7,13 +7,13 @@ body.potions-page {
 }
 
 .bg-gradient-potions {
-  background: linear-gradient(200deg, var(--ternary-color), var(--cuaternary-color));
+  background: linear-gradient(200deg, var(--ternary-color), var(--cuaternary-color)) !important;
 }
 
 .bg-gradient-creator {
-  background: linear-gradient(180deg, var(--hexa-color), var(--hepta-color));
+  background: linear-gradient(180deg, var(--hexa-color), var(--hepta-color)) !important;
 }
 
 .bg-shadow-potions {
-  filter: drop-shadow(0px 0px 10px var(--primary-color));
+  filter: drop-shadow(0px 0px 10px var(--primary-color)) !important;
 }
