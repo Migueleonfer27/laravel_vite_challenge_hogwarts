@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\ControladorS3;
 
 
 //Monica
@@ -52,3 +53,5 @@ Route::post('addpointsstudentpotion',[AuthController::class, 'addPointsStudentPo
 Route::post('addpointsstudentspell',[AuthController::class, 'addPointsStudentSpell'])->middleware('auth:sanctum');
 
 Route::get('/user/profile',[AuthController::class, 'profile'])->middleware('auth:sanctum');
+
+Route::post('/subirs3',[ControladorS3::class::class,'cargarImagenS3']);
