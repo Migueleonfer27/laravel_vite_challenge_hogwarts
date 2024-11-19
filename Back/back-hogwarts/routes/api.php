@@ -54,4 +54,4 @@ Route::post('addpointsstudentspell',[AuthController::class, 'addPointsStudentSpe
 
 Route::get('/user/profile',[AuthController::class, 'profile'])->middleware('auth:sanctum');
 
-Route::post('/subirs3',[ControladorS3::class::class,'cargarImagenS3']);
+Route::post('/subirs3',[ControladorS3::class,'cargarImagenS3']);

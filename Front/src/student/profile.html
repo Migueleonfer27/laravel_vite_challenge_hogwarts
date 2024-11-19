@@ -11,7 +11,16 @@
 
 <div id="header-container"></div>
 <div id="main-container">
-    <div class="profille-info">
+  <div class="profille-info d-flex">
+    <!-- Sección de foto de perfil -->
+    <div class="profile-section me-4 d-flex flex-column align-items-center">
+      <img id="profile-img" src="default-profile.png" alt="Foto de perfil" class="rounded-circle mb-3" width="120" height="120">
+      <label for="upload-image" class="btn btn-primary btn-sm">Subir Imagen</label>
+      <input type="file" id="upload-image" class="d-none" accept="image/*">
+    </div>
+
+    <!-- Sección de datos en tabla -->
+    <div class="profile-data w-100">
       <h2>Perfil</h2>
       <table class="table table-responsive table-bordered">
         <tbody class="text-center align-middle">
@@ -46,6 +55,7 @@
         </tbody>
       </table>
     </div>
+  </div>
 </div>
 <div id="footer-container"></div>
 

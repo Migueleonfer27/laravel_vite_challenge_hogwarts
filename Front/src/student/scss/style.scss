@@ -258,3 +258,28 @@ td button {
   flex-wrap: wrap;
   gap: 20px;
 }
+
+.profille-info {
+  display: flex;
+  align-items: flex-start; /* Alinea todo al inicio verticalmente */
+  gap: 20px; /* Espacio entre la imagen y la tabla */
+}
+
+.profile-section {
+  text-align: center;
+}
+
+.profile-section img {
+  border: 2px solid #ccc;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-section label {
+  margin-top: 10px;
+}
+
+.profile-data h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}

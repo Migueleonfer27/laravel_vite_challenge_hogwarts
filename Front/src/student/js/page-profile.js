@@ -55,6 +55,18 @@ if(subjects && subjects.length > 0){
     subjectsElement.textContent = "No estás matriculado en ninguna asignatura"
 }
 
+document.getElementById('upload-image').addEventListener('change',function(e){
+    const file = e.target.files[0]
+    if(file){
+        const reader = new FileReader()
+        reader.onload = function(e){
+            const profileImg = document.getElementById('profile-img')
+            profileImg.src = e.target.result
+        }
+        reader.readAsDataURL(file)
+    }
+})
+
 const logout = () => {
     removeToken()
 }
