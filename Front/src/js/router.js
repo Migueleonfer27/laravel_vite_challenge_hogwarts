@@ -19,7 +19,7 @@ export async function loadPage(path) {
     else if (path === '/teacher' && token != null && token !== ''){
         // window.location.href = ''
     }
-    else if (path === '/estudent' && token != null && token !== ''){
+    else if (path === '/student' && token != null && token !== ''){
         // window.location.href = ''
     }
     else {

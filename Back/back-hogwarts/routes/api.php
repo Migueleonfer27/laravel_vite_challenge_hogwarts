@@ -13,7 +13,7 @@ use App\Http\Controllers\SpellController;
 //Monica
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('/users', [AdminController::class, 'index'])->middleware('ability:dumbledore,admin');
-//    Route::get('/user/{id}', [AdminController::class, 'show'])->middleware('abilities:dumbledore');
+    Route::get('/user/{id}', [AdminController::class, 'show'])->middleware('ability:teacher,student');
     Route::post('/user', [AdminController::class, 'create'])->middleware('ability:dumbledore,admin');
     Route::put('/user/{id}', [AdminController::class, 'update'])->middleware('ability:dumbledore,admin');
     Route::delete('/user/{id}', [AdminController::class, 'destroy'])->middleware('ability:dumbledore,admin');
@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/user-rol/{id}', [AdminController::class, 'giveRole'])->middleware('ability:dumbledore,admin');
     Route::delete('/user-rol/{id}', [AdminController::class, 'retireRole'])->middleware('ability:dumbledore,admin');
 });
+
 
 
 // Miguel León Fernández

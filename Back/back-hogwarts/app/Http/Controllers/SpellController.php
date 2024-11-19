@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Spell;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -16,7 +17,11 @@ class SpellController extends Controller
      */
     public function index()
     {
-        $spell = Spell::all();
+        $spell = DB::table('spells')
+            ->select('spells.id', 'spells.name', 'spells.attack', 'spells.defense', 'spells.healing', 'spells.damage', 'spells.summon', 'spells.action', 'spells.level', 'spells.validation_status', 'users.name as creator')
+//            ->where('validation_status', 'approved by dumbledore')
+            ->leftJoin('users', 'spells.creator', '=', 'users.id')
+            ->get();
 
         return response()->json([
             'success' => true,
