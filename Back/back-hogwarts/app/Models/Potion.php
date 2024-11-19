@@ -10,10 +10,12 @@ class Potion extends Model{
 
     protected $fillable = [
         'name',
+        'description',
         'creator',
         'good_level',
         'bad_level',
-        'approves'
+        'approves_teacher',
+        'approves_dumbledore'
     ];
 
     protected $hidden = [

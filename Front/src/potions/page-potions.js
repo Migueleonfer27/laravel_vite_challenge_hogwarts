@@ -65,7 +65,7 @@ const buildCard = async (potion) => {
     card.innerHTML = `
         <div class="card h-100 rounded-5">
             <div class="card-body rounded-5 d-flex flex-column align-items-center bg-gradient-potions">
-                <img class="img-fluid mb-3 bg-shadow-potions" src="${url}" alt="img-potion" height="200px" width="200px">
+                <img class="object-fit-contain mb-3 bg-shadow-potions" src="${url}" alt="img-ingredient" height="200px" width="200px">
                 <h4 class="card-title mb-3 text-primary-person">${potion.name}</h4>
                 <button class="btn btn-primary my-1 w-75 showDetailsPotionBtn bg-secondary-person">Ver Detalles</button>
                 <button class="btn btn-secondary my-1 w-75 showModifyPotionBtn bg-ternary-person" data-id="${potion.id}">Modificar</button>
@@ -115,13 +115,16 @@ const buildPotionFormAccordion = async () => {
                         <div class="mb-4 d-flex flex-column justify-content-center">
                             <p class="text-center fs-4 p-5 text-primary-person bg-ternary-person rounded-3 border border-3">
                                 En esta sección podrás crear tus pócimas, las cuales serán aprobadas por tu profesor y posteriormente por el flamante y afable director Dumbledore.
-                                Para crear tus pócimas deberás añadirle un <span class="text-hepta-person fw-bold fst-italic">nombre</span> obligatoriamente y añadir alguno de los 
+                                Para crear tus pócimas deberás ponerle un <span class="text-hepta-person fw-bold fst-italic">nombre</span> 
+                                obligatoriamente, una <span class="text-hepta-person fw-bold fst-italic">descripción</span> de la poción y añadir alguno de los 
                                 <span class="text-hepta-person fw-bold fst-italic">ingredientes</span> que verás en la lista de ingredientes.
                                 Pulsa el botón para añadir y vuelve a pulsar para quitarlo si así lo deseas. <br><br>!No te demores en hacer pociones!, tus profesores y Dumbledore esperan
                                 tus resultados para que puedas <span class="text-hepta-person fw-bold fst-italic">progresar de nivel</span> y <span class="text-hepta-person fw-bold fst-italic">añadir puntos a tu casa</span>.
                             </p>
                             <label for="potionName" class="form-label text-primary-person fs-2 fs-md-2">Nombre de la Poción</label>
                             <input type="text" class="form-control bg-hexa-person text-cuaternary-person w-100 w-md-75 fs-4" placeholder="Ej: poción de velocidad..." id="potionName" minlength="5" maxlength="40" required>
+                            <label for="potionDescription" class="form-label text-primary-person fs-2 fs-md-2 mt-3">Descripción de la Poción</label>
+                            <textarea id="potionDescription" class="form-control textarea bg-hexa-person text-cuaternary-person w-100 w-md-75 fs-4" placeholder="Ej: Esta poción aumenta la velociad de la persona..." cols="30" rows="3" minlength="1" maxlength="255" required></textarea>
                         </div>
 
                         <div class="mb-3">
@@ -153,8 +156,9 @@ const buildPotionFormAccordion = async () => {
     potionForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const potionName = document.getElementById("potionName").value;
+        const potionDescription = document.getElementById("potionDescription").value;
         const selectedIngredientArray = Array.from(selectedIngredients);
-        const success = await createPotion(potionName, selectedIngredientArray);
+        const success = await createPotion(potionName, potionDescription, selectedIngredientArray);
 
         if (success) {
             showToastMessages("Poción creada con éxito", true);
@@ -214,7 +218,8 @@ const buildShowDetails = (potion) => {
     modal.tabIndex = -1;
     modal.setAttribute("aria-labelledby", "potionDetailsModalLabel");
     modal.setAttribute("aria-hidden", "true");
-    const approve = potion.approves === 0 ? 'Pendiente' : 'Aprobada';
+    const approve_teacher = potion.approves_teacher === 0 ? 'Pendiente' : 'Aprobada';
+    const approve_dumbledore = potion.approves_dumbledore === 0 ? 'Pendiente' : 'Aprobada';
     const ingredientsRows = potion.ingredients.map(ingredient => {
         return `<tr><td class="text-primary-person text-center bg-hepta-person">${ingredient.name}</td></tr>`;
     }).join('');
@@ -225,6 +230,10 @@ const buildShowDetails = (potion) => {
                 <tr>
                     <td class="text-primary-person text-center bg-cuaternary-person align-middle"><strong>Nombre</strong></td>
                     <td class="text-primary-person text-center bg-hepta-person align-middle">${potion.name}</td>
+                </tr>
+                <tr>
+                    <td class="text-primary-person text-center bg-cuaternary-person align-middle"><strong>Descripción</strong></td>
+                    <td class="text-primary-person text-center bg-hepta-person align-middle">${potion.description}</td>
                 </tr>
                 <tr>
                     <td class="text-primary-person text-center bg-cuaternary-person align-middle"><strong>Creador</strong></td>
@@ -239,8 +248,12 @@ const buildShowDetails = (potion) => {
                     <td class="text-primary-person text-center bg-hepta-person align-middle">${potion.bad_level}</td>
                 </tr>
                 <tr>
-                    <td class="text-primary-person text-center bg-cuaternary-person align-middle"><strong>Aprobación</strong></td>
-                    <td class="text-primary-person text-center bg-hepta-person align-middle">${approve}</td>
+                    <td class="text-primary-person text-center bg-cuaternary-person align-middle"><strong>Aprobación Profesor</strong></td>
+                    <td class="text-primary-person text-center bg-hepta-person align-middle">${approve_teacher}</td>
+                </tr>
+                <tr>
+                    <td class="text-primary-person text-center bg-cuaternary-person align-middle"><strong>Aprobación Dubledore</strong></td>
+                    <td class="text-primary-person text-center bg-hepta-person align-middle">${approve_dumbledore}</td>
                 </tr>
                 <tr>
                     <td class="text-primary-person text-center bg-cuaternary-person align-middle"><strong>Ingredientes</strong></td>
@@ -311,6 +324,10 @@ const buildModifyPotion = async (potion) => {
                                 <h5 class="text-cuaternary-person">Nombre de la Poción</h5>
                                 <input type="text" id="potion-name" class="form-control bg-cuaternary-person text-primary-person" value="${potion.name}" />
                             </div>
+                            <div class="col-12">
+                                <h5 class="text-cuaternary-person mt-3">Descripción de la Poción</h5>
+                                <textarea id="potion-description" class="form-control textarea bg-cuaternary-person text-primary-person w-100 w-md-75 fs-5" cols="30" rows="3" minlength="1" maxlength="255">${potion.description}</textarea>
+                            </div>
                             <div class="col-12 col-md-6 mt-3">
                                 <h5 class="text-cuaternary-person">Ingredientes actuales</h5>
                                 <div class="table-responsive">
@@ -335,7 +352,7 @@ const buildModifyPotion = async (potion) => {
     `;
 
     document.body.appendChild(modal);
-    refreshIngredientsTable(currentIngredients, allIngredients);
+    await refreshIngredientsTable(currentIngredients, allIngredients);
     document.getElementById("saveChanges").addEventListener("click", () => saveChanges(potion, currentIngredients));
     const modifyPotionModal = new bootstrap.Modal(modal);
 
@@ -350,7 +367,8 @@ const buildModifyPotion = async (potion) => {
 // Miguel León Fernández
 const saveChanges = async (potion, currentIngredients) => {
     const newPotionName = document.getElementById("potion-name").value;
-    const success = await updatePotion(potion.id, newPotionName, currentIngredients.map(ing => ing.id));
+    const newDescripcion = document.getElementById("potion-description").value;
+    const success = await updatePotion(potion.id, newPotionName, newDescripcion, currentIngredients.map(ing => ing.id));
 
     if (success) {
         showMessagesAlerts("Poción actualizada con éxito", true);

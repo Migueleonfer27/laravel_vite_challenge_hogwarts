@@ -48,7 +48,7 @@ const removePotion = async (id) => {
 };
 
 // Miguel León Fernández
-const updatePotion = async (id, name, ingredients) => {
+const updatePotion = async (id, name, description, ingredients) => {
     try {
         const response = await fetch(`http://127.0.0.1:8000/api/potions/${id}`, {
             method: 'PUT',
@@ -56,7 +56,7 @@ const updatePotion = async (id, name, ingredients) => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`,
             },
-            body: JSON.stringify({ name, ingredients }),
+            body: JSON.stringify({ name, description, ingredients }),
         });
 
         const data = await response.json();
@@ -76,7 +76,7 @@ const updatePotion = async (id, name, ingredients) => {
 
 
 // Miguel León Fernández
-const createPotion = async (name, ingredients) => {
+const createPotion = async (name, description, ingredients) => {
     try {
         const creator = localStorage.getItem("name");
         const response = await fetch(`http://127.0.0.1:8000/api/potions`, {
@@ -87,6 +87,7 @@ const createPotion = async (name, ingredients) => {
             },
             body: JSON.stringify({
                 name: name,
+                description: description,
                 creator: creator,
                 ingredients: ingredients,
             })

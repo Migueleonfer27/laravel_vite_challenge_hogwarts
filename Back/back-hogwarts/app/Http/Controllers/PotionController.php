@@ -39,6 +39,7 @@ class PotionController extends Controller
         try {
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255|unique:potions',
+                'description' => 'required|string|max:255',
                 'creator' => 'required|string|exists:users,name',
                 'ingredients' => 'required|array',
                 'ingredients.*' => 'exists:ingredients,id',
@@ -55,6 +56,7 @@ class PotionController extends Controller
 
             $potion = Potion::create([
                 'name' => $validatedData['name'],
+                'description' => $validatedData['description'],
                 'creator' => $creatorId,
             ]);
 
@@ -64,13 +66,13 @@ class PotionController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Poción creada con éxito.',
+                'message' => 'Potion created successfully.',
                 'potion' => $potion
             ], 201);
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ocurrió un error al crear la poción.',
+                'message' => 'An error occurred while trying to create the potion.',
                 'error' => $th->getMessage()
             ], 500);
         }
@@ -104,6 +106,7 @@ class PotionController extends Controller
         try {
             $validatedData = $request->validate([
                 'name' => 'sometimes|string|max:255|unique:potions,name,' . $id,
+                'description' => 'sometimes|string|max:255',
                 'ingredients' => 'array|required',
                 'ingredients.*' => 'exists:ingredients,id',
             ]);
@@ -119,6 +122,7 @@ class PotionController extends Controller
 
             if ($request->has('name')) {
                 $potion->name = $validatedData['name'];
+                $potion->description = $validatedData['description'];
             }
 
             if ($request->has('ingredients')) {
@@ -128,6 +132,8 @@ class PotionController extends Controller
                 $potion->bad_level = $badLevel;
             }
 
+            $potion->approves_teacher = false;
+            $potion->approves_dumbledore = false;
             $potion->save();
 
             return response()->json([
