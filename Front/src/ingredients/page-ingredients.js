@@ -3,6 +3,7 @@ import {buildHeader, showLogoutButton} from "../components/buildHeader";
 import {buildFooter} from "../components/buildFooter";
 import {createIngredient, removeIngredient, getIngredients} from "./ingredients-provider";
 import {showToastMessages} from "../js/messages";
+import {uploadImageS3} from "../student/js/provider-student";
 
 // Miguel León Fernández
 const initPageIngredients = async () => {
@@ -31,25 +32,30 @@ const loadIngredients = async () => {
 const pickImage = (ingredient) => {
     let img;
 
-    switch (ingredient.name) {
-        case 'Aguijón de Lución' :
-            img = '../assets/img/aguijon_lucion.png';
-            break;
-        case 'Hígado de drágon' :
-            img = '../assets/img/higado_dragon.png';
-            break;
-        case 'Babosa cornuda':
-            img = '../assets/img/babosa_cornuda.png';
-            break;
-        case 'Ojo de tritón':
-            img = '../assets/img/ojo_triton.png';
-            break;
-        default:
-            img = '../assets/img/generic_ingredient_1.png';
+    if (ingredient.url_photo) {
+        img = ingredient.url_photo;
+    } else {
+        switch (ingredient.name) {
+            case 'Aguijón de Lución':
+                img = '../assets/img/aguijon_lucion.png';
+                break;
+            case 'Hígado de drágon':
+                img = '../assets/img/higado_dragon.png';
+                break;
+            case 'Babosa cornuda':
+                img = '../assets/img/babosa_cornuda.png';
+                break;
+            case 'Ojo de tritón':
+                img = '../assets/img/ojo_triton.png';
+                break;
+            default:
+                img = '../assets/img/generic_ingredient_1.png';
+        }
     }
 
     return img;
-}
+};
+
 
 // Miguel León Fernández
 const buildCard = async (ingredient) => {
@@ -256,6 +262,7 @@ const buildIngredientFormAccordion = async () => {
 // Miguel León Fernández
 const handleCreateIngredient = async (event) => {
     event.preventDefault();
+
     const formData = new FormData();
     formData.append("name", document.getElementById("ingredientName").value);
     formData.append("healing", document.getElementById("healing").value);
@@ -266,8 +273,24 @@ const handleCreateIngredient = async (event) => {
     formData.append("sickening", document.getElementById("sickening").value);
     formData.append("inflammatory", document.getElementById("inflammatory").value);
     formData.append("deinflammatory", document.getElementById("deinflammatory").value);
+
     const photo = document.getElementById("photo").files[0];
-    if (photo) formData.append("photo", photo);
+    if (photo) {
+        try {
+            const uploadedImage = await uploadImageS3(photo);
+
+            if (uploadedImage && uploadedImage.url) {
+                formData.append("imageUrl", uploadedImage.url);
+            } else {
+                showToastMessages("Error al subir la imagen.", false);
+                return;
+            }
+        } catch (error) {
+            console.error("Error al subir la imagen:", error);
+            showToastMessages("Error al subir la imagen.", false);
+            return;
+        }
+    }
 
     try {
         const newIngredient = await createIngredient(formData);
@@ -279,10 +302,13 @@ const handleCreateIngredient = async (event) => {
             showToastMessages("Hubo un problema al crear el ingrediente.", false);
         }
     } catch (error) {
-        showToastMessages("Error al crear el ingrediente:", false);
+        console.error("Error al crear el ingrediente:", error);
+        showToastMessages("Error al crear el ingrediente.", false);
     }
+
     await loadIngredients();
     await buildIngredientFormAccordion();
 };
+
 
 await initPageIngredients();
