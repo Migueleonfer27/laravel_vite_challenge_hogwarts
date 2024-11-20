@@ -21,11 +21,11 @@ export const uploadImageS3 = async (file) => {
     const option = {
         method : 'POST',
         headers : {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
         },
-        body: formData
+        body: formData,
     }
-    const url = `http://127.0.0.1:8000/api/subirs3`
+    const url = `http://127.0.0.1:8000/api/subirs3`;
     const response = await fetch(url,option);
     return await response.json()
 }
