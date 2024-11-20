@@ -259,4 +259,27 @@ class AuthController extends Controller
             'user' => $targetUser
         ], 200);
     }
+
+    public function profile(){
+        $user = Auth::user();
+        $house = $user->house;
+        $subjects = $user->subjects;
+
+        return response()->json([
+            'success' => true,
+            'data'=>[
+                'name' => $user->name,
+                'email' => $user->email,
+                'level' => $user ->level,
+                'experience' => $user->experience,
+                'url_photo' => $user->url_photo,
+                'house' => [
+                    'name' => $house->name,
+                    'points' => $house->points,
+                ],
+                'subjects' => $subjects->pluck('name'), ///Funcion laravel
+            ]
+        ]);
+    }
+
 }

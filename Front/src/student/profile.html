@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hogwarts</title>
+  <link rel="stylesheet" href="./scss/style.scss">
+
+</head>
+<body>
+
+<div id="header-container"></div>
+<div id="main-container">
+  <div class="profille-info d-flex">
+    <!-- Sección de foto de perfil -->
+    <div class="profile-section me-4 d-flex flex-column align-items-center">
+      <img id="profile-img" src="" alt="Foto de perfil" class="rounded-circle mb-3" width="120" height="120">
+      <label for="upload-image" class="btn btn-primary btn-sm">Subir Imagen</label>
+      <input type="file" id="upload-image" class="d-none" accept="image/*">
+    </div>
+
+    <!-- Sección de datos en tabla -->
+    <div class="profile-data w-100">
+      <h2>Perfil</h2>
+      <table class="table table-responsive table-bordered">
+        <tbody class="text-center align-middle">
+        <tr>
+          <th class="text-center bg-cuaternary-person text-primary-person fs-4">Nombre</th>
+          <td id="user-name"></td>
+        </tr>
+        <tr>
+          <th class="text-center bg-cuaternary-person text-primary-person fs-4">Email</th>
+          <td id="user-email"></td>
+        </tr>
+        <tr>
+          <th class="text-center bg-cuaternary-person text-primary-person fs-4">Nivel</th>
+          <td id="user-level"></td>
+        </tr>
+        <tr>
+          <th class="text-center bg-cuaternary-person text-primary-person fs-4">Experiencia</th>
+          <td id="user-experience"></td>
+        </tr>
+        <tr>
+          <th class="text-center bg-cuaternary-person text-primary-person fs-4">Casa</th>
+          <td id="user-house"></td>
+        </tr>
+        <tr>
+          <th class="text-center bg-cuaternary-person text-primary-person fs-4">Nivel Casa</th>
+          <td id="house-level"></td>
+        </tr>
+        <tr>
+          <th class="text-center bg-cuaternary-person text-primary-person fs-4">Asignaturas</th>
+          <td id="user-subject"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div id="footer-container"></div>
+
+<script type="module" src="./js/page-profile.js"></script>
+</body>
+</html>

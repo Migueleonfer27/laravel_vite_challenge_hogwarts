@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\ControladorS3;
 
 
 //Monica
@@ -51,7 +52,12 @@ Route::get('/user/{id}/subjects',[SubjectController::class, 'getUserSubject']);
 
 Route::post('addpointsteacherspell',[AuthController::class, 'addPointsTeacherSpell'])->middleware('auth:sanctum');
 Route::post('addpointsstudentpotion',[AuthController::class, 'addPointsStudentPotion'])->middleware('auth:sanctum');
-Route::post('/addpointsstudentspell',[AuthController::class, 'addPointsStudentSpell'])->middleware('auth:sanctum');
+Route::post('addpointsstudentspell',[AuthController::class, 'addPointsStudentSpell'])->middleware('auth:sanctum');
+
+Route::get('/user/profile',[AuthController::class, 'profile'])->middleware('auth:sanctum');
+
+Route::post('/subirs3',[ControladorS3::class,'cargarImagenS3'])->middleware('auth:sanctum');
+Route::put('/updateimage',[ControladorS3::class,'updateProfileImage'])->middleware('auth:sanctum');
 
 // Miguel León Fernández
 Route::middleware('auth:api')->group(function () {
