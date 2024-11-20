@@ -12,11 +12,6 @@ export async function loadPage(path) {
     } else if (path === '/email') {
         window.location.href = '../email/index.html'
     }
-    else if (path === '/admin' && token != null && token !== ''){
-        window.location.href = '../User/Admin/index.html'
-    }else if(path === '/dumbledore' && token != null && token !== ''){
-        window.location.href = '../User/Admin/index.html'
-    }
     else if (path === '/teacher' && token != null && token !== ''){
          window.location.href = '../student/index.html'
     }
@@ -25,8 +20,6 @@ export async function loadPage(path) {
     }
     else if (path === '/student-profile' && token != null && token !== ''){
         window.location.href = '../student/profile.html'
-    }
-    else {
     } else if (path === '/admin' && token != null && token !== ''){
         window.location.href = '../user/admin/index.html'
     } else if(path === '/dumbledore' && token != null && token !== ''){
