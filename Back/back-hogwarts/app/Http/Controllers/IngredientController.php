@@ -44,14 +44,8 @@ class IngredientController extends Controller
                 'sickening' => 'required|integer|between:0,100',
                 'inflammatory' => 'required|integer|between:0,100',
                 'deinflammatory' => 'required|integer|between:0,100',
-                'url_photo' => 'nullable|image|mimes:jpg,jpeg,png',
+                'url_photo' => 'nullable|url',
             ]);
-
-            if ($request->hasFile('url_photo')) {
-                $photoPath = $request->file('url_photo')->store('ingredients', 'public');
-            } else {
-                $photoPath = null;
-            }
 
             $ingredient = Ingredient::create([
                 'name' => $validatedData['name'],
@@ -63,7 +57,7 @@ class IngredientController extends Controller
                 'sickening' => $validatedData['sickening'],
                 'inflammatory' => $validatedData['inflammatory'],
                 'deinflammatory' => $validatedData['deinflammatory'],
-                'url_photo' => $photoPath,
+                'url_photo' => $validatedData['url_photo'],
             ]);
 
             return response()->json([

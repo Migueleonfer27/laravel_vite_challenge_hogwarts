@@ -32,7 +32,7 @@ const loadIngredients = async () => {
 const pickImage = (ingredient) => {
     let img;
 
-    if (ingredient.url_photo) {
+    if (ingredient.url_photo && ingredient.url_photo.trim() !== "") {
         img = ingredient.url_photo;
     } else {
         switch (ingredient.name) {
@@ -278,13 +278,12 @@ const handleCreateIngredient = async (event) => {
     const file = document.getElementById("image").files[0];
     let imageUrl = '';
     if (file) {
-        console.log("archivo selecionado",file)
         try {
-            const uploadedImage = await  uploadImageS3(file)
+            const uploadedImage = await uploadImageS3(file)
 
             if (uploadedImage && uploadedImage.url) {
-                imageUrl = uploadedImage.url
-                formData.append("imageUrl", imageUrl.url);
+                imageUrl = uploadedImage.url;
+                formData.append("url_photo", imageUrl);
             } else {
                 showToastMessages("Error al subir la imagen.", false);
                 return;
