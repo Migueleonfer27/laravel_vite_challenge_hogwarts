@@ -243,8 +243,8 @@ const buildIngredientFormAccordion = async () => {
                         </div>
 
                         <div class="mb-4 mt-3">
-                            <label for="photo" class="form-label text-primary-person fs-4">Foto del Ingrediente</label>
-                            <input type="file" id="photo" class="form-control bg-hexa-person text-primary-person fs-4">
+                            <label for="image" class="form-label text-primary-person fs-4">Foto del Ingrediente</label>
+                            <input type="file" id="image" class="form-control bg-hexa-person text-primary-person fs-4">
                         </div>
 
                         <div class="d-flex justify-content-center">
@@ -264,6 +264,7 @@ const handleCreateIngredient = async (event) => {
     event.preventDefault();
 
     const formData = new FormData();
+
     formData.append("name", document.getElementById("ingredientName").value);
     formData.append("healing", document.getElementById("healing").value);
     formData.append("poisoning", document.getElementById("poisoning").value);
@@ -274,13 +275,16 @@ const handleCreateIngredient = async (event) => {
     formData.append("inflammatory", document.getElementById("inflammatory").value);
     formData.append("deinflammatory", document.getElementById("deinflammatory").value);
 
-    const photo = document.getElementById("photo").files[0];
-    if (photo) {
+    const file = document.getElementById("image").files[0];
+    let imageUrl = '';
+    if (file) {
+        console.log("archivo selecionado",file)
         try {
-            const uploadedImage = await uploadImageS3(photo);
+            const uploadedImage = await  uploadImageS3(file)
 
             if (uploadedImage && uploadedImage.url) {
-                formData.append("imageUrl", uploadedImage.url);
+                imageUrl = uploadedImage.url
+                formData.append("imageUrl", imageUrl.url);
             } else {
                 showToastMessages("Error al subir la imagen.", false);
                 return;

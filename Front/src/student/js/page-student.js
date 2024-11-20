@@ -41,11 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const subjectPotionButton = document.getElementById('subject-potion');
     if (subjectPotionButton) {
         subjectPotionButton.addEventListener('click', () => {
-            // if (roles.includes('student')) {
-            //     loadPage('/student-subject-potion');
-            // } else {
-            //     loadPage('/teacher-subject-potion');
-            // }
+            if (roles.includes('student')) {
+                 loadPage('/student-subject-potion');
+            } else {
+                 loadPage('/teacher-subject-potion');
+            }
         });
     }
 

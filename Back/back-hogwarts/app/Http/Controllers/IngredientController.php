@@ -44,11 +44,11 @@ class IngredientController extends Controller
                 'sickening' => 'required|integer|between:0,100',
                 'inflammatory' => 'required|integer|between:0,100',
                 'deinflammatory' => 'required|integer|between:0,100',
-                'url_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'url_photo' => 'nullable|image|mimes:jpg,jpeg,png',
             ]);
 
-            if ($request->hasFile('photo')) {
-                $photoPath = $request->file('photo')->store('ingredients', 'public');
+            if ($request->hasFile('url_photo')) {
+                $photoPath = $request->file('url_photo')->store('ingredients', 'public');
             } else {
                 $photoPath = null;
             }
@@ -63,7 +63,7 @@ class IngredientController extends Controller
                 'sickening' => $validatedData['sickening'],
                 'inflammatory' => $validatedData['inflammatory'],
                 'deinflammatory' => $validatedData['deinflammatory'],
-                'photo' => $photoPath,
+                'url_photo' => $photoPath,
             ]);
 
             return response()->json([
