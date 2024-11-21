@@ -5,15 +5,15 @@ import {buildHeader, showLogoutButton} from "../../components/buildHeader";
 import {buildFooter} from "../../components/buildFooter";
 import {removeToken} from "../../../storage/tokenManager";
 import { loadPage} from "../../js/router";
-import {apiGetProfile} from "./provider-student";
+import {apiGetProfile} from "./provider-student-teacher";
 
 let rolesUser = localStorage.getItem('roles')
 let roles = rolesUser.split(',')
 
 const containerElement = document.getElementById('main-container')
 
-if(roles.includes('student')){
-    containerElement.classList.add('student-background')
+if(roles.includes('student-teacher')){
+    containerElement.classList.add('student-teacher-background')
 }else{
     containerElement.classList.add('teacher-background')
 }
@@ -30,8 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const subjectSpellButton = document.getElementById('subject-spell');
     if (subjectSpellButton) {
         subjectSpellButton.addEventListener('click', () => {
-            // if(roles.includes('student')){
-            //     loadPage('/student-subject-spell')
+            // if(roles.includes('student-teacher')){
+            //     loadPage('/student-teacher-subject-spell')
             // }else{
             //     loadPage('/teacher-subject-spell')
             // }
@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const subjectPotionButton = document.getElementById('subject-potion');
     if (subjectPotionButton) {
         subjectPotionButton.addEventListener('click', () => {
-            if (roles.includes('student')) {
-                 loadPage('/student-subject-potion');
+            if (roles.includes('student-teacher')) {
+                 loadPage('/student-teacher-subject-potion');
             } else {
                  loadPage('/teacher-subject-potion');
             }

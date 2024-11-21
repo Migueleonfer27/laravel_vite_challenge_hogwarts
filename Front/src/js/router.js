@@ -13,20 +13,20 @@ export async function loadPage(path) {
         window.location.href = '../email/index.html'
     }
     else if (path === '/teacher' && token != null && token !== ''){
-         window.location.href = '../student/index.html'
+         window.location.href = '../student-teacher/index.html'
     }
-    else if (path === '/student' && token != null && token !== ''){
-         window.location.href = '../student/index.html'
+    else if (path === '/student-teacher' && token != null && token !== ''){
+         window.location.href = '../student-teacher/index.html'
     }
-    else if (path === '/student-profile' && token != null && token !== ''){
-        window.location.href = '../student/profile.html'
+    else if (path === '/student-teacher-profile' && token != null && token !== ''){
+        window.location.href = '../student-teacher/profile.html'
     } else if (path === '/admin' && token != null && token !== ''){
         window.location.href = '../user/admin/index.html'
     } else if(path === '/dumbledore' && token != null && token !== ''){
         window.location.href = '../user/admin/index.html'
     } else if (path === '/teacher' && token != null && token !== ''){
         // window.location.href = ''
-    } else if (path === '/student-subject-potion' && token != null && token !== ''){
+    } else if (path === '/student-teacher-subject-potion' && token != null && token !== ''){
          window.location.href = '../potions/potions.html'
     } else if (path === '/ingredients' && token != null && token !== '') {
         window.location.href = '../ingredients/ingredients.html'

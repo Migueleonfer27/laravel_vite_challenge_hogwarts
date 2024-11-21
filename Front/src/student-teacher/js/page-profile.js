@@ -4,7 +4,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import {buildHeader, showLogoutButton} from "../../components/buildHeader";
 import {buildFooter} from "../../components/buildFooter";
 import {getToken, removeToken} from "../../../storage/tokenManager";
-import {apiGetProfile, uploadImageS3, updateProfileImage} from "./provider-student";
+import {apiGetProfile, uploadImageS3, updateProfileImage} from "./provider-student-teacher";
 
 
 
@@ -26,8 +26,8 @@ const containerElement = document.getElementById('main-container')
 const user = await apiGetProfile(token)
 
 
-if(roles.includes('student')){
-    containerElement.classList.add('student-background')
+if(roles.includes('student-teacher')){
+    containerElement.classList.add('student-teacher-background')
 }else{
     containerElement.classList.add('teacher-background')
 }

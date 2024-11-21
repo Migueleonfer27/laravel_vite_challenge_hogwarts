@@ -3,7 +3,7 @@ import {buildHeader, showLogoutButton} from "../components/buildHeader";
 import {buildFooter} from "../components/buildFooter";
 import {createIngredient, removeIngredient, getIngredients} from "./ingredients-provider";
 import {showToastMessages} from "../js/messages";
-import {uploadImageS3} from "../student/js/provider-student";
+import {uploadImageS3} from "../student-teacher/js/provider-student-teacher";
 
 // Miguel León Fernández
 const initPageIngredients = async () => {
