@@ -13,7 +13,34 @@ const getSpells = async () => {
     return data
 }
 
+const deleteSpell = async (id) => {
+    const option = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
+        }
+    }
+    const url = `http://127.0.0.1:8000/api/spell/${id}`
+    const response = await fetch(url, option);
+    const data = await response.json();
+    return data;
+}
 
+const updateSpell = async (id, body) => {
+    const option = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
+        },
+        body: JSON.stringify(body)
+    };
+    const url = `http://127.0.0.1:8000/api/spell/${id}`
+    const response = await fetch(url, option);
+    const data = await response.json();
+    return data;
+}
 
 const createSpell = async (body) => {
     const option = {
@@ -33,5 +60,7 @@ const createSpell = async (body) => {
 
 export {
     getSpells,
-    createSpell
+    createSpell,
+    deleteSpell,
+    updateSpell
 }

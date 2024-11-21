@@ -105,11 +105,61 @@
                 <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="updateSpell" tabindex="-1" role="dialog" aria-labelledby="createSpellModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document"> <!-- Cambiado a modal-lg para más espacio en pantallas grandes -->
+        <div class="modal-content custom-body p-3">
+            <form id="updateSpellForm">
+                <div class="row g-3"> <!-- Espaciado entre campos -->
+                    <div class="col-12 col-md-6 text-primary-person">
+                        <label for="edit-spell-name" class="form-label">Nombre del Hechizo</label>
+                        <input type="text" class="form-control bg-hexa-person text-cuaternary-person" id="edit-spell-name" required>
+                    </div>
+                    <div class="col-12 col-md-6 text-primary-person">
+                        <label for="edit-spell-level" class="form-label">Nivel requerido</label>
+                        <input type="number" class="form-control bg-hexa-person text-cuaternary-person" id="edit-spell-level" required>
+                    </div>
+                    <div class="col-12 col-md-6 text-primary-person">
+                        <label for="edit-spell-attack" class="form-label">Ataque</label>
+                        <input type="number" class="form-control bg-hexa-person text-cuaternary-person" id="edit-spell-attack" required>
+                    </div>
+                    <div class="col-12 col-md-6 text-primary-person">
+                        <label for="edit-spell-defense" class="form-label">Defensa</label>
+                        <input type="number" class="form-control bg-hexa-person text-cuaternary-person" id="edit-spell-defense" required>
+                    </div>
+                    <div class="col-12 col-md-6 text-primary-person">
+                        <label for="edit-spell-damage" class="form-label">Daño</label>
+                        <input type="number" class="form-control bg-hexa-person text-cuaternary-person" id="edit-spell-damage" required>
+                    </div>
+                    <div class="col-12 col-md-6 text-primary-person">
+                        <label for="edit-spell-healing" class="form-label">Sanación</label>
+                        <input type="number" class="form-control bg-hexa-person text-cuaternary-person" id="edit-spell-healing" required>
+                    </div>
+                    <div class="col-12 col-md-6 text-primary-person">
+                        <label for="edit-spell-summon" class="form-label">Invocación</label>
+                        <input type="number" class="form-control bg-hexa-person text-cuaternary-person" id="edit-spell-summon" required>
+                    </div>
+                    <div class="col-12 col-md-6 text-primary-person">
+                        <label for="edit-spell-action" class="form-label">Acción</label>
+                        <input type="text" class="form-control bg-hexa-person text-cuaternary-person" id="edit-spell-action" required>
+                    </div>
+                    <div class="col-12 text-primary-person">
+                        <label for="edit-spell-creator" class="form-label">Es un hechizo propio</label>
+                        <input type="checkbox" class="form-check-input bg-hexa-person text-cuaternary-person" id="edit-spell-creator" checked>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button type="submit" class="btn-accordion btn bg-ternary-person fs-5 w-100 w-md-50 py-3">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 <script type="module" src="js/spell-page.js"></script>
 </body>

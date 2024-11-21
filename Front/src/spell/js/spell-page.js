@@ -4,7 +4,7 @@ import '../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
 import {buildHeader, showLogoutButton} from "../../components/buildHeader";
 import {buildFooter} from "../../components/buildFooter";
 import {removeToken} from "../../../storage/tokenManager";
-import { getSpells, createSpell } from "./spell-provider";
+import { getSpells, createSpell, deleteSpell, updateSpell } from "./spell-provider";
 import { Spell } from "./Spell";
 import * as validation from "./validation";
 
@@ -38,7 +38,6 @@ let createSpells =  () => {
     })
 
 }
-
 
 const selectImage = (spell) => {
     let img = '';
@@ -74,7 +73,9 @@ const buildSpellCards = async () => {
                 <img id="spell-img" class="card-img-top" src="${img}" alt="Spell Image">
                 <h5 class="card-title">${spell.name}</h5>
                 <p class="card-text">Creador: ${spell.creator}</p>
-                <button class="btn">Abrir detalles</button>
+                <button class="btn">Más detalles</button>
+                <button class="btn btn-modificar ">Modificar</button>
+                <button class="btn btn-eliminar">Eliminar</button>
             </div>
         `;
 
@@ -83,9 +84,68 @@ const buildSpellCards = async () => {
             openSpellDetails(spell);
         });
 
+        const deleteButton = card.querySelector('.btn-eliminar');
+        deleteButton.addEventListener('click', async () => {
+            await deleteSpell(spell.id);
+            card.remove();
+        });
+
+        const modifyButton = card.querySelector('.btn-modificar');
+        modifyButton.addEventListener('click', () => {
+            openEditSpellModal(spell);
+        });
+
         spellContainer.appendChild(card);
     }
 };
+
+const openEditSpellModal = (spell) => {
+    const editSpellModalElement = document.getElementById('updateSpell');
+    const editSpellModal = new bootstrap.Modal(editSpellModalElement);
+    editSpellModal.show();
+
+    // Rellenar los campos con los valores del hechizo
+    document.getElementById('edit-spell-name').value = spell.name;
+    document.getElementById('edit-spell-level').value = spell.level;
+    document.getElementById('edit-spell-attack').value = spell.attack;
+    document.getElementById('edit-spell-defense').value = spell.defense;
+    document.getElementById('edit-spell-damage').value = spell.damage;
+    document.getElementById('edit-spell-healing').value = spell.healing;
+    document.getElementById('edit-spell-summon').value = spell.summon;
+    document.getElementById('edit-spell-action').value = spell.action;
+    document.getElementById('edit-spell-creator').checked = spell.creator; // Manejo correcto del checkbox
+
+    const editSpellForm = document.getElementById('updateSpellForm');
+    editSpellForm.onsubmit = async (e) => {
+        e.preventDefault(); // Evitar recarga del formulario
+
+        // Crear objeto actualizado
+        const updatedSpell = {
+            id: spell.id, // ID del hechizo
+            name: document.getElementById('edit-spell-name').value,
+            level: document.getElementById('edit-spell-level').value,
+            attack: document.getElementById('edit-spell-attack').value,
+            defense: document.getElementById('edit-spell-defense').value,
+            damage: document.getElementById('edit-spell-damage').value,
+            healing: document.getElementById('edit-spell-healing').value,
+            summon: document.getElementById('edit-spell-summon').value,
+            action: document.getElementById('edit-spell-action').value,
+            creator: document.getElementById('edit-spell-creator').checked // Usar .checked
+        };
+
+        // Llamar a la API con el método PUT
+        try {
+            const response = await updateSpell(spell.id, updatedSpell);
+            console.log('Spell updated:', response);
+            window.location.reload();
+
+        } catch (error) {
+            console.error('Error updating spell:', error);
+
+        }
+    };
+};
+
 
 const openSpellDetails = (spell) => {
 
@@ -113,8 +173,6 @@ const openSpellDetails = (spell) => {
 
 }
 
-
-const accordion = document.querySelector('#spellAccordion')
 const collapseForm = document.querySelector('#collapseForm')
 collapseForm.addEventListener('show.bs.collapse', () => {
     // console.log('Acordeón abierto');
@@ -122,7 +180,6 @@ collapseForm.addEventListener('show.bs.collapse', () => {
 collapseForm.addEventListener('hide.bs.collapse', () => {
     // console.log('Acordeón cerrado');
 })
-
 
 const togleAccordion = document.querySelector('.accordion-button')
 
@@ -153,10 +210,7 @@ buttonAcordeon.addEventListener('click', async (e) => {
 
     creator.value = creator.checked;
 
-
-
-    console.log(creator.value)
-
+    // console.log(creator.value)
 
     if (validateForm([name, level, attack, defense, damage, healing, summon, action]) && validateName(name) && validateLevel(level.value) && validateAttribute(attack.value) && validateAttribute(defense.value) && validateAttribute(damage.value) && validateAttribute(healing.value) && validateAttribute(summon.value) && validateAttribute(action.value)) {
         const data = {
@@ -169,7 +223,6 @@ buttonAcordeon.addEventListener('click', async (e) => {
             summon: summon.value,
             action: action.value,
             hasCreator: creator.value
-
         }
 
         try{
@@ -184,11 +237,8 @@ buttonAcordeon.addEventListener('click', async (e) => {
         }catch (error) {
             console.error('Error al crear usuario:', error);
         }
-
-
-
     }
-
+    window.location.reload();
 })
 
 const validateForm = (inputs) => {
@@ -207,8 +257,6 @@ const validateForm = (inputs) => {
 
     return isValid;
 };
-
-
 
 const validateName = (name) =>{
     let isValid = validation.validateName(name.value)
@@ -242,9 +290,6 @@ const validateAttribute = (attack) =>{
     return isValid;
 }
 
-
-
-
 const logout = () => {
     removeToken()
 }
@@ -258,7 +303,6 @@ const setupLogoutBtn = () => {
 
 createSpells()
 await buildSpellCards()
-
 
 buildHeader()
 showLogoutButton()
