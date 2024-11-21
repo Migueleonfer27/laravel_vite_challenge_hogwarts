@@ -102,16 +102,13 @@ class User extends Authenticatable
     public function addExperienceTeacherSpell(){
         $this->experience += 10;
 
-        // Obtener la casa del usuario
         $house = $this->house;
 
-        // Aumentar los puntos de la casa en 2
         if ($house) {
             $house->points += 2;
-            $house->save(); // Guardar los cambios en la casa
+            $house->save();
         }
 
-        // Guardar los cambios en el usuario
         $this->save();
     }
 
@@ -126,13 +123,11 @@ class User extends Authenticatable
         if ($this->hasRole('student') && $this->subjects->contains('name', 'hechizos')) {
             $this->experience += 2;
 
-            // Aumentar los puntos de la casa en 1
             if ($this->house) {
                 $this->house->points += 1;
-                $this->house->save();  // Guardar los cambios en la casa
+                $this->house->save();
             }
 
-            // Guardar los cambios en el usuario
             $this->save();
         }
     }

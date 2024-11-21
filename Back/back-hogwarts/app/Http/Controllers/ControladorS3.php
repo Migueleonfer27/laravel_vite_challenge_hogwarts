@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use \Illuminate\Http\JsonResponse;
 
 /**
  * Necesario instalar: composer require league/flysystem-aws-s3-v3 "^3.0"
  */
-class ControladorS3 extends Controller
-{
-    public function cargarImagenS3(Request $request){
+class ControladorS3 extends Controller{
+    public function cargarImagenS3(Request $request)
+    {
 
         $messages = [
             'max' => 'El campo se excede del tamaño máximo'

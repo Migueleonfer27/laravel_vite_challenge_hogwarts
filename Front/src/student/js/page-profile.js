@@ -6,6 +6,8 @@ import {buildFooter} from "../../components/buildFooter";
 import {getToken, removeToken} from "../../../storage/tokenManager";
 import {apiGetProfile, uploadImageS3, updateProfileImage} from "./provider-student";
 
+
+
 const token = getToken()
 const nameElement = document.getElementById('user-name')
 const emailElement = document.getElementById('user-email')
@@ -45,6 +47,8 @@ levelHouseElement.textContent = house.points
 if(profileImg && url_photo){
     profileImg.src = url_photo
     localStorage.setItem('profileImage',url_photo)
+}else{
+    'no entra'
 }
 
 subjectsElement.innerHTML = ""
@@ -54,9 +58,11 @@ if(subjects && subjects.length > 0){
         li.textContent = subject
         subjectsElement.appendChild(li)
     })
-    }else{
+}else{
     subjectsElement.textContent = "No estás matriculado en ninguna asignatura"
 }
+
+
 
 document.getElementById('upload-image').addEventListener('change',(e)=>{
     const file = e.target.files[0]
@@ -69,7 +75,7 @@ document.getElementById('upload-image').addEventListener('change',(e)=>{
                 updateProfileImage(data.url)
             }
 
-        })
+        }).catch((error) => console.error("Error al subir la imagen:", error))
     }
 })
 
@@ -89,4 +95,3 @@ showLogoutButton()
 setupLogoutBtn()
 buildFooter();
 saveLocalStore(user.data)
-
