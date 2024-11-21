@@ -4,23 +4,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
 @import "./potions.scss";
 @import "./ingredients.scss";
+@import "./houses.scss";
+@import "./email";
+@import "./componets";
+
+// Miguel León Fernández
+:root {
+  // Colors variables
+  --primary-color: #CACEC8FF;
+  --secondary-color: #7fa19b;
+  --ternary-color: #466753;
+  --cuaternary-color: #26334b;
+  --penta-color: #466753;
+  --hexa-color: #7c857f;
+  --hepta-color: #2d2540;
+  --octa-color: #26334BE5;
+
+  // Typography variables
+  --primary-font: Cinzel;
+}
 
 //Miguel León Fernández
 body {
-  background: url("./assets/img/background.png") no-repeat center center fixed !important;
-  background-size: cover;
-  background-position: center;
-  min-height: calc(100vh - 56px - 40px);
+  background: url("../assets/img/background.png") no-repeat center center fixed !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-attachment: fixed !important;
+  background-position: center center !important;
   padding-bottom: 100px;
-  font-family: var(--primary-font);
 }
 
 //Miguel León Fernández
-.animated-owl {
-  width: 75%;
-  animation: fly 6s ease-in-out infinite;
-}
-
+// Background-colors
 .bg-primary-person {
   background-color: var(--primary-color) !important;
 }
@@ -49,6 +64,11 @@ body {
   background-color: var(--hepta-color) !important;
 }
 
+.bg-octa-person {
+  background-color: var(--octa-color) !important;
+}
+
+//Miguel León Fernández
 // Color-text
 .text-primary-person {
   color: var(--primary-color) !important;
@@ -78,6 +98,7 @@ body {
   color: var(--hepta-color) !important;
 }
 
+//Miguel León Fernández
 // Border-color
 .border-primary-person {
   border-color: var(--primary-color) !important;
@@ -108,6 +129,12 @@ body {
 }
 
 //Miguel León Fernández
+.animated-owl {
+  width: 75%;
+  animation: fly 6s ease-in-out infinite;
+}
+
+//Miguel León Fernández
 @keyframes fly {
   0% {
     transform: translate(0px, 0px) rotate(0deg);
@@ -126,132 +153,13 @@ body {
   }
 }
 
-/* From Uiverse.io by WhiteNervosa */
-.btn {
-  color: var(--primary-color) !important;
-  font-weight: 800;
-  cursor: pointer;
-  position: relative;
-  border: none;
-  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-  transition-duration: 600ms;
-  transition-property: color;
+// Miguel León Fernández
+.text-shadow-person {
+  text-shadow: 0px 0px 5px black !important;
 }
 
-.btn:focus,
+// Miguel León Fernández
 .btn:hover {
-  color: var(--primary-color);
-}
-
-.btn:focus:after,
-.btn:hover:after {
-  width: 100%;
-  left: 0%;
-}
-
-.btn:after {
-  content: "";
-  pointer-events: none;
-  bottom: -2px;
-  left: 50%;
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  background-color: var(--primary-color);
-  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-  transition-duration: 600ms;
-  transition-property: width, left;
-}
-
-
-.btn-input {
-  color: var(--primary-color) !important;
-  font-weight: 800;
-  cursor: pointer;
-  position: relative;
-  border: 2px solid var(--primary-color) !important;
-  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-  transition-duration: 600ms;
-  transition-property: color, box-shadow, transform;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds shadow for 3D effect */
-}
-.btn-custom-danger {
-  color: red !important;
-  font-weight: 800;
-  cursor: pointer;
-  position: relative;
-  border: 2px solid red !important;
-  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-  transition-duration: 600ms;
-  transition-property: color, box-shadow, transform;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds shadow for 3D effect */
-}
-
-.btn-custom-danger:focus,
-.btn-custom-danger:hover {
-  color: red;
-}
-
-.btn-custom-danger:focus:after,
-.btn-custom-danger:hover:after {
-  width: 100%;
-  left: 0%;
-}
-
-.btn-custom-danger:after {
-  content: "";
-  pointer-events: none;
-  bottom: -2px;
-  left: 50%;
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  background-color: red;
-  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-  transition-duration: 600ms;
-  transition-property: width, left;
-}
-
-:root {
-  // Colors variables
-  --primary-color: #CACEC8FF;
-  --secondary-color: #7fa19b;
-  --ternary-color: #466753;
-  --cuaternary-color: #26334b;
-  --penta-color: #466753;
-  --hexa-color: #7c857f;
-  --hepta-color: #2d2540;
-
-  // Typography variables
-  --primary-font: Cinzel;
-}
-
-#navbar a {
-  text-decoration: none;
-}
-
-//Miguel León Fernández
-.img-houses {
-  width: 200px !important;
-  height: 200px !important;
-  filter: drop-shadow(0px 0px 10px var(--cuaternary-color)) !important;
-}
-
-//Miguel León Fernández
-.img-house-animation {
-  animation: pulse 1.5s infinite;
-  transition: transform 0.2s ease-in-out;
-}
-
-//Miguel León Fernández
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
+  transition-duration: 0.5s;
+  text-shadow: 0px 0px 5px var(--primary-color) !important;
 }

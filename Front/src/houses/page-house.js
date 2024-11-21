@@ -10,12 +10,14 @@ const showHouseModal = async (house) => {
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content bg-cuaternary-person">
                         <div class="modal-header">
-                            <h5 class="modal-title text-primary-person" id="houseModalLabel">¡Casa seleccionada!</h5>
+                            <h5 class="modal-title text-primary-person text-shadow-person" id="houseModalLabel">¡Casa seleccionada!</h5>
                             <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body text-center bg-primary-person">
-                            <img src="../assets/img/${house}.png" alt="${house}" class="img-fluid rounded img-houses img-house-animation mt-3">
-                            <h4 class="text-primary-person mt-4 text-cuaternary-person">¡Se te ha asignado a ${house}, Bienvenido!</h4>
+                        <div class="modal-body text-center bg-primary-person pb-4">
+                            <img src="../assets/img/${house}.png" alt="${house}" class="object-fit-contain rounded img-houses img-house-animation mt-3">
+                        </div>
+                        <div class="modal-footer text-center bg-cuaternary-person">
+                            <h4 class="text-primary-person text-shadow-person">¡Se te ha asignado a ${house}, Bienvenido!</h4>
                         </div>
                     </div>
                 </div>
