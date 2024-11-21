@@ -60,6 +60,11 @@ const selectImage = (spell) => {
     return img;
 };
 
+let rolesUser = localStorage.getItem('roles')
+let roles = rolesUser.split(',')
+console.log(roles)
+
+
 const buildSpellCards = async () => {
     const spellContainer = document.querySelector('#spell_cards');
 
@@ -74,26 +79,47 @@ const buildSpellCards = async () => {
                 <h5 class="card-title">${spell.name}</h5>
                 <p class="card-text">Creador: ${spell.creator}</p>
                 <button class="btn">Más detalles</button>
-                <button class="btn btn-modificar ">Modificar</button>
-                <button class="btn btn-eliminar">Eliminar</button>
+<!--                <button class="btn btn-modificar ">Modificar</button>-->
+                <div class="btn-group"></div>
+<!--                <button class="btn btn-eliminar">Eliminar</button>-->
             </div>
         `;
+        const buttonGroup = card.querySelector('.btn-group');
 
+        if (roles.includes('teacher')){
+            const modifyButton = document.createElement('button');
+            modifyButton.classList.add('btn', 'btn-modificar');
+            modifyButton.textContent = 'Modificar';
+
+            modifyButton.addEventListener('click', () => {
+                openEditSpellModal(spell);
+            });
+            buttonGroup.appendChild(modifyButton);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.classList.add('btn', 'btn-eliminar');
+            deleteButton.textContent = 'Eliminar';
+            deleteButton.addEventListener('click', async () => {
+                await deleteSpell(spell.id);
+                card.remove();
+            });
+            buttonGroup.appendChild(deleteButton);
+        }
         const button = card.querySelector('.btn');
         button.addEventListener('click', () => {
             openSpellDetails(spell);
         });
 
-        const deleteButton = card.querySelector('.btn-eliminar');
-        deleteButton.addEventListener('click', async () => {
-            await deleteSpell(spell.id);
-            card.remove();
-        });
+        // const deleteButton = card.querySelector('.btn-eliminar');
+        // deleteButton.addEventListener('click', async () => {
+        //     await deleteSpell(spell.id);
+        //     card.remove();
+        // });
 
-        const modifyButton = card.querySelector('.btn-modificar');
-        modifyButton.addEventListener('click', () => {
-            openEditSpellModal(spell);
-        });
+        // const modifyButton = card.querySelector('.btn-modificar');
+        // modifyButton.addEventListener('click', () => {
+        //     openEditSpellModal(spell);
+        // });
 
         spellContainer.appendChild(card);
     }
