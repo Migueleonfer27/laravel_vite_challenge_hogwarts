@@ -67,9 +67,9 @@ const buildCard = async (potion) => {
             <div class="card-body rounded-5 d-flex flex-column align-items-center bg-gradient-potions">
                 <img class="object-fit-contain mb-3 bg-shadow-potions" src="${url}" alt="img-ingredient" height="200px" width="200px">
                 <h4 class="card-title mb-3 text-primary-person">${potion.name}</h4>
-                <button class="btn btn-primary my-1 w-75 showDetailsPotionBtn bg-secondary-person">Ver Detalles</button>
-                <button class="btn btn-secondary my-1 w-75 showModifyPotionBtn bg-ternary-person" data-id="${potion.id}">Modificar</button>
-                <button class="btn btn-danger my-1 w-75 deletePotionBtn bg-hepta-person" data-id="${potion.id}">Eliminar</button>
+                <button class="btn my-1 w-75 showDetailsPotionBtn bg-secondary-person text-primary-person text-shadow-person">Ver Detalles</button>
+                <button class="btn btn-secondary my-1 w-75 showModifyPotionBtn bg-ternary-person text-primary-person text-shadow-person" data-id="${potion.id}">Modificar</button>
+                <button class="btn my-1 w-75 deletePotionBtn bg-hepta-person text-primary-person text-shadow-person" data-id="${potion.id}">Eliminar</button>
             </div>
         </div>
     `;
@@ -93,10 +93,10 @@ const buildPotionFormAccordion = async () => {
 
     const ingredientRows = ingredients.map(ingredient => `
         <tr>
-            <td class="text-primary-person bg-hepta-person fs-5">${ingredient.name}</td>
-            <td class="text-primary-person bg-hepta-person fs-5">
-                <button type="button" class="btn bg-ternary-person w-100 toggle-ingredient-btn" data-id="${ingredient.id}">
-                    <span class="text-primary-person">Añadir</span>
+            <td class="text-primary-person bg-hepta-person fs-5 text-shadow-person">${ingredient.name}</td>
+            <td class="text-primary-person bg-hepta-person fs-5 text-shadow-person">
+                <button type="button" class="btn bg-ternary-person w-100 toggle-ingredient-btn text-primary-person" data-id="${ingredient.id}">
+                    <span class="text-primary-person text-shadow-person">Añadir</span>
                 </button>
             </td>
         </tr>
@@ -105,7 +105,7 @@ const buildPotionFormAccordion = async () => {
     accordionContainer.innerHTML = `
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button text-primary-person bg-gradient-potions fs-3 fs-md-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseForm" aria-expanded="true" aria-controls="collapseForm">
+                <button class="accordion-button text-primary-person text-shadow-person bg-gradient-potions fs-3 fs-md-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseForm" aria-expanded="true" aria-controls="collapseForm">
                     Creador de Pócimas
                 </button>
             </h2>
@@ -113,17 +113,17 @@ const buildPotionFormAccordion = async () => {
                 <div class="accordion-body bg-gradient-creator">
                     <form id="createPotionForm" class="px-5 py-3">
                         <div class="mb-4 d-flex flex-column justify-content-center">
-                            <p class="text-center fs-4 p-5 text-primary-person bg-ternary-person rounded-3 border border-3">
+                            <p class="text-center text-shadow-person fs-4 p-5 text-primary-person bg-ternary-person rounded-3 border border-3 border-primary-person">
                                 En esta sección podrás crear tus pócimas, las cuales serán aprobadas por tu profesor y posteriormente por el flamante y afable director Dumbledore.
-                                Para crear tus pócimas deberás ponerle un <span class="text-hepta-person fw-bold fst-italic">nombre</span> 
-                                obligatoriamente, una <span class="text-hepta-person fw-bold fst-italic">descripción</span> de la poción y añadir alguno de los 
-                                <span class="text-hepta-person fw-bold fst-italic">ingredientes</span> que verás en la lista de ingredientes.
+                                Para crear tus pócimas deberás ponerle un <span class="text-hepta-person fw-bold text-shadow-light-person fst-italic">nombre</span> 
+                                obligatoriamente, una <span class="text-hepta-person fw-bold text-shadow-light-person fst-italic">descripción</span> de la poción y añadir alguno de los 
+                                <span class="text-hepta-person fw-bold text-shadow-light-person fst-italic">ingredientes</span> que verás en la lista de ingredientes.
                                 Pulsa el botón para añadir y vuelve a pulsar para quitarlo si así lo deseas. <br><br>!No te demores en hacer pociones!, tus profesores y Dumbledore esperan
-                                tus resultados para que puedas <span class="text-hepta-person fw-bold fst-italic">progresar de nivel</span> y <span class="text-hepta-person fw-bold fst-italic">añadir puntos a tu casa</span>.
+                                tus resultados para que puedas <span class="text-hepta-person fw-bold text-shadow-light-person fst-italic">progresar de nivel</span> y <span class="text-hepta-person fw-bold text-shadow-light-person fst-italic">añadir puntos a tu casa</span>.
                             </p>
-                            <label for="potionName" class="form-label text-primary-person fs-2 fs-md-2">Nombre de la Poción</label>
+                            <label for="potionName" class="form-label text-primary-person fs-2 fs-md-2 text-shadow-person">Nombre de la Poción</label>
                             <input type="text" class="form-control bg-hexa-person text-cuaternary-person w-100 w-md-75 fs-4" placeholder="Ej: poción de velocidad..." id="potionName" minlength="5" maxlength="40" required>
-                            <label for="potionDescription" class="form-label text-primary-person fs-2 fs-md-2 mt-3">Descripción de la Poción</label>
+                            <label for="potionDescription" class="form-label text-primary-person fs-2 fs-md-2 mt-3 text-shadow-person">Descripción de la Poción</label>
                             <textarea id="potionDescription" class="form-control textarea bg-hexa-person text-cuaternary-person w-100 w-md-75 fs-4" placeholder="Ej: Esta poción aumenta la velociad de la persona..." cols="30" rows="3" minlength="1" maxlength="255" required></textarea>
                         </div>
 
@@ -131,8 +131,8 @@ const buildPotionFormAccordion = async () => {
                             <table class="table table-responsive table-bordered">
                                 <thead>
                                     <tr>
-                                        <th class="text-center bg-cuaternary-person text-primary-person fs-4">Ingrediente</th>
-                                        <th class="text-center bg-cuaternary-person text-primary-person fs-4">Acción</th>
+                                        <th class="text-center bg-cuaternary-person text-primary-person fs-4 text-shadow-person">Ingrediente</th>
+                                        <th class="text-center bg-cuaternary-person text-primary-person fs-4 text-shadow-person">Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody id="ingredients-table" class="text-center align-middle">
@@ -142,7 +142,7 @@ const buildPotionFormAccordion = async () => {
                         </div>
 
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn bg-ternary-person fs-4 w-100 w-sm-50 w-md-25 py-3">Crear Poción</button>
+                            <button type="submit" class="btn bg-ternary-person fs-4 w-100 w-sm-50 w-md-25 py-3 text-shadow-person text-primary-person">Crear Poción</button>
                         </div>
                     </form>
                 </div>
@@ -273,14 +273,14 @@ const buildShowDetails = (potion) => {
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header bg-cuaternary-person bg-gradient-potions">
-                    <h5 class="modal-title text-primary-person" id="potionDetailsModalLabel">Detalles de la Poción</h5>
+                    <h5 class="modal-title text-primary-person text-shadow-person text-primary-person" id="potionDetailsModalLabel">Detalles de la Poción</h5>
                     <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body bg-primary-person">
+                <div class="modal-body bg-primary-person text-shadow-person text-primary-person">
                     ${detailsTable}
                 </div>
                 <div class="modal-footer bg-cuaternary-person bg-gradient-potions">
-                    <button type="button" class="btn bg-secondary-person" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn bg-secondary-person text-shadow-person text-primary-person" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -314,7 +314,7 @@ const buildModifyPotion = async (potion) => {
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header bg-gradient-potions">
-                    <h5 class="modal-title text-primary-person">Modificar Poción</h5>
+                    <h5 class="modal-title text-primary-person text-shadow-person text-primary-person">Modificar Poción</h5>
                     <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body bg-primary-person">
@@ -322,11 +322,11 @@ const buildModifyPotion = async (potion) => {
                         <div class="row mb-3">
                             <div class="col-12">
                                 <h5 class="text-cuaternary-person">Nombre de la Poción</h5>
-                                <input type="text" id="potion-name" class="form-control bg-cuaternary-person text-primary-person" value="${potion.name}" />
+                                <input type="text" id="potion-name" class="form-control bg-cuaternary-person text-primary-person fs-5 text-shadow-light-person" value="${potion.name}" />
                             </div>
                             <div class="col-12">
                                 <h5 class="text-cuaternary-person mt-3">Descripción de la Poción</h5>
-                                <textarea id="potion-description" class="form-control textarea bg-cuaternary-person text-primary-person w-100 w-md-75 fs-5" cols="30" rows="3" minlength="1" maxlength="255">${potion.description}</textarea>
+                                <textarea id="potion-description" class="form-control textarea bg-cuaternary-person text-primary-person w-100 w-md-75 fs-5 text-shadow-light-person" cols="30" rows="3" minlength="1" maxlength="255">${potion.description}</textarea>
                             </div>
                             <div class="col-12 col-md-6 mt-3">
                                 <h5 class="text-cuaternary-person">Ingredientes actuales</h5>
@@ -344,8 +344,8 @@ const buildModifyPotion = async (potion) => {
                     </div>
                 </div>
                 <div class="modal-footer bg-gradient-potions">
-                    <button type="button" class="btn bg-secondary-person" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn bg-cuaternary-person" id="saveChanges">Guardar Cambios</button>
+                    <button type="button" class="btn bg-secondary-person text-primary-person text-shadow-person" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn bg-cuaternary-person text-primary-person text-shadow-person" id="saveChanges">Guardar Cambios</button>
                 </div>
             </div>
         </div>
@@ -386,7 +386,7 @@ const showMessagesAlerts = (message, success) => {
 
     const alertType = success ? 'bg-ternary-person' : 'bg-hepta-person';
     const alertMessage = document.createElement("div");
-    alertMessage.classList.add('alert', 'text-center', 'd-flex', 'justify-content-center', 'mx-auto', 'w-75', 'text-primary-person', alertType);
+    alertMessage.classList.add('alert', 'text-center', 'd-flex', 'justify-content-center', 'mx-auto', 'w-75', 'text-primary-person', 'text-shadow-person', alertType);
     alertMessage.role = "alert";
     alertMessage.innerHTML = message;
     modalBody.appendChild(alertMessage);
@@ -403,7 +403,7 @@ const refreshIngredientsTable = (currentIngredients, allIngredients) => {
 
     currentIngredientsTable.innerHTML = currentIngredients.map((ingredient, index) => `
         <tr>
-            <td class="align-middle bg-cuaternary-person text-primary-person text-center">${ingredient.name}</td>
+            <td class="align-middle bg-cuaternary-person text-primary-person text-center text-shadow-light-person">${ingredient.name}</td>
             <td class="align-middle bg-cuaternary-person text-primary-person"><button class="btn bg-primary-person btn-sm w-100" data-index="${index}"><span class="text-cuaternary-person">Eliminar</span></button></td>
         </tr>
     `).join("");
@@ -412,7 +412,7 @@ const refreshIngredientsTable = (currentIngredients, allIngredients) => {
         !currentIngredients.some(curr => curr.id === ingredient.id)
     ).map(ingredient => `
         <tr>
-            <td class="align-middle bg-cuaternary-person text-primary-person text-center">${ingredient.name}</td>
+            <td class="align-middle bg-cuaternary-person text-primary-person text-center text-shadow-light-person">${ingredient.name}</td>
             <td class="align-middle bg-cuaternary-person text-primary-person"><button class="btn bg-secondary-person btn-sm w-100" data-id="${ingredient.id}"><span class="text-cuaternary-person">Añadir</span></button></td>
         </tr>
     `).join("");

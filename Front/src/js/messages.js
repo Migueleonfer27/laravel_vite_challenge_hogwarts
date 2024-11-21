@@ -6,11 +6,11 @@ export const showToastMessages = (message, isSuccess) => {
         <div class="toast-container position-fixed bottom-0 end-0 p-3">
             <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header bg-cuaternary-person">
-                    <strong class="me-auto text-primary-person">${isSuccess ? 'Éxito' : 'Error'}</strong>
-                    <small class="text-primary-person">Ahora</small>
+                    <strong class="me-auto text-primary-person text-shadow-light-person">${isSuccess ? 'Éxito' : 'Error'}</strong>
+                    <small class="text-primary-person text-shadow-person">Ahora</small>
                     <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
-                <div class="toast-body bg-cuaternary-person text-primary-person">
+                <div class="toast-body bg-cuaternary-person text-primary-person text-shadow-person">
                     ${message}
                 </div>
             </div>

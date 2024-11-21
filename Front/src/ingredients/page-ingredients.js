@@ -69,8 +69,8 @@ const buildCard = async (ingredient) => {
             <div class="card-body rounded-5 d-flex flex-column align-items-center bg-gradient-potions">
                 <img class="object-fit-contain mb-3 bg-shadow-potions" src="${img}" alt="img-ingredient" height="200px" width="200px">
                 <h4 class="card-title mb-3 text-primary-person">${ingredient.name}</h4>
-                <button class="btn btn-primary my-1 w-75 showDetailsIngredientBtn bg-secondary-person">Ver Detalles</button>
-                <button class="btn btn-danger my-1 w-75 deleteIngredientBtn bg-hepta-person" data-id="${ingredient.id}">Eliminar</button>
+                <button class="btn my-1 w-75 showDetailsIngredientBtn bg-secondary-person text-primary-person text-shadow-person">Ver Detalles</button>
+                <button class="btn my-1 w-75 deleteIngredientBtn bg-hepta-person text-primary-person text-shadow-person" data-id="${ingredient.id}">Eliminar</button>
             </div>
         </div>
     `;
@@ -90,7 +90,7 @@ const buildShowDetails = (ingredient) => {
     modal.setAttribute("aria-hidden", "true");
 
     const detailsTable = `
-        <table class="table table-bordered m-0">
+        <table class="table table-bordered m-0 text-shadow-person">
             <tbody>
                 <tr>
                     <td class="text-primary-person text-center bg-cuaternary-person align-middle"><strong>Nombre</strong></td>
@@ -136,14 +136,14 @@ const buildShowDetails = (ingredient) => {
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header bg-cuaternary-person bg-gradient-potions">
-                    <h5 class="modal-title text-primary-person" id="ingredientDetailsModalLabel">Detalles del Ingrediente</h5>
+                    <h5 class="modal-title text-primary-person text-shadow-person" id="ingredientDetailsModalLabel">Detalles del Ingrediente</h5>
                     <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body bg-primary-person">
                     ${detailsTable}
                 </div>
                 <div class="modal-footer bg-cuaternary-person bg-gradient-potions">
-                    <button type="button" class="btn bg-secondary-person" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn bg-secondary-person text-shadow-person text-primary-person" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -187,21 +187,21 @@ const buildIngredientFormAccordion = async () => {
     accordionContainer.innerHTML = `
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button text-primary-person bg-gradient-potions fs-3 fs-md-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseForm" aria-expanded="true" aria-controls="collapseForm">
+                <button class="accordion-button text-primary-person bg-gradient-potions fs-3 fs-md-1 text-shadow-person" type="button" data-bs-toggle="collapse" data-bs-target="#collapseForm" aria-expanded="true" aria-controls="collapseForm">
                     Creador de Ingredientes
                 </button>
             </h2>
             <div id="collapseForm" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#ingredientFormAccordion">
                 <div class="accordion-body bg-gradient-creator">
-                <p class="text-center fs-4 p-5 text-primary-person bg-ternary-person rounded-3 border border-3">
+                <p class="text-center fs-4 p-5 mx-5 mt-3 text-primary-person bg-ternary-person rounded-3 border border-3 border-primary-person text-shadow-person">
                     En esta sección podrás crear tus ingredientes, los cuales podrás usar posteriormente para crear tus pociones en el creador de pociones.
-                    Para crear tus ingredientes deberás juzgar que <span class="text-hepta-person fw-bold fst-italic">atributos</span> quieres añadirle. Estos atributos
-                    haran que tus pociones tengan más <span class="text-hepta-person fw-bold fst-italic">nivel de bondad</span> o tengan más 
-                    <span class="text-hepta-person fw-bold fst-italic">nivel de maleza</span>. Tambien pueden tener un valor neutro y que ambos niveles sean iguales.
-                    <br><br>¡A que esperas, ponle un <span class="text-hepta-person fw-bold fst-italic">nombre</span> y una <span class="text-hepta-person fw-bold fst-italic">foto</span> 
+                    Para crear tus ingredientes deberás juzgar que <span class="text-hepta-person fw-bold text-shadow-light-person fst-italic">atributos</span> quieres añadirle. Estos atributos
+                    haran que tus pociones tengan más <span class="text-hepta-person text-shadow-light-person fw-bold fst-italic">nivel de bondad</span> o tengan más 
+                    <span class="text-hepta-person text-shadow-light-person fw-bold fst-italic">nivel de maleza</span>. Tambien pueden tener un valor neutro y que ambos niveles sean iguales.
+                    <br><br>¡A que esperas, ponle un <span class="text-hepta-person text-shadow-light-person fw-bold fst-italic">nombre</span> y una <span class="text-hepta-person text-shadow-light-person fw-bold fst-italic">foto</span> 
                     a tu ingrediente y se un alquimista de primera!
                 </p>
-                    <form id="createIngredientForm" class="px-5 py-3">
+                    <form id="createIngredientForm" class="px-5 py-3 text-shadow-person">
                         <div class="mb-4">
                             <label for="ingredientName" class="form-label text-primary-person fs-2">Nombre del Ingrediente</label>
                             <input type="text" class="form-control bg-hexa-person text-primary-person w-100 fs-4" placeholder="Ej: Mandrágora..." id="ingredientName" minlength="5" maxlength="60" required>
@@ -210,35 +210,35 @@ const buildIngredientFormAccordion = async () => {
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="healing" class="form-label text-primary-person fs-4">Sanación (0-100)</label>
-                                <input type="number" id="healing" class="form-control bg-hexa-person text-primary-person fs-4" min="0" max="100" value="0" required>
+                                <input type="number" id="healing" class="form-control bg-hexa-person text-primary-person fs-4 text-shadow-light-person" min="0" max="100" value="0" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="poisoning" class="form-label text-primary-person fs-4">Envenenamiento (0-100)</label>
-                                <input type="number" id="poisoning" class="form-control bg-hexa-person text-primary-person fs-4" min="0" max="100" value="0" required>
+                                <input type="number" id="poisoning" class="form-control bg-hexa-person text-primary-person fs-4 text-shadow-light-person" min="0" max="100" value="0" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="analgesic" class="form-label text-primary-person fs-4">Analgésico (0-100)</label>
-                                <input type="number" id="analgesic" class="form-control bg-hexa-person text-primary-person fs-4" min="0" max="100" value="0" required>
+                                <input type="number" id="analgesic" class="form-control bg-hexa-person text-primary-person fs-4 text-shadow-light-person" min="0" max="100" value="0" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="pain" class="form-label text-primary-person fs-4">Doloroso (0-100)</label>
-                                <input type="number" id="pain" class="form-control bg-hexa-person text-primary-person fs-4" min="0" max="100" value="0" required>
+                                <input type="number" id="pain" class="form-control bg-hexa-person text-primary-person fs-4 text-shadow-light-person" min="0" max="100" value="0" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="curative" class="form-label text-primary-person fs-4">Curativo (0-100)</label>
-                                <input type="number" id="curative" class="form-control bg-hexa-person text-primary-person fs-4" min="0" max="100" value="0" required>
+                                <input type="number" id="curative" class="form-control bg-hexa-person text-primary-person fs-4 text-shadow-light-person" min="0" max="100" value="0" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="sickening" class="form-label text-primary-person fs-4">Enfermante (0-100)</label>
-                                <input type="number" id="sickening" class="form-control bg-hexa-person text-primary-person fs-4" min="0" max="100" value="0" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inflammatory" class="form-label text-primary-person fs-4">Inflamatorio (0-100)</label>
-                                <input type="number" id="inflammatory" class="form-control bg-hexa-person text-primary-person fs-4" min="0" max="100" value="0" required>
+                                <input type="number" id="sickening" class="form-control bg-hexa-person text-primary-person fs-4 text-shadow-light-person" min="0" max="100" value="0" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="deinflammatory" class="form-label text-primary-person fs-4">Desinflamatorio (0-100)</label>
-                                <input type="number" id="deinflammatory" class="form-control bg-hexa-person text-primary-person fs-4" min="0" max="100" value="0" required>
+                                <input type="number" id="deinflammatory" class="form-control bg-hexa-person text-primary-person fs-4 text-shadow-light-person" min="0" max="100" value="0" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inflammatory" class="form-label text-primary-person fs-4">Inflamatorio (0-100)</label>
+                                <input type="number" id="inflammatory" class="form-control bg-hexa-person text-primary-person fs-4 text-shadow-light-person" min="0" max="100" value="0" required>
                             </div>
                         </div>
 
@@ -248,7 +248,7 @@ const buildIngredientFormAccordion = async () => {
                         </div>
 
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn bg-ternary-person fs-4 w-100 w-sm-50 w-md-25 py-3">Crear Ingrediente</button>
+                            <button type="submit" class="btn bg-ternary-person fs-4 w-100 w-sm-50 w-md-25 py-3 text-primary-person text-shadow-person">Crear Ingrediente</button>
                         </div>
                     </form>
                 </div>
