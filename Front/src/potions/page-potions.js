@@ -1,7 +1,7 @@
 import * as bootstrap from 'bootstrap';
 import { buildHeader, showLogoutButton } from "../components/buildHeader";
 import { buildFooter } from "../components/buildFooter";
-import { getPotions, removePotion, updatePotion, createPotion } from "./potions-provider";
+import {getPotions, removePotion, updatePotion, createPotion, approvePotion} from "./potions-provider";
 import { getIngredients } from "../ingredients/ingredients-provider";
 import { showToastMessages } from "../js/messages";
 
@@ -22,7 +22,25 @@ const loadPotions = async () => {
     potions.reverse();
 
     potions.forEach(potion => {
-        buildCard(potion);
+        if (
+            potion.approves_teacher === 0 &&
+            localStorage.getItem('roles').includes('teacher')
+        ) {
+            buildCard(potion);
+        } else if (
+            potion.approves_dumbledore === 0 &&
+            potion.approves_teacher === 1 &&
+            localStorage.getItem('roles').includes('dumbledore')
+        ) {
+            buildCard(potion);
+        } else if (
+            localStorage.getItem('name') === potion.user.name &&
+            localStorage.getItem('roles').includes('student') &&
+            !localStorage.getItem('roles').includes('teacher') &&
+            !localStorage.getItem('roles').includes('dumbledore')
+        ) {
+            buildCard(potion);
+        }
     });
 
     await deletePotion();
@@ -70,6 +88,7 @@ const buildCard = async (potion) => {
                 <button class="btn my-1 w-75 showDetailsPotionBtn bg-secondary-person text-primary-person text-shadow-person">Ver Detalles</button>
                 <button class="btn btn-secondary my-1 w-75 showModifyPotionBtn bg-ternary-person text-primary-person text-shadow-person" data-id="${potion.id}">Modificar</button>
                 <button class="btn my-1 w-75 deletePotionBtn bg-hepta-person text-primary-person text-shadow-person" data-id="${potion.id}">Eliminar</button>
+                <button class="d-none btn my-1 w-75 approvePotionBtn bg-hexa-person text-primary-person text-shadow-person" data-id="${potion.id}">Aprobar</button>
             </div>
         </div>
     `;
@@ -78,8 +97,47 @@ const buildCard = async (potion) => {
     detailsButton.addEventListener("click", () => buildShowDetails(potion));
     const modifyPotionButton = card.querySelector(".showModifyPotionBtn");
     modifyPotionButton.addEventListener("click", () => buildModifyPotion(potion));
-    potionsContainer.appendChild(card);
+    const approveButton = card.querySelector(".approvePotionBtn");
+    approveButton.addEventListener("click", async () => {
+        const potionId = potion.id;
+        const approver = localStorage.getItem("roles");
+        console.log("Roles obtenidos:", approver);
+
+        if (!approver.includes('teacher') && !approver.includes('dumbledore')) {
+            showToastMessages("No tienes permisos para aprobar esta poción.", false);
+            return;
+        }
+
+        const result = await approvePotion(potionId, approver);
+
+        if (result) {
+            showToastMessages("Poción aprobada con éxito.", true);
+        } else {
+            showToastMessages("Error al aprobar la poción.", false);
+        }
+        await loadPotions();
+    });
+
+    await potionsContainer.appendChild(card);
+    showTeacherDumbledorePotionBtn();
 };
+
+// Miguel León Fernández
+const showTeacherDumbledorePotionBtn = () => {
+    const approvePotionBtns = document.querySelectorAll(".approvePotionBtn");
+    const modifyPotionBtns = document.querySelectorAll(".showModifyPotionBtn");
+    const deletePotionBtns = document.querySelectorAll(".deletePotionBtn");
+
+    if (localStorage.getItem('roles').includes('teacher') || localStorage.getItem('roles').includes('dumbledore')) {
+        approvePotionBtns.forEach(btn => btn.classList.remove("d-none"));
+        modifyPotionBtns.forEach(btn => btn.classList.add("d-none"));
+        deletePotionBtns.forEach(btn => btn.classList.add("d-none"));
+    } else {
+        approvePotionBtns.forEach(btn => btn.classList.add("d-none"));
+        modifyPotionBtns.forEach(btn => btn.classList.remove("d-none"));
+        deletePotionBtns.forEach(btn => btn.classList.remove("d-none"));
+    }
+}
 
 // Miguel León Fernández
 const buildPotionFormAccordion = async () => {

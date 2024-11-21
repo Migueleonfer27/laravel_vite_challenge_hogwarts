@@ -107,9 +107,40 @@ const createPotion = async (name, description, ingredients) => {
     }
 }
 
+// Miguel León Fernández
+const approvePotion = async (potionId, approver) => {
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/approve/${potionId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`,
+            },
+            body: JSON.stringify({
+                potion_id: potionId,
+                approver: approver
+            }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log("Potion approved:", data);
+            return true;
+        } else {
+            console.error("Error approving potion:", data);
+            return false;
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        return false;
+    }
+};
+
 export {
     getPotions,
     removePotion,
     updatePotion,
     createPotion,
+    approvePotion,
 };

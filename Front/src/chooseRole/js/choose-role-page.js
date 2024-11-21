@@ -97,7 +97,7 @@ const construirCard = (house) => {
                 e.preventDefault();
                 loadPage('/teacher');
             })
-        }else if (role === 'student-teacher') {
+        }else if (role === 'student') {
             cardLink.addEventListener('click', (e) => {
                 e.preventDefault();
                 loadPage('/student-teacher');

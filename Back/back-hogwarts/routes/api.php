@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\IngredientController;
+use App\Http\Controllers\PointsController;
 use App\Http\Controllers\PotionController;
 use App\Http\Controllers\SubjectController;
 use Illuminate\Http\Request;
@@ -24,7 +25,6 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::delete('/user-rol/{id}', [AdminController::class, 'retireRole'])->middleware('ability:dumbledore,admin');
 });
 
-
 // Miguel León Fernández
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
@@ -38,7 +38,6 @@ Route::get('/nologin', function () {
 //Cynthia
 Route::put('changePassword', [EmailController::class, 'changePassword']);
 
-
 Route::get('/subjects',[SubjectController::class, 'index']);
 Route::get('/subject/{id}',[SubjectController::class, 'show']);
 Route::post('/subjects',[SubjectController::class, 'create']);
@@ -49,10 +48,9 @@ Route::post('/subjects/{subjectId}/assign-subject',[SubjectController::class, 'a
 Route::delete('/subjects/{subjectId}/remove-subject',[SubjectController::class, 'removeSubject']);
 Route::get('/user/{id}/subjects',[SubjectController::class, 'getUserSubject']);
 
-
-Route::post('addpointsteacherspell',[AuthController::class, 'addPointsTeacherSpell'])->middleware('auth:sanctum');
-Route::post('addpointsstudentpotion',[AuthController::class, 'addPointsStudentPotion'])->middleware('auth:sanctum');
-Route::post('addpointsstudentspell',[AuthController::class, 'addPointsStudentSpell'])->middleware('auth:sanctum');
+Route::post('addpointsteacherspell',[PointsController::class, 'addPointsTeacherSpell'])->middleware('auth:sanctum');
+Route::post('addpointsstudentpotion',[PointsController::class, 'addPointsStudentPotion'])->middleware('auth:sanctum');
+Route::post('addpointsstudentspell',[PointsController::class, 'addPointsStudentSpell'])->middleware('auth:sanctum');
 
 Route::get('/user/profile',[AuthController::class, 'profile'])->middleware('auth:sanctum');
 
@@ -73,4 +71,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/potions/{id}', [PotionController::class, 'show']);
     Route::put('/potions/{id}', [PotionController::class, 'update']);
     Route::delete('/potions/{id}', [PotionController::class, 'destroy']);
+});
+
+// Miguel León Fernández
+Route::middleware('auth:api')->group(function () {
+    Route::post('/approve/{potionId}', [PointsController::class, 'approvePotion']);
 });
