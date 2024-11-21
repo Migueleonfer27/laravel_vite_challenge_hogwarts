@@ -11,6 +11,7 @@ const validatePassword = (password) => {
 const validateIsNotEmpty = (value) => {
     return value !== '';
 }
+
 export  {
     validateEmail,
     validatePassword,

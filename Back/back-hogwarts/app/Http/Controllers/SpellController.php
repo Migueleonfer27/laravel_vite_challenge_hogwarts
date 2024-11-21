@@ -172,4 +172,6 @@ class SpellController extends Controller
             'message' => 'Spell deleted successfully',
         ]);
     }
+
+
 }
