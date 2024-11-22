@@ -24,8 +24,8 @@ const addWelcome = () => {
     mainContent.innerHTML = `
     <div class="container mt-5">
       <div class="card text-center text-primary-person shadow-lg p-4 bg-octa-person border-2 border-primary-person">
-        <h1 class="card-title text-shadow-person">¡Bienvenido a la Academia Howarts!</h1>
-        <p class="card-text mt-3 text-shadow-person">Nos alegra darte la bienvenida a un lugar mágico donde podrás aprender y desarrollar tus habilidades. Prepárate para vivir experiencias inolvidables y descubrir todos los secretos que Howarts tiene para ofrecerte. ¡Que comience la aventura!</p>
+        <h1 class="card-title text-shadow-person text-primary-person">¡Bienvenido a la Academia Howarts!</h1>
+        <p class="card-text mt-3 text-shadow-person text-primary-person">Nos alegra darte la bienvenida a un lugar mágico donde podrás aprender y desarrollar tus habilidades. Prepárate para vivir experiencias inolvidables y descubrir todos los secretos que Howarts tiene para ofrecerte. ¡Que comience la aventura!</p>
       </div>
     </div>
     `;
