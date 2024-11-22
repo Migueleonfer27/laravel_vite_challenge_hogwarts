@@ -2,33 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="scss/style.scss">
+    <link rel="stylesheet" href="./scss/style.scss">
     <title>Gestión asignaturas</title>
 </head>
 <body>
 <div id="header-container"></div>
 <div id="main-container" class="container-fluid">
-    <div class="col-12  mb-3" id="container-btn">
-        <button class="btn btn-input" id="btn-subject">Crear Asignatura</button>
-    </div>
-        <p class="h2 text-center text-white col-12">Usuarios</p>
-        <div id="Containertable" class="container text-white m-5 p-3">
-            <table id="teacher-table" class="table table-borderless text-center">
-                <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Rol</th>
-                    <th>Acciones</th>
-                </tr>
-                </thead>
-                <tbody id="body-user-table">
-                </tbody>
-            </table>
+    <h2 class="text-primary-person fs-4">Usuarios</h2>
+
+    <div id="Containertable" class="me-4 d-flex flex-column align-items-center bg-octa-person">
+        <div class="d-flex justify-content-end mb-3">
+            <button class="btn w-100 modify text-primary-person text-shadow-person" id="btn-subject">Crear Asignatura</button>
+        </div>
+
+        <table id="teacher-table" class="table table-responsive bg-octa-person">
+            <thead>
+            <tr>
+                <th class="text-center bg-octa-person text-primary-person fs-4">Nombre</th>
+                <th class="text-center bg-octa-person text-primary-person fs-4">Email</th>
+                <th class="text-center bg-octa-person text-primary-person fs-4">Rol</th>
+                <th class="text-center bg-octa-person text-primary-person fs-4">Acciones</th>
+            </tr>
+            </thead>
+            <tbody class="text-center align-middle" id="body-user-table">
+
+            </tbody>
+        </table>
     </div>
 </div>
 
 <div id="footer-container"></div>
+
 
 <div class="modal fade" id="addSubjectModal" tabindex="-1" aria-labelledby="addSubjectModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -51,6 +55,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="modal" id="Create" tabindex="-1" aria-labelledby="createSubjectLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -75,11 +80,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
 
 <div class="modal fade" id="removeSubjectModal" tabindex="-1" aria-labelledby="removeSubjectModalLabel" aria-hidden="true">
     <div class="modal-dialog">

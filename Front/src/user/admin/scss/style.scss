@@ -45,43 +45,6 @@ footer {
 }
 
 
-.btn {
-  font-weight: 800;
-  cursor: pointer;
-  position: relative;
-  border: 2px solid var(--primary-color) !important;
-  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-  transition-duration: 600ms;
-  transition-property: color;
-  color: var(--primary-color) !important;
-}
-
-.btn:focus,
-.btn:hover {
-  color: var(--primary-color);
-}
-
-.btn:focus:after,
-.btn:hover:after {
-  width: 100%;
-  left: 0%;
-}
-
-.btn:after {
-  content: "";
-  pointer-events: none;
-  bottom: -2px;
-  left: 50%;
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  background-color: var(--primary-color);
-  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-  transition-duration: 600ms;
-  transition-property: width, left;
-}
-
-
 .card {
   background-color: var(--cuaternary-color);
   border: 2px solid var(--primary-color);
@@ -123,69 +86,30 @@ footer {
   max-width: 100%;
 }
 
-.btn {
-  font-weight: 800;
-  cursor: pointer;
-  position: relative;
-  border: 2px solid var(--primary-color) !important;
-  color: var(--primary-color) !important;
-  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
-  transition-duration: 600ms;
-  transition-property: color, box-shadow, transform;
-  margin-top: auto; /* Alinea los botones al fondo */
-}
-
-.btn:hover, .btn:focus {
-  color: var(--primary-color);
-}
 
 .card .btn {
   width: 100%;
 }
 
-
-.btn-primary {
-  background-color: var(--secondary-color);
-  border-color: var(--secondary-color);
-}
-
-.btn-primary:hover, .btn-primary:focus {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
-  color: white;
-}
-
-.btn-secondary {
-  background-color: var(--ternary-color);
-  border-color: var(--ternary-color);
-}
-
-.btn-secondary:hover, .btn-secondary:focus {
-  background-color: var(--hexa-color);
-  border-color: var(--hexa-color);
-  color: white;
-}
-
-/* Estilo para el contenedor de la tabla */
-#Containertable {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-direction: column;
-  padding: 20px;
-  border-radius: 8px;
-  background-color: var(--cuaternary-color);
-  max-width: 90%;
-  width: auto;
-  margin-top: 20px;
-  box-sizing: border-box;
-}
+//#Containertable {
+//  display: flex;
+//  justify-content: center;
+//  align-items: flex-start;
+//  flex-direction: column;
+//  padding: 20px;
+//  border-radius: 8px;
+//  background-color: var(--cuaternary-color);
+//  max-width: 90%;
+//  width: auto;
+//  margin-top: 20px;
+//  box-sizing: border-box;
+//}
 
 #table {
   background-color: var(--cuaternary-color) !important;
 }
 
-td, tr, th {
+td, tr, th, btn{
   background-color: var(--cuaternary-color) !important;
   color: var(--primary-color) !important;
 }
