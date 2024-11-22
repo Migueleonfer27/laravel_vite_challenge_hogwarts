@@ -27,7 +27,9 @@ export async function loadPage(path) {
          window.location.href = '../potions/potions.html'
     } else if (path === '/ingredients' && token != null && token !== '') {
         window.location.href = '../ingredients/ingredients.html'
-    } else {
+    }
+
+    else {
         window.location.href = '../index.html'
     }
 }

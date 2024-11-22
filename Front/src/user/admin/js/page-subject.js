@@ -6,6 +6,7 @@ import { apiGetUserSubjects, apiGetSubjects, apiAssignSubject, apiRemoveSubject,
 import {buildHeader, showLogoutButton} from "../../../components/buildHeader";
 import { buildFooter } from "../../../components/buildFooter";
 import {showToastMessages} from "../../../js/messages";
+import {buildLoader, hideLoader, showLoader} from "../../../components/buildLoader";
 
 const userTable = document.getElementById("body-user-table");
 const token = getToken();
@@ -283,11 +284,13 @@ const setupLogoutBtn = () => {
     }
 };
 
+buildLoader()
 buildHeader();
 buildFooter();
 showLogoutButton();
 setupLogoutBtn();
 await loadUserByRole();
+hideLoader()
 
 addSubjectForm.addEventListener('submit', assignSubject);
 document.getElementById('remove-subject-confirm-btn').addEventListener('click', confirmRemoveSubject);

@@ -4,9 +4,14 @@ import { buildFooter } from "../components/buildFooter";
 import {getPotions, removePotion, updatePotion, createPotion, approvePotion} from "./potions-provider";
 import { getIngredients } from "../ingredients/ingredients-provider";
 import { showToastMessages } from "../js/messages";
+import {buildLoader, hideLoader, showLoader} from "../components/buildLoader";
 
 // Miguel León Fernández
 const initPagePotions = async () => {
+    buildLoader()
+    showLoader()
+    buildLoader()
+    showLoader()
     buildHeader();
     buildFooter();
     showLogoutButton();
@@ -41,6 +46,8 @@ const loadPotions = async () => {
         ) {
             buildCard(potion);
         }
+
+        hideLoader(null, 600)
     });
 
     await deletePotion();

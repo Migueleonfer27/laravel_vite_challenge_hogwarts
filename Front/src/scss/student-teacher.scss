@@ -175,7 +175,7 @@ td button {
   margin-bottom: 20px;
 }
 
-#loader-container {
+#loader-container.loader-active {
   position: absolute;
   z-index: 9999;
   background-color: rgba(0, 0, 0, 0.75);
