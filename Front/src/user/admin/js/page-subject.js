@@ -176,7 +176,7 @@ const loadUserByRole = async () => {
             tdEmail.textContent = user.email
 
             const tdRol = document.createElement("td");
-            const rol = user.roles.find(rol => rol.name === 'teacher' || rol.name === 'student-teacher')
+            const rol = user.roles.find(rol => rol.name === 'teacher' || rol.name === 'student')
             tdRol.textContent = rol ? (rol.name === 'teacher' ? 'Profesor' : 'Estudiante') : '';
 
             const tdActions = document.createElement("td");
@@ -221,7 +221,7 @@ const loadUserByRole = async () => {
             tr.appendChild(tdRol);
             tr.appendChild(tdActions);
 
-            if (user.roles.some(rol => rol.name === 'teacher') || user.roles.some(rol => rol.name === 'student-teacher')) {
+            if (user.roles.some(rol => rol.name === 'teacher') || user.roles.some(rol => rol.name === 'student')) {
                 userTable.appendChild(tr);
             }
         });
