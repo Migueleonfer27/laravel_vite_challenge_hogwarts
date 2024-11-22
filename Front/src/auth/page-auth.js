@@ -36,7 +36,7 @@ const addOwl = () => {
     const mainContent = document.querySelector('#main-container');
     mainContent.innerHTML += `
         <div class="container mt-5">
-            <div class="row justify-content-center align-items-center">
+            <div class="row justify-content-center align-items-center flex-nowrap">
                 <div class="col-md-6 d-none d-md-block owl-container">
                     <img src="./assets/img/lechuza.png" alt="Imagen de Registro" class="img-fluid animated-owl" width="75%">
                 </div>

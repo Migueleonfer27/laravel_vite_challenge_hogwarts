@@ -12,11 +12,8 @@ export async function loadPage(path) {
     } else if (path === '/email') {
         window.location.href = '../email/index.html'
     }
-    else if (path === '/teacher' && token != null && token !== ''){
-         window.location.href = '../student-teacher/index.html'
-    }
     else if (path === '/student-teacher' && token != null && token !== ''){
-         window.location.href = '../student-teacher/index.html'
+         window.location.href = '../student-teacher/student-teacher.html'
     }
     else if (path === '/student-teacher-profile' && token != null && token !== ''){
         window.location.href = '../student-teacher/profile.html'
@@ -26,7 +23,7 @@ export async function loadPage(path) {
         window.location.href = '../user/admin/index.html'
     } else if (path === '/teacher' && token != null && token !== ''){
         // window.location.href = ''
-    } else if (path === '/student-teacher-subject-potion' && token != null && token !== ''){
+    } else if (path === '/student-subject-potion' && token != null && token !== ''){
          window.location.href = '../potions/potions.html'
     } else if (path === '/ingredients' && token != null && token !== '') {
         window.location.href = '../ingredients/ingredients.html'

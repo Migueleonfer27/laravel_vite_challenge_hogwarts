@@ -1,31 +1,27 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-
 import {buildHeader, showLogoutButton} from "../../components/buildHeader";
 import {buildFooter} from "../../components/buildFooter";
 import {removeToken} from "../../../storage/tokenManager";
 import { loadPage} from "../../js/router";
-import {apiGetProfile} from "./provider-student-teacher";
+import {buildLoader, hideLoader, showLoader} from "../../components/buildLoader";
 
-let rolesUser = localStorage.getItem('roles')
-let roles = rolesUser.split(',')
 
-const containerElement = document.getElementById('main-container')
+const initPage = () => {
+    let rolesUser = localStorage.getItem('roles')
+    let roles = rolesUser.split(',')
 
-if(roles.includes('student-teacher')){
-    containerElement.classList.add('student-teacher-background')
-}else{
-    containerElement.classList.add('teacher-background')
-}
+    const body = document.getElementsByTagName('body')
+    if(roles.includes('student')){
+        body.item(0).classList.add('student-background')
+    }else{
+        body.item(0).classList.add('teacher-background')
+    }
 
-document.addEventListener('DOMContentLoaded', () => {
     const profileButton = document.getElementById('profileButton');
     if (profileButton) {
         profileButton.addEventListener('click', () => {
-            loadPage(`/student-profile`)
+            loadPage(`/student-teacher-profile`)
         });
     }
-
 
     const subjectSpellButton = document.getElementById('subject-spell');
     if (subjectSpellButton) {
@@ -41,10 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const subjectPotionButton = document.getElementById('subject-potion');
     if (subjectPotionButton) {
         subjectPotionButton.addEventListener('click', () => {
-            if (roles.includes('student-teacher')) {
-                 loadPage('/student-teacher-subject-potion');
+            if (roles.includes('student')) {
+                loadPage('/student-subject-potion');
             } else {
-                 loadPage('/teacher-subject-potion');
+                loadPage('/teacher-subject-potion');
             }
         });
     }
@@ -56,11 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    buildHeader();
-    showLogoutButton()
-    setupLogoutBtn()
-    buildFooter();
-});
+    hideLoader(null, 600)
+}
 
 const logout = () => {
     removeToken()
@@ -72,3 +65,11 @@ const setupLogoutBtn = () => {
         logoutButton.addEventListener('click',logout)
     }
 }
+
+buildLoader()
+showLoader()
+buildHeader();
+// showLogoutButton()
+// setupLogoutBtn()
+buildFooter();
+initPage()
