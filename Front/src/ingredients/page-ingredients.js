@@ -66,9 +66,9 @@ const buildCard = async (ingredient) => {
 
     card.innerHTML = `
         <div class="card h-100 rounded-5">
-            <div class="card-body rounded-5 d-flex flex-column align-items-center bg-gradient-potions">
+            <div class="card-body rounded-5 d-flex flex-column align-items-center bg-gradient-potions align-content-lg-stretch">
                 <img class="object-fit-contain mb-3 bg-shadow-potions" src="${img}" alt="img-ingredient" height="200px" width="200px">
-                <h4 class="card-title mb-3 text-primary-person">${ingredient.name}</h4>
+                <h4 class="card-title mb-3 text-primary-person text-center">${ingredient.name}</h4>
                 <button class="btn my-1 w-75 showDetailsIngredientBtn bg-secondary-person text-primary-person text-shadow-person">Ver Detalles</button>
                 <button class="btn my-1 w-75 deleteIngredientBtn bg-hepta-person text-primary-person text-shadow-person" data-id="${ingredient.id}">Eliminar</button>
             </div>
