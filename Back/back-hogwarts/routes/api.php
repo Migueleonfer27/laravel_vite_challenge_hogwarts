@@ -52,7 +52,7 @@ Route::post('addpointsteacherspell',[PointsController::class, 'addPointsTeacherS
 Route::post('addpointsstudentpotion',[PointsController::class, 'addPointsStudentPotion'])->middleware('auth:sanctum');
 Route::post('addpointsstudentspell',[PointsController::class, 'addPointsStudentSpell'])->middleware('auth:sanctum');
 
-Route::get('/user/profile',[AuthController::class, 'profile'])->middleware('auth:sanctum');
+Route::get('/user/profile',[PointsController::class, 'profile'])->middleware('auth:sanctum');
 
 Route::post('/subirs3',[ControladorS3::class,'cargarImagenS3'])->middleware('auth:sanctum');
 Route::put('/updateimage',[ControladorS3::class,'updateProfileImage'])->middleware('auth:sanctum');

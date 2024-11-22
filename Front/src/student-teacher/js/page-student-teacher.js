@@ -69,7 +69,7 @@ const setupLogoutBtn = () => {
 buildLoader()
 showLoader()
 buildHeader();
-// showLogoutButton()
-// setupLogoutBtn()
+showLogoutButton()
+setupLogoutBtn()
 buildFooter();
 initPage()
