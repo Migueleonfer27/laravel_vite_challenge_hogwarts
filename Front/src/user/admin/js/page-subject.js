@@ -293,5 +293,5 @@ await loadUserByRole();
 hideLoader()
 
 addSubjectForm.addEventListener('submit', assignSubject);
-document.getElementById('remove-subject-confirm-btn').addEventListener('click', confirmRemoveSubject);
+document.getElementById('confirmRemoveBtn').addEventListener('click', confirmRemoveSubject);
 createSubjectForm.addEventListener('submit', createSubject);
