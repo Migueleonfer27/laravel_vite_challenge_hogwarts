@@ -4,7 +4,7 @@ import '../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
 import {buildHeader, showLogoutButton} from "../../components/buildHeader";
 import {buildFooter} from "../../components/buildFooter";
 import {removeToken} from "../../../storage/tokenManager";
-import { getSpells, createSpell, deleteSpell, updateSpell } from "./spell-provider";
+import { getSpells, createSpell, deleteSpell, updateSpell, learnSpell } from "./spell-provider";
 import { Spell } from "./Spell";
 import * as validation from "./validation";
 
@@ -104,22 +104,34 @@ const buildSpellCards = async () => {
                 card.remove();
             });
             buttonGroup.appendChild(deleteButton);
+        }else if (roles.includes('student')){
+
+            const learnButton = document.createElement('button');
+            learnButton.classList.add('btn', 'btn-learn');
+            learnButton.textContent = 'Aprender';
+
+            learnButton.addEventListener('click', async () => {
+                // console.log('Aprender');
+                try {
+                        const result = await learnSpell(spell.id);
+                    if (result.success) {
+                        console.log(`Hechizo "${spell.name}" aprendido con éxito.`);
+                    } else {
+                        console.log(`No se pudo aprender el hechizo: ${result.message}`);
+                    }
+                } catch (error) {
+                    console.log('Ocurrió un error al intentar aprender el hechizo. Intenta de nuevo.');
+                }
+            })
+
+            buttonGroup.appendChild(learnButton);
         }
+
+
         const button = card.querySelector('.btn');
         button.addEventListener('click', () => {
             openSpellDetails(spell);
         });
-
-        // const deleteButton = card.querySelector('.btn-eliminar');
-        // deleteButton.addEventListener('click', async () => {
-        //     await deleteSpell(spell.id);
-        //     card.remove();
-        // });
-
-        // const modifyButton = card.querySelector('.btn-modificar');
-        // modifyButton.addEventListener('click', () => {
-        //     openEditSpellModal(spell);
-        // });
 
         spellContainer.appendChild(card);
     }

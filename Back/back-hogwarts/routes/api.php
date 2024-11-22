@@ -8,12 +8,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\SpellController;
+use App\Http\Controllers\UserSpellController;
 
 
 //Monica
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('/users', [AdminController::class, 'index'])->middleware('ability:dumbledore,admin');
-    Route::get('/user/{id}', [AdminController::class, 'show'])->middleware('ability:teacher,student');
+    Route::get('/user/{id}', [AdminController::class, 'show'])->middleware('ability:dumbledore,teacher,student');
     Route::post('/user', [AdminController::class, 'create'])->middleware('ability:dumbledore,admin');
     Route::put('/user/{id}', [AdminController::class, 'update'])->middleware('ability:dumbledore,admin');
     Route::delete('/user/{id}', [AdminController::class, 'destroy'])->middleware('ability:dumbledore,admin');
@@ -54,4 +55,5 @@ Route::middleware('auth:sanctum')->prefix('spell')->group(function () {
     Route::post('/', [SpellController::class, 'create'])->middleware('ability:student,teacher');
     Route::put('/{id}', [SpellController::class, 'update'])->middleware('ability:teacher');
     Route::delete('/{id}', [SpellController::class, 'destroy'])->middleware('ability:teacher');
+    Route::post('/learn/{id}', [UserSpellController::class, 'store'])->middleware('ability:dumbledore,student,teacher');
 });

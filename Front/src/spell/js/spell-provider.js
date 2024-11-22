@@ -57,10 +57,24 @@ const createSpell = async (body) => {
     return data;
 }
 
+const learnSpell = async (spell_id) => {
+    const option = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
+        }
+    }
+    const url = `http://127.0.0.1:8000/api/spell/learn/${spell_id}`
+    const response = await fetch(url, option);
+    const data = await response.json();
+    return data;
+}
 
 export {
     getSpells,
     createSpell,
     deleteSpell,
-    updateSpell
+    updateSpell,
+    learnSpell
 }
