@@ -117,62 +117,94 @@ const construirCabecera = (objeto) => {
     let cabecera = document.querySelector('#header');
     let tr = document.createElement('tr');
     for (let clave in objeto) {
-        if (clave === 'id' || clave === 'password' || clave === 'created_at' || clave === 'updated_at' || clave === 'email_verified_at' || clave === 'roles') {
+        if (
+            clave === 'id' ||
+            clave === 'password' ||
+            clave === 'created_at' ||
+            clave === 'updated_at' ||
+            clave === 'email_verified_at' ||
+            clave === 'roles' ||
+            clave === 'url_photo'
+        ) {
             continue;
         }
         if (clave === 'name') {
             clave = 'nombre';
         }
-        if (clave === 'email') {
-            clave = 'correo electrónico';
+        if (clave === 'level') {
+            clave = 'nivel';
         }
+        if (clave === 'experience') {
+            clave = 'experiencia';
+        }
+
+        if (clave === 'id_house') {
+            clave = 'casa';
+        }
+
+
         let th = document.createElement('th');
         th.textContent = clave;
         tr.appendChild(th);
     }
-    cabecera.appendChild(tr);
-}
 
+    let accionesTh = document.createElement('th');
+    accionesTh.textContent = 'acciones';
+    tr.appendChild(accionesTh);
+
+    cabecera.appendChild(tr);
+};
 const construirCuerpo = (users) => {
     let cuerpo = document.querySelector('#body');
 
-    const currentUser = 'dumbledore'
-
+    const currentUser = 'dumbledore';
 
     users.forEach(user => {
         let tr = document.createElement('tr');
         tr.id = user.id;
         for (let clave in user) {
-            if (clave === 'id' || clave === 'password' || clave === 'created_at' || clave === 'updated_at' || clave === 'email_verified_at' || clave === 'roles') {
+            if (
+                clave === 'id' ||
+                clave === 'password' ||
+                clave === 'created_at' ||
+                clave === 'updated_at' ||
+                clave === 'email_verified_at' ||
+                clave === 'roles' ||
+                clave === 'url_photo'
+            ) {
                 continue;
             }
             let td = document.createElement('td');
+            td.classList.add('text-center', 'bg-octa-person', 'text-primary-person');
+
             if (clave === 'role') {
-                let input = document.createElement('input');
-                input.value = user[clave];
-                input.classList.add('form-control');
-                input.id = clave
-                input.disabled = true;
-                td.appendChild(input);
+                td.textContent = user[clave];
+                td.classList.add('fs-4');
             } else {
-                let input = document.createElement('input');
-                input.value = user[clave];
-                input.classList.add('form-disabled');
-                input.classList.add('form-control');
-                input.id = clave
-                input.disabled = true;
-                td.appendChild(input);
+                td.textContent = user[clave];
             }
+
+            if (clave === 'id_house') {
+                if (user[clave] === 1) {
+                    td.textContent = 'Slytherin';
+                } else if (user[clave] === 2) {
+                    td.textContent = 'Hufflepuff';
+                } else if (user[clave] === 3) {
+                    td.textContent = 'Ravenclaw';
+                } else if (user[clave] === 4) {
+                    td.textContent = 'Gryffindor';
+                }
+            }
+
             tr.appendChild(td);
         }
 
-
         let tdBotones = document.createElement('td');
-        tdBotones.width = '30%';
+        //tdBotones.width = '30%';
 
         let botonModificar = document.createElement('button');
         botonModificar.id = 'modificar';
-        botonModificar.classList.add('btn' ,'me-2');
+        botonModificar.classList.add("btn", "w-100", "modify", "text-primary-person", "text-shadow-person");
         botonModificar.textContent = 'Modificar';
 
         botonModificar.addEventListener('click', (event) => {
@@ -209,7 +241,7 @@ const construirCuerpo = (users) => {
 
         let botonRoles = document.createElement('button');
         botonRoles.id = 'roles';
-        botonRoles.classList.add('btn');
+        botonRoles.classList.add("btn", "w-100", "modify", "text-primary-person", "text-shadow-person");
         botonRoles.textContent = 'Roles';
 
         botonRoles.addEventListener('click', (event) => {
@@ -227,7 +259,7 @@ const construirCuerpo = (users) => {
 
         let botonEliminar = document.createElement('button');
         botonEliminar.id = 'eliminar';
-        botonEliminar.classList.add('btn','ms-2');
+        botonEliminar.classList.add("btn", "w-100", "modify", "text-primary-person", "text-shadow-person");
         botonEliminar.textContent = 'Eliminar';
         botonEliminar.addEventListener('click', (event) => {
             apiDeleteUser(token, user.id)
@@ -239,14 +271,6 @@ const construirCuerpo = (users) => {
         })
         tdBotones.appendChild(botonEliminar);
 
-        // if(roles.includes('dumbledore')){
-        //     const addPointsBtn = document.createElement('button')
-        //     addPointsBtn.textContent = '+'
-        //     addPointsBtn.classList.add('round-button')
-        //     addPointsBtn.addEventListener('click', () => {
-        //     })
-        //     tdBotones.appendChild(addPointsBtn)
-        // }
         tr.appendChild(tdBotones);
         cuerpo.appendChild(tr);
     });
@@ -261,7 +285,7 @@ const construirModalRoles = (roles, rolesUser, userID) => {
         div.classList.add('form-check');
 
         let button = document.createElement('button');
-        button.classList.add('btn', 'm-2');
+        button.classList.add("btn", "w-100", "modify", "text-primary-person", "text-shadow-person");
         let isRoleAssigned = rolesUser.some(userRole => userRole.name === role.name);
         button.textContent = isRoleAssigned ? `Eliminar rol (${role.name})` : `Añadir rol (${role.name})`;
         button.value = role.id;
