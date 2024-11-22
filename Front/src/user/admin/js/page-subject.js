@@ -193,53 +193,78 @@ const loadUserByRole = async () => {
         const users = await apiGetUsers(token);
 
         users.forEach(user => {
-            const tr = document.createElement("tr");
-            tr.setAttribute("data-user-id", user.id);
+            const roles = user.roles.filter(rol => rol.name === 'teacher' || rol.name === 'student');
 
-            const tdName = document.createElement("td");
-            tdName.textContent = user.name;
+            if (roles.length === 0) {
+                const tr = document.createElement("tr");
+                tr.setAttribute("data-user-id", user.id);
 
+                const tdName = document.createElement("td");
+                tdName.textContent = user.name;
 
-            const tdEmail = document.createElement("td");
-            tdEmail.textContent = user.email;
+                const tdEmail = document.createElement("td");
+                tdEmail.textContent = user.email;
 
-            const tdRol = document.createElement("td");
-            const rol = user.roles.find(rol => rol.name === 'teacher' || rol.name === 'student');
-            tdRol.textContent = rol ? (rol.name === 'teacher' ? 'Profesor' : 'Estudiante') : '';
+                const tdRol = document.createElement("td");
+                tdRol.textContent = "Sin roles asignados";
 
-            const tdActions = document.createElement("td");
+                const tdActions = document.createElement("td");
+                tdActions.colSpan = 2;
+                tdActions.textContent = "No disponible";
 
-            const addBtn = document.createElement("button");
-            addBtn.classList.add("btn", "w-100", "modify","text-primary-person", "text-shadow-person");
-            addBtn.textContent = "Añadir asignatura";
-            addBtn.addEventListener('click', addBtnHandler);
+                tr.appendChild(tdName);
+                tr.appendChild(tdEmail);
+                tr.appendChild(tdRol);
+                tr.appendChild(tdActions);
 
-            const removeBtn = document.createElement("button");
-            removeBtn.classList.add("btn", "w-100", "modify","text-primary-person", "text-shadow-person");
-            removeBtn.textContent = "Eliminar asignatura";
-            removeBtn.addEventListener('click', async (event) => {
-                const userRow = event.target.closest('tr');
-                selectedUserId = userRow.getAttribute('data-user-id');
-
-                if (!selectedUserId) {
-                    showToastMessages("No se ha seleccionado un usuario válido.",false);
-                    return;
-                }
-
-                await populateUserSubjectsSelect(selectedUserId);
-                removeSubjectModal.show();
-            });
-
-            tdActions.appendChild(addBtn);
-            tdActions.appendChild(removeBtn);
-
-            tr.appendChild(tdName);
-            tr.appendChild(tdEmail);
-            tr.appendChild(tdRol);
-            tr.appendChild(tdActions);
-
-            if (user.roles.some(rol => rol.name === 'teacher') || user.roles.some(rol => rol.name === 'student')) {
                 userTable.appendChild(tr);
+            } else {
+                roles.forEach(rol => {
+                    const tr = document.createElement("tr");
+                    tr.setAttribute("data-user-id", user.id);
+
+                    const tdName = document.createElement("td");
+                    tdName.textContent = user.name;
+
+                    const tdEmail = document.createElement("td");
+                    tdEmail.textContent = user.email;
+
+                    const tdRol = document.createElement("td");
+                    tdRol.textContent = rol.name === 'teacher' ? 'Profesor' : 'Estudiante';
+
+                    const tdActions = document.createElement("td");
+
+                    const addBtn = document.createElement("button");
+                    addBtn.classList.add("btn", "w-100", "modify", "text-primary-person", "text-shadow-person");
+                    addBtn.textContent = "Asignar asignatura";
+                    addBtn.addEventListener('click', addBtnHandler);
+
+                    const removeBtn = document.createElement("button");
+                    removeBtn.classList.add("btn", "w-100", "modify", "text-primary-person", "text-shadow-person");
+                    removeBtn.textContent = "Designar asignatura";
+                    removeBtn.addEventListener('click', async (event) => {
+                        const userRow = event.target.closest('tr');
+                        selectedUserId = userRow.getAttribute('data-user-id');
+
+                        if (!selectedUserId) {
+                            showToastMessages("No se ha seleccionado un usuario válido.", false);
+                            return;
+                        }
+
+                        await populateUserSubjectsSelect(selectedUserId);
+                        removeSubjectModal.show();
+                    });
+
+                    tdActions.appendChild(addBtn);
+                    tdActions.appendChild(removeBtn);
+
+                    tr.appendChild(tdName);
+                    tr.appendChild(tdEmail);
+                    tr.appendChild(tdRol);
+                    tr.appendChild(tdActions);
+
+                    userTable.appendChild(tr);
+                });
             }
         });
     } catch (error) {
