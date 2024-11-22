@@ -1,16 +1,26 @@
+
 import '../../scss/styles.scss';
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
 import {buildHeader, showLogoutButton} from "../../components/buildHeader";
 import {buildFooter} from "../../components/buildFooter";
 import {removeToken} from "../../../storage/tokenManager";
-import { getSpells, createSpell, deleteSpell, updateSpell, learnSpell } from "./spell-provider";
+import { getAllSpells, getStudentSpells, createSpell, deleteSpell, updateSpell, learnSpell } from "./spell-provider";
 import { Spell } from "./Spell";
 import * as validation from "./validation";
 
+let rolesUser = localStorage.getItem('roles')
+let roles = rolesUser.split(',')
+console.log(roles)
 
+let spellData = []
 
-const spellData = await getSpells()
+if (roles.includes('teacher')){
+    spellData = await getAllSpells()
+}else {
+    spellData = await getStudentSpells()
+}
+
 let spellArray = []
 let createSpells =  () => {
     const spells = spellData.spell
@@ -60,9 +70,7 @@ const selectImage = (spell) => {
     return img;
 };
 
-let rolesUser = localStorage.getItem('roles')
-let roles = rolesUser.split(',')
-console.log(roles)
+
 
 
 const buildSpellCards = async () => {
@@ -80,7 +88,7 @@ const buildSpellCards = async () => {
                 <p class="card-text">Creador: ${spell.creator}</p>
                 <button class="btn">Más detalles</button>
 <!--                <button class="btn btn-modificar ">Modificar</button>-->
-                <div class="btn-group"></div>
+                <div class="btn-group align-content-stretch"></div>
 <!--                <button class="btn btn-eliminar">Eliminar</button>-->
             </div>
         `;
@@ -250,81 +258,95 @@ buttonAcordeon.addEventListener('click', async (e) => {
 
     // console.log(creator.value)
 
-    if (validateForm([name, level, attack, defense, damage, healing, summon, action]) && validateName(name) && validateLevel(level.value) && validateAttribute(attack.value) && validateAttribute(defense.value) && validateAttribute(damage.value) && validateAttribute(healing.value) && validateAttribute(summon.value) && validateAttribute(action.value)) {
+    if (validateForm([name, level, attack, defense, damage, healing, summon, action])) {
         const data = {
             name: name.value,
-            level: level.value,
-            attack: attack.value,
-            defense: defense.value,
-            damage: damage.value,
-            healing: healing.value,
-            summon: summon.value,
-            action: action.value,
+            level: Math.ceil(level.value),
+            attack: Math.ceil(attack.value),
+            defense: Math.ceil(defense.value),
+            damage: Math.ceil(damage.value),
+            healing: Math.ceil(healing.value),
+            summon: Math.ceil(summon.value),
+            action: Math.ceil(action.value),
             hasCreator: creator.value
         }
 
-        try{
-            await createSpell(data)
-                .then(data => {
-                    console.log(data)
-                    if (data.success){
-                        window.location.reload()
-                    }
+            try{
+                await createSpell(data)
+                    .then(data => {
+                        if (data.success){
+                            window.location.reload()
+                        }
 
-                })
-        }catch (error) {
-            console.error('Error al crear usuario:', error);
+                    })
+            }catch (error) {
+                console.error('Error al crear usuario:', error);
+            }
         }
-    }
-    window.location.reload();
+
 })
 
 const validateForm = (inputs) => {
     let isValid = true;
 
-   inputs.forEach(input => {
-       if (!validation.validateIsNotEmpty(input.value)) {
-           isValid = false;
-           if (!input.classList.contains('is-invalid')) {
-               input.classList.add('is-invalid'); // Marca como inválido
-           }
-       } else {
-           input.classList.remove('is-invalid'); // Remueve la clase si es válido
-       }
-   })
+    inputs.forEach(input => {
+        if (!validation.validateIsNotEmpty(input.value)) {
+            isValid = false;
+            if (!input.classList.contains('is-invalid')) {
+                input.classList.add('is-invalid');
+            }
+        } else {
+            input.classList.remove('is-invalid');
+        }
+    });
+
+    isValid = validateName(inputs[0], isValid) && isValid;
+    isValid = validateLevel(inputs[1], isValid) && isValid;
+    isValid = validateAttribute(inputs[2], isValid) && isValid;
+    isValid = validateAttribute(inputs[3], isValid) && isValid;
+    isValid = validateAttribute(inputs[4], isValid) && isValid;
+    isValid = validateAttribute(inputs[5], isValid) && isValid;
+    isValid = validateAttribute(inputs[6], isValid) && isValid;
+    isValid = validateAttribute(inputs[7], isValid) && isValid;
 
     return isValid;
 };
 
-const validateName = (name) =>{
-    let isValid = validation.validateName(name.value)
+
+const validateName = (name, valid) => {
+    let isValid = validation.validateName(name.value);
+
     if (!isValid) {
-        document.querySelector('#spell-name').classList.add('is-invalid')
-    }else {
-        document.querySelector('#spell-name').classList.remove('is-invalid')
+        name.classList.add('is-invalid');
+    } else if (!valid && name.classList.contains('is-invalid')) {
+        name.classList.remove('is-invalid');
     }
 
     return isValid;
 }
 
-const validateLevel = (level) =>{
-    let isValid = validation.validateLevel(level)
+const validateLevel = (level, valid) => {
+    let isValid = validation.validateLevel(level.value);
+
     if (!isValid) {
-        document.querySelector('#spell-level').classList.add('is-invalid')
-    }else {
-        document.querySelector('#spell-level').classList.remove('is-invalid')
+        level.classList.add('is-invalid');
+    } else if (!valid && level.classList.contains('is-invalid')) {
+        level.classList.remove('is-invalid');
     }
 
     return isValid;
 }
 
-const validateAttribute = (attack) =>{
-    let isValid = validation.validateAttribute(attack)
-    if (!isValid) {
-        document.querySelector('#spell-attack').classList.add('is-invalid')
-    }else {
-        document.querySelector('#spell-attack').classList.remove('is-invalid')
+const validateAttribute = (attribute, valid) => {
+    attribute.value = Math.ceil(attribute.value);
+    let isValid = validation.validateAttribute(attribute.value);
+
+    if (!isValid || attribute.value.trim() === '') {
+        attribute.classList.add('is-invalid');
+    } else if (valid && attribute.classList.contains('is-invalid')) {
+        attribute.classList.remove('is-invalid');
     }
+
     return isValid;
 }
 
@@ -340,7 +362,11 @@ const setupLogoutBtn = () => {
 }
 
 createSpells()
+
+
 await buildSpellCards()
+
+
 
 buildHeader()
 showLogoutButton()

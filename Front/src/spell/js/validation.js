@@ -7,12 +7,12 @@ const validateLevel = (level)=> {
     return level >= 1 && level <= 5;
 }
 
-const validateAttribute = (attack)=> {
-    return attack >= 0 && attack <= 100;
+const validateAttribute = (attribute)=> {
+    return attribute >= 0 && attribute <= 100;
 }
 
 const validateIsNotEmpty = (value) => {
-    return value != '';
+    return value.trim !== '';
 }
 
 export {

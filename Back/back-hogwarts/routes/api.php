@@ -52,6 +52,7 @@ Route::delete('/subjects/{subjectId}/remove-subject',[SubjectController::class, 
 //Monica
 Route::middleware('auth:sanctum')->prefix('spell')->group(function () {
     Route::get('/', [SpellController::class, 'index'])->middleware('ability:student,teacher');
+    Route::get('/student', [SpellController::class, 'getSpellsStudent'])->middleware('ability:student');
     Route::post('/', [SpellController::class, 'create'])->middleware('ability:student,teacher');
     Route::put('/{id}', [SpellController::class, 'update'])->middleware('ability:teacher');
     Route::delete('/{id}', [SpellController::class, 'destroy'])->middleware('ability:teacher');

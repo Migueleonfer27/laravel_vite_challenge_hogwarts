@@ -29,6 +29,19 @@ class SpellController extends Controller
         ]);
     }
 
+    public function getSpellsStudent(){
+        $spell = DB::table('spells')
+        ->select('spells.id', 'spells.name', 'spells.attack', 'spells.defense', 'spells.healing', 'spells.damage', 'spells.summon', 'spells.action', 'spells.level', 'spells.validation_status', 'users.name as creator')
+        ->where('spells.validation_status', 'approved by dumbledore')
+        ->where('spells.level', '<=', Auth::user()->level)
+        ->leftJoin('users', 'spells.creator', '=', 'users.id')
+        ->get();
+
+        return response()->json([
+            'success' => true,
+            'spell' => $spell
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      */

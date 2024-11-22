@@ -1,6 +1,6 @@
 import { getToken } from "../../../storage/tokenManager";
 
-const getSpells = async () => {
+const getAllSpells = async () => {
     const response = await fetch('http://127.0.0.1:8000/api/spell/', {
         method: 'GET',
         headers: {
@@ -9,6 +9,19 @@ const getSpells = async () => {
         },
     })
 
+    const data = await response.json()
+    return data
+}
+
+const getStudentSpells = async () => {
+    const response = await fetch('http://127.0.0.1:8000/api/spell/student', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${getToken()}`,
+            'Content-Type': 'application/json',
+        },
+    },
+    )
     const data = await response.json()
     return data
 }
@@ -72,7 +85,8 @@ const learnSpell = async (spell_id) => {
 }
 
 export {
-    getSpells,
+    getAllSpells,
+    getStudentSpells,
     createSpell,
     deleteSpell,
     updateSpell,
