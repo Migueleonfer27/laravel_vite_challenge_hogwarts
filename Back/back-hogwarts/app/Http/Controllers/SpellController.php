@@ -19,7 +19,7 @@ class SpellController extends Controller
     {
         $spell = DB::table('spells')
             ->select('spells.id', 'spells.name', 'spells.attack', 'spells.defense', 'spells.healing', 'spells.damage', 'spells.summon', 'spells.action', 'spells.level', 'spells.validation_status', 'users.name as creator')
-//            ->where('validation_status', 'approved by dumbledore')
+            ->where('validation_status', 'approved by dumbledore')
             ->leftJoin('users', 'spells.creator', '=', 'users.id')
             ->get();
 
