@@ -3,30 +3,26 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="scss/style.scss">
+    <link rel="stylesheet" href="./scss/style.scss">
     <title>Administración usuarios</title>
 </head>
 <body>
-
+<div id="loader-container"></div>
 <div id="header-container"></div>
 
 <!--Monica-->
 <div id="main-container" class="container-fluid">
 
-    <div class="row justify-content-center p-5" id="admin-alumns">
-
-        <div class="col-12  mb-3" id="container-btn">
-            <button class="btn btn-input" id="btn-students">Crear Usuario</button>
-        </div>
-
-        <p class="h2 text-center text-white col-12">Administración usuarios</p>
-        <div id="Containertable" class="container text-white m-5 p-3">
-            <table id="user-table" class="table table-borderless text-center">
-                <thead id="header"></thead>
-                <tbody id="body"></tbody>
+        <h2 class="text-primary-person fs-4 pt-4">Administración usuarios</h2>
+        <div id="Containertable" class="pb-5 d-flex flex-column align-items-center bg-octa-person mb-5">
+            <div class="d-flex flex-column align-items-center bg-octa-person" id="container-btn">
+                <button class="btn w-100 modify text-primary-person text-shadow-person" id="btn-students">Crear Usuario</button>
+            </div>
+            <table id="user-table" class="table table-responsive bg-octa-person">
+                <thead id="header" class="text-center bg-octa-person text-primary-person fs-4"></thead>
+                <tbody id="body" class="text-center align-middle" id="body-user-table"></tbody>
             </table>
         </div>
-    </div>
 </div>
 
 <div id="footer-container"></div>
@@ -100,7 +96,7 @@
   </div>
 </div>
 
-<script type="module" src='../Admin/js/page-admin-user.js' defer></script>
+<script type="module" src='../admin/js/page-admin-user.js'></script>
 </body>
 </html>
 

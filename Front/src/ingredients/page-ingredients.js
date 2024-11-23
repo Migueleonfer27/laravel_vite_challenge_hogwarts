@@ -4,9 +4,12 @@ import {buildFooter} from "../components/buildFooter";
 import {createIngredient, removeIngredient, getIngredients} from "./ingredients-provider";
 import {showToastMessages} from "../js/messages";
 import {uploadImageS3} from "../student-teacher/js/provider-student-teacher";
+import {buildLoader, hideLoader, showLoader} from "../components/buildLoader";
 
 // Miguel León Fernández
 const initPageIngredients = async () => {
+    buildLoader()
+    showLoader()
     buildHeader();
     buildFooter();
     showLogoutButton();
@@ -22,7 +25,9 @@ const loadIngredients = async () => {
     ingredients.reverse();
 
     ingredients.forEach(ingredient => {
-        buildCard(ingredient);
+        {buildCard(ingredient)
+        }
+        hideLoader(null, 600)
     });
 
     await deleteIngredient();

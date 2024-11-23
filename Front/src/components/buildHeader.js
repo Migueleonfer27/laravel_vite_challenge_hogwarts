@@ -5,6 +5,7 @@ import {buildNavIngredients} from "./buildNavIngredients";
 export const buildHeader = (idContainer) => {
     const container = document.querySelector(idContainer || '#header-container');
     const imageURL = new URL('../assets/img/icon_hogwarts.png', import.meta.url);
+    const userURL = new URL('../assets/img/user.png', import.meta.url);
     const name = localStorage.getItem('name');
 
     container.innerHTML = `
@@ -21,7 +22,7 @@ export const buildHeader = (idContainer) => {
                 </div>
                 <div class="collapse navbar-collapse" id="navbarContent">
                     <div class="ms-auto d-flex align-items-center justify-content-end">
-                        <img id="photo" class="object-fit-contain me-3 d-none" src="../assets/img/user.png" alt="img-user" width="6%" height="6%">
+                        <img id="photo" class="object-fit-contain me-3 d-none" src="${userURL}" alt="img-user" width="6%" height="6%">
                         <span id="name" class="text-primary-person me-3 d-none text-shadow-person fs-5">Bienvenido, ${name}</span>
                         <a href="/">
                             <i id="logoutBtn" class="bi bi-door-closed-fill btn text-primary-person text-shadow-person fs-1 d-none"></i>

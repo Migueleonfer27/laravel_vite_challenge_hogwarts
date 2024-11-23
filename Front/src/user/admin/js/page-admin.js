@@ -4,12 +4,15 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import {buildHeader, showLogoutButton} from "../../../components/buildHeader";
 import {buildFooter} from "../../../components/buildFooter";
 import {removeToken} from "../../../../storage/tokenManager";
+import {buildLoader, hideLoader, showLoader} from "../../../components/buildLoader";
+import {loadPage} from "../../../js/router";
 
-document.addEventListener('DOMContentLoaded', () => {
+
+const initPage = () => {
     const adminButton = document.getElementById('admin-button');
     if (adminButton) {
         adminButton.addEventListener('click', () => {
-            window.location.href ='../../User/Admin/admin-user.html';
+            window.location.href = '../../user/admin/admin-user.html';
         });
     }
 
@@ -17,15 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const manageSubjectsButton = document.getElementById('manage-subjects-button');
     if (manageSubjectsButton) {
         manageSubjectsButton.addEventListener('click', () => {
-            window.location.href = '../../User/Admin/admin-subject.html';
+            window.location.href = '../../user/admin/admin-subject.html';
         });
     }
 
-    buildHeader();
-    showLogoutButton()
-    setupLogoutBtn()
-    buildFooter();
-});
+    const potionsButton = document.getElementById('potions-button');
+    if (potionsButton) {
+        potionsButton.addEventListener('click', () => {
+            window.location.href ='../../../potions/potions.html'
+        });
+    }
+
+    hideLoader(null, 600)
+
+}
 
 const logout = () => {
     removeToken()
@@ -37,5 +45,13 @@ const setupLogoutBtn = () => {
         logoutButton.addEventListener('click',logout)
     }
 }
+
+buildLoader()
+showLoader()
+buildHeader();
+showLogoutButton()
+setupLogoutBtn()
+buildFooter()
+initPage()
 
 
