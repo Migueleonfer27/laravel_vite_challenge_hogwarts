@@ -17,7 +17,7 @@ class SubjectFactory extends Factory
      */
     public function definition(): array
     {
-        $subject =['Hechizos','Pócimas'];
+        $subject =['spells','potions'];
 
         return [
             'name' => $this->faker->randomElement($subject),

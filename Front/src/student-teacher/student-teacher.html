@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <link rel="stylesheet" href="student-teacher.scss">
+</head>
+<body>
+<div id="loader-container"></div>
+<div id="header-container"></div>
+
+<main id="main-container" class="container-fluid mt-5">
+    <div class="row justify-content-center mb-4 mt-5 gap-3 gap-md-5 d-flex align-items-stretch">
+        <div class="col-12 col-sm-10 col-md-5 col-lg-4 mb-3">
+            <div class="card card-uniform bg-octa-person border border-2 border-primary-person h-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-primary-person text-shadow-person fs-1 mb-3">Gestión de perfil</h5>
+                    <p class="card-text text-primary-person text-shadow-person mb-3 fs-5">Gestiona tu perfil y mira tus estadísticas</p>
+                    <button id="profileButton" class="btn mt-auto w-100 modify text-primary-person text-shadow-person fs-5">Mi Perfil</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-10 col-md-5 col-lg-4 mb-3">
+            <div class="card card-uniform bg-octa-person border border-2 border-primary-person h-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-primary-person text-shadow-person fs-1 mb-3">Clase de hechizos</h5>
+                    <p class="card-text text-primary-person text-shadow-person mb-3 fs-5">Un hechizo para cada propósito, magia para cada ocasión</p>
+                    <button id="subject-spell" class="btn mt-auto w-100 modify text-primary-person text-shadow-person fs-5">Ir a clase</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center gap-3 gap-md-5 d-flex align-items-stretch">
+        <div class="col-12 col-sm-10 col-md-5 col-lg-4 mb-3">
+            <div class="card card-uniform bg-octa-person border border-2 border-primary-person h-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-primary-person text-shadow-person fs-1 mb-3">Clase de pócimas</h5>
+                    <p class="card-text text-primary-person text-shadow-person mb-3 fs-5">Pócimas para cada necesidad, magia líquida en cada gota</p>
+                    <button id="subject-potion" class="btn mt-auto w-100 modify text-primary-person text-shadow-person fs-5">Ir a clase</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-10 col-md-5 col-lg-4 mb-3">
+            <div class="card card-uniform bg-octa-person border border-2 border-primary-person h-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-primary-person text-shadow-person fs-1 mb-3">Práctica duelo</h5>
+                    <p class="card-text text-primary-person text-shadow-person mb-3 fs-5">Perfecciona tu arte, domina la magia</p>
+                    <p class="card-text text-primary-person text-shadow-person mb-3 fs-5">PROXIMAMENTE</p>
+                    <button id="duels-button" class="btn mt-auto w-100 modify text-primary-person text-shadow-person fs-5">Duelo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div id="footer-container"></div>
+
+<script type="module" src="js/page-student-teacher.js"></script>
+</body>
+</html>

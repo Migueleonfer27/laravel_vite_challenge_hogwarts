@@ -1,4 +1,4 @@
-import '../scss/styles.scss';
+import '../../scss/email.scss';
 import { updatePassword } from "./email-provider.js";
 import { buildHeader } from "../../components/buildHeader.js"
 import { buildFooter } from "../../components/buildFooter";
@@ -8,22 +8,22 @@ const buildPage = () => {
     mainContent.innerHTML = `
         <div class="container mt-5">
             <div class="row justify-content-center align-items-center">
-                <div class="col-md-6 p-2">
-                    <h3 class="text-center text-light mb-4">Modificar contraseña</h3>
-                    <div id="form-container" class="p-4 text-center">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 p-3">
+                    <div id="form-container" class="p-4 text-center rounded-3 border bg-octa-person">
+                        <h3 class="text-center text-primary-person mb-4 text-shadow-person">Modificar contraseña</h3>
                         <form id="change-password-form" class="pb-3" novalidate>
                             <div class="mb-3">
-                                <label for="email" class="form-label text-light">Correo Electrónico</label>
-                                <input type="email" class="form-control" id="email" name="email" required route-link="/">
+                                <label for="email" class="form-label text-primary-person text-shadow-person">Correo Electrónico</label>
+                                <input type="email" class="form-control bg-primary-person" id="email" name="email" required route-link="/">
                             </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label text-light">Contraseña</label>
-                                <input type="password" class="form-control" id="password" name="password" required minlength="6" maxlength="6">
+                            <div class="mb-4">
+                                <label for="password" class="form-label text-primary-person text-shadow-person">Nueva Contraseña</label>
+                                <input type="password" class="form-control bg-primary-person" id="password" name="password" required minlength="6">
                             </div>
-                            <button type="submit" class="btn w-100 modify">Modificar</button>
+                            <button type="submit" class="btn w-100 modify text-primary-person text-shadow-person">Modificar</button>
                         </form>
-                        <div id="loader" class="loader pt-2" style="display: none;"></div> 
-                        <div id="message" class="text-light text-center mt-2" style="display: none;"></div>
+                        <div id="loader" class="loader pt-2" style="display: none;"></div>
+                        <div id="message" class="text-primary-person text-center text-shadow-person bg-hepta-person border rounded-3 mt-2 p-3" style="display: none;"></div>
                     </div>
                 </div>
             </div>
@@ -49,9 +49,9 @@ const addValidation = () => {
     });
 
     passwordInput.addEventListener('input', () => {
-        if (passwordInput.value.length !== 6) {
+        if (passwordInput.value.length < 6) {
             messageDiv.style.display = 'block';
-            messageDiv.textContent = 'La contraseña debe tener exactamente 6 caracteres.';
+            messageDiv.textContent = 'La contraseña debe tener 6 o más caracteres.';
         } else {
             messageDiv.style.display = 'none';
         }
@@ -60,9 +60,8 @@ const addValidation = () => {
 
 const addEventSubmit = () => {
     const form = document.getElementById('change-password-form');
-    const messageDiv = document.getElementById('message')
+    const messageDiv = document.getElementById('message');
     const loader = document.getElementById('loader');
-
 
     if (form) {
         form.addEventListener('submit', async (e) => {
@@ -72,30 +71,35 @@ const addEventSubmit = () => {
             const password = document.getElementById('password').value;
 
             loader.style.display = 'block';
-            messageDiv.style.display = 'none'
+            messageDiv.style.display = 'none';
 
-            const {response, text} = await updatePassword(email, password)
+            const { response, text } = await updatePassword(email, password);
 
-            if(response === 'ok'){
+            if (response === 'ok') {
                 form.hidden = true;
                 messageDiv.textContent = text;
                 messageDiv.style.display = 'block';
 
                 const formContainer = document.getElementById('form-container');
                 const button = document.createElement('button');
+                button.classList.add('btn');
                 button.textContent = 'Volver al inicio';
-                button.className = 'modify mt-4';
+                button.className = 'btn text-primary-person modify mt-4';
                 button.addEventListener('click', () => {
-                    window.location.href = '../../index.html'
-                })
+                    window.location.href = '../../index.html';
+                });
                 formContainer.appendChild(button);
-
-            }else if(response === 'error'){
+            } else if (response === 'error') {
                 messageDiv.textContent = text;
                 messageDiv.style.display = 'block';
-            }
-            loader.style.display = 'none';
 
+                // Oculta el mensaje después de 2 segundos
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 2000);
+            }
+
+            loader.style.display = 'none';
         });
     }
 };

@@ -76,5 +76,7 @@ class User extends Authenticatable
         return $this->hasMany(Spell::class);
     }
 
-
+    public function hasRole($roleName){
+        return $this->roles()->where('name', $roleName)->exists();
+    }
 }

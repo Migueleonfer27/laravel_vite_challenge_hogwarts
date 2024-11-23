@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./scss/style.scss">
+    <title>Gestión asignaturas</title>
+</head>
+<body>
+<div id="loader-container"></div>
+<div id="header-container"></div>
+<div id="main-container" class="container-fluid">
+    <h2 class="mt-5 text-primary-person fs-4">Usuarios</h2>
+
+    <div id="Containertable" class="p-5 d-flex flex-column align-items-center bg-octa-person m-5">
+        <div class="d-flex justify-content-end mb-3">
+            <button class="btn w-100 modify text-primary-person text-shadow-person" id="btn-subject">Crear Asignatura</button>
+        </div>
+
+        <table id="teacher-table" class="table table-responsive bg-octa-person">
+            <thead>
+            <tr>
+                <th class="text-center bg-octa-person text-primary-person fs-4">Nombre</th>
+                <th class="text-center bg-octa-person text-primary-person fs-4">Email</th>
+                <th class="text-center bg-octa-person text-primary-person fs-4">Rol</th>
+                <th class="text-center bg-octa-person text-primary-person fs-4">Acciones</th>
+            </tr>
+            </thead>
+            <tbody class="text-center align-middle" id="body-user-table">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="footer-container"></div>
+
+
+<div class="modal fade" id="addSubjectModal" tabindex="-1" aria-labelledby="addSubjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-cuaternary-person">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary-person" id="addSubjectModalLabel">Asignar Asignatura</h5>
+                <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addSubjectForm">
+                    <div class="mb-3">
+                        <label for="subject-select-modal" class="form-label text-primary-person">Seleccionar Asignatura</label>
+                        <select class="form-select" id="subject-select-modal" required>
+                        </select>
+                    </div>
+                    <div id="assign-message" class="alert d-none" role="alert"></div>
+                    <button type="submit" class="btn btn-secondary">Asignar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="Create" tabindex="-1" aria-labelledby="createSubjectLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-cuaternary-person">
+            <form id="createSubjectForm">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary-person" id="createSubjectLabel">Crear Asignatura</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="subject-name-input" class="form-label text-primary-person">Nombre de la Asignatura</label>
+                        <input type="text" class="form-control" id="subject-name-input" required>
+                    </div>
+                    <div id="create-subject-message" class="alert d-none"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="removeSubjectModal" tabindex="-1" aria-labelledby="removeSubjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-cuaternary-person">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary-person" id="removeSubjectModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close bg-primary-person" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-primary-person">¿Estás seguro de que quieres eliminar esta asignatura?</p>
+                <div id="remove-message-container" class="d-none"></div>
+                <div class="mb-3">
+                    <label for="remove-subject-select" class="form-label text-primary-person">Seleccionar Asignatura</label>
+                    <select class="form-select" id="remove-subject-select" required>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-secondary" id="confirmRemoveBtn">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="../admin/js/page-subject.js"></script>
+</body>
+</html>

@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HouseController;
+use App\Http\Controllers\IngredientController;
+use App\Http\Controllers\PointsController;
+use App\Http\Controllers\PotionController;
 use App\Http\Controllers\SubjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -9,6 +12,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\SpellController;
 use App\Http\Controllers\UserSpellController;
+use App\Http\Controllers\ControladorS3;
 
 
 //Monica
@@ -38,7 +42,6 @@ Route::get('/nologin', function () {
 //Cynthia
 Route::put('changePassword', [EmailController::class, 'changePassword']);
 
-
 Route::get('/subjects',[SubjectController::class, 'index']);
 Route::get('/subject/{id}',[SubjectController::class, 'show']);
 Route::post('/subjects',[SubjectController::class, 'create']);
@@ -46,7 +49,38 @@ Route::put('/subject/{id}', [SubjectController::class, 'update']);
 Route::delete('/subject/{id}', [SubjectController::class, 'destroy']);
 
 Route::post('/subjects/{subjectId}/assign-subject',[SubjectController::class, 'assignSubject']);
-Route::delete('/subjects/{subjectId}/remove-subject',[SubjectController::class, 'deleteUserSubject']);
+Route::delete('/subjects/{subjectId}/remove-subject',[SubjectController::class, 'removeSubject']);
+Route::get('/user/{id}/subjects',[SubjectController::class, 'getUserSubject']);
+
+Route::post('addpointsteacherspell',[PointsController::class, 'addPointsTeacherSpell'])->middleware('auth:sanctum');
+Route::post('addpointsstudentpotion',[PointsController::class, 'addPointsStudentPotion'])->middleware('auth:sanctum');
+Route::post('addpointsstudentspell',[PointsController::class, 'addPointsStudentSpell'])->middleware('auth:sanctum');
+
+Route::get('/user/profile',[PointsController::class, 'profile'])->middleware('auth:sanctum');
+
+Route::post('/subirs3',[ControladorS3::class,'cargarImagenS3'])->middleware('auth:sanctum');
+Route::put('/updateimage',[ControladorS3::class,'updateProfileImage'])->middleware('auth:sanctum');
+
+// Miguel León Fernández
+Route::middleware('auth:api')->group(function () {
+    Route::get('/ingredients', [IngredientController::class, 'index']);
+    Route::post('/ingredients', [IngredientController::class, 'store']);
+    Route::delete('/ingredients/{id}', [IngredientController::class, 'destroy']);
+});
+
+// Miguel León Fernández
+Route::middleware('auth:api')->group(function () {
+    Route::get('/potions', [PotionController::class, 'index']);
+    Route::post('/potions', [PotionController::class, 'store']);
+    Route::get('/potions/{id}', [PotionController::class, 'show']);
+    Route::put('/potions/{id}', [PotionController::class, 'update']);
+    Route::delete('/potions/{id}', [PotionController::class, 'destroy']);
+});
+
+// Miguel León Fernández
+Route::middleware('auth:api')->group(function () {
+    Route::post('/approve/{potionId}', [PointsController::class, 'approvePotion']);
+});
 
 
 //Monica

@@ -59,7 +59,7 @@ const construirCard = (house) => {
             cardIcon.innerHTML =`
                 <i class="bi bi-highlighter"></i>
             `;
-        }else if (role === 'student') {
+        }else if (role === 'student-teacher') {
             cardIcon.innerHTML =`
                 <i class="bi bi-eyeglasses"></i>
             `;
@@ -78,7 +78,7 @@ const construirCard = (house) => {
             cardTitle.innerText = 'Admin';
         }else if (role === 'teacher') {
             cardTitle.innerText = 'Profesor';
-        }else if (role === 'student') {
+        }else if (role === 'student-teacher') {
             cardTitle.innerText = 'Estudiante';
         }else {
             cardTitle.innerText = role;
@@ -95,12 +95,17 @@ const construirCard = (house) => {
         }else if (role === 'teacher') {
             cardLink.addEventListener('click', (e) => {
                 e.preventDefault();
-                loadPage('/teacher');
+                loadPage('/student-teacher')
             })
         }else if (role === 'student') {
             cardLink.addEventListener('click', (e) => {
                 e.preventDefault();
-                loadPage('/student');
+                loadPage('/student-teacher');
+            })
+        }else if (role === 'dumbledore') {
+            cardLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                loadPage('/dumbledore');
             })
         }else {
             cardTitle.innerText = role;

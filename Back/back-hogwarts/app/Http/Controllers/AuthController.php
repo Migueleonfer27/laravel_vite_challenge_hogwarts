@@ -14,7 +14,7 @@ class AuthController extends Controller
 {
     public function register(Request $request) {
         $rules = [
-            'name' => 'required',
+            'name' => 'required|unique:users',
             'email' => 'required|string|email|max:60|unique:users',
             'password' => 'required|string|min:6',
             'confirm_password' => 'required|string|min:6|same:password',
@@ -24,6 +24,7 @@ class AuthController extends Controller
 
         $messages = [
             'name.required' => 'El nombre es obligatorio.',
+            'name.unique' => 'El nombre de usuario ya existe.',
             'email.required' => 'El correo electrónico es obligatorio.',
             'email.email' => 'Debe ser un correo electrónico válido.',
             'email.max' => 'El correo electrónico no debe superar los 60 caracteres.',
@@ -48,7 +49,7 @@ class AuthController extends Controller
             $data['password'] = bcrypt($data['password']);
             $data['level'] = 1;
             $data['experience'] = 0;
-            $data['url_photo'] = null; // CAMBIAR ESTO CUANDO TENGAMOS EL SISTEMA S3 DE FOTOS
+            $data['url_photo'] = null;
             $houseController = new HouseController();
             $chosenHouse = $houseController->sortingHat($request);
             $house = House::where('name', $chosenHouse)->first();

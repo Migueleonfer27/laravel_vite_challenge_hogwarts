@@ -1,24 +1,7 @@
 @import "~bootstrap/scss/bootstrap";
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
-:root {
-  // Colors variables
-  --primary-color: #CACEC8FF;
-  --secondary-color: #7fa19b;
-  --ternary-color: #466753;
-  --cuaternary-color: #26334b;
-  --penta-color: #466753;
-  --hexa-color: #7c857f;
-  --hepta-color: #2d2540;
-
-  // Typography variables
-  --primary-font: Cinzel;
-}
-
-
-
 html, body {
-  width: 100%;
   height: 100%;
   margin: 0;
   color:var(--primary-color) !important;
@@ -27,7 +10,7 @@ html, body {
   overflow-y: hidden;
 }
 
-main{
+main {
     background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../assets/img/fondo-choose-role.png')!important;
     background-size: cover;
     background-position: center;

@@ -58,4 +58,5 @@ class HouseController extends Controller
 
         return $chosenHouse;
     }
+
 }
