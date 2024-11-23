@@ -29,6 +29,20 @@ class SpellController extends Controller
         ]);
     }
 
+    public function getSpellPending()
+    {
+        $spell = DB::table('spells')
+            ->select('spells.id', 'spells.name', 'spells.attack', 'spells.defense', 'spells.healing', 'spells.damage', 'spells.summon', 'spells.action', 'spells.level', 'spells.validation_status', 'users.name as creator')
+            ->where('validation_status', 'pending')
+            ->leftJoin('users', 'spells.creator', '=', 'users.id')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'spell' => $spell
+        ]);
+    }
+
     public function getSpellsStudent(){
         $spell = DB::table('spells')
         ->select('spells.id', 'spells.name', 'spells.attack', 'spells.defense', 'spells.healing', 'spells.damage', 'spells.summon', 'spells.action', 'spells.level', 'spells.validation_status', 'users.name as creator')
@@ -42,6 +56,99 @@ class SpellController extends Controller
             'spell' => $spell
         ]);
     }
+
+    public function approveSpellTeacher($id){
+        $spell = Spell::find($id);
+
+        if (!$spell){
+            return response()->json([
+                'success' => false,
+                'message' => 'Spell not found'
+            ]);
+        }
+
+        $spell->validation_status = 'approved by teacher';
+        $spell->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Spell approved successfully',
+        ]);
+    }
+
+    public function rejectSpellTeacher($id){
+        $spell = Spell::find($id);
+
+        if (!$spell){
+            return response()->json([
+                'success' => false,
+                'message' => 'Spell not found'
+            ]);
+        }
+
+        $spell->validation_status = 'rejected by teacher';
+        $spell->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Spell rejected successfully',
+        ]);
+    }
+
+    public function approveSpellDumbledore($id){
+        $spell = Spell::find($id);
+
+        if (!$spell){
+            return response()->json([
+                'success' => false,
+                'message' => 'Spell not found'
+            ]);
+        }
+
+        $spell->validation_status = 'approved by dumbledore';
+        $spell->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Spell approved successfully',
+        ]);
+    }
+
+
+    public function rejectSpellDumbledore($id){
+        $spell = Spell::find($id);
+
+        if (!$spell){
+            return response()->json([
+                'success' => false,
+                'message' => 'Spell not found'
+            ]);
+        }
+
+        $spell->validation_status = 'rejected by dumbledore';
+        $spell->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Spell rejected successfully',
+        ]);
+    }
+
+    public function getPendingApproveTeacher()
+    {
+        $spell = DB::table('spells')
+            ->select('spells.id', 'spells.name', 'spells.attack', 'spells.defense', 'spells.healing', 'spells.damage', 'spells.summon', 'spells.action', 'spells.level', 'spells.validation_status', 'users.name as creator')
+            ->where('validation_status', 'approved by teacher')
+            ->leftJoin('users', 'spells.creator', '=', 'users.id')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'spell' => $spell
+        ]);
+
+    }
+
     /**
      * Show the form for creating a new resource.
      */

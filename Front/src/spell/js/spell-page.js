@@ -5,7 +5,9 @@ import '../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
 import {buildHeader, showLogoutButton} from "../../components/buildHeader";
 import {buildFooter} from "../../components/buildFooter";
 import {removeToken} from "../../../storage/tokenManager";
-import { getAllSpells, getStudentSpells, createSpell, deleteSpell, updateSpell, learnSpell } from "./spell-provider";
+import { getAllSpells, getStudentSpells, createSpell, deleteSpell, updateSpell, learnSpell,
+    getSpellpendings, approveSpellTeacher, rejectSpellTeacher, getPendingDumbledore,
+    approveSpellDumbledore, rejectSpellDumbledore } from "./spell-provider";
 import { Spell } from "./Spell";
 import * as validation from "./validation";
 
@@ -15,10 +17,11 @@ console.log(roles)
 
 let spellData = []
 
-if (roles.includes('teacher')){
+if (roles.includes('teacher') || roles.includes('dumbledore')){
     spellData = await getAllSpells()
 }else {
     spellData = await getStudentSpells()
+    if (localStorage.getItem('level') < 2) document.querySelector('#spellAccordion').style.display = 'none'
 }
 
 let spellArray = []
@@ -70,10 +73,7 @@ const selectImage = (spell) => {
     return img;
 };
 
-
-
-
-const buildSpellCards = async () => {
+const buildSpellCards = async (spellArray) => {
     const spellContainer = document.querySelector('#spell_cards');
 
     for (const spell of spellArray) {
@@ -87,31 +87,54 @@ const buildSpellCards = async () => {
                 <h5 class="card-title">${spell.name}</h5>
                 <p class="card-text">Creador: ${spell.creator}</p>
                 <button class="btn">Más detalles</button>
-<!--                <button class="btn btn-modificar ">Modificar</button>-->
                 <div class="btn-group align-content-stretch"></div>
-<!--                <button class="btn btn-eliminar">Eliminar</button>-->
             </div>
         `;
         const buttonGroup = card.querySelector('.btn-group');
 
         if (roles.includes('teacher')){
-            const modifyButton = document.createElement('button');
-            modifyButton.classList.add('btn', 'btn-modificar');
-            modifyButton.textContent = 'Modificar';
+           if(spell.validation_status !== 'pending'){
+               const modifyButton = document.createElement('button');
+               modifyButton.classList.add('btn', 'btn-modificar');
+               modifyButton.textContent = 'Modificar';
 
-            modifyButton.addEventListener('click', () => {
-                openEditSpellModal(spell);
-            });
-            buttonGroup.appendChild(modifyButton);
+               modifyButton.addEventListener('click', () => {
+                   openEditSpellModal(spell);
+               });
+               buttonGroup.appendChild(modifyButton);
 
-            const deleteButton = document.createElement('button');
-            deleteButton.classList.add('btn', 'btn-eliminar');
-            deleteButton.textContent = 'Eliminar';
-            deleteButton.addEventListener('click', async () => {
-                await deleteSpell(spell.id);
-                card.remove();
-            });
-            buttonGroup.appendChild(deleteButton);
+               const deleteButton = document.createElement('button');
+               deleteButton.classList.add('btn', 'btn-eliminar');
+               deleteButton.textContent = 'Eliminar';
+               deleteButton.addEventListener('click', async () => {
+                   await deleteSpell(spell.id);
+                   card.remove();
+               });
+               buttonGroup.appendChild(deleteButton);
+           }else {
+               const approveButton = document.createElement('button');
+                approveButton.classList.add('btn', 'btn-approve');
+                approveButton.textContent = 'Aprobar';
+
+                approveButton.addEventListener('click', async () => {
+                    let data = await approveSpellTeacher(spell.id);
+                    if (data.success) location.reload()
+                })
+
+               buttonGroup.appendChild(approveButton);
+
+                const rejectButton = document.createElement('button');
+                rejectButton.classList.add('btn', 'btn-reject');
+                rejectButton.textContent = 'Rechazar';
+
+                rejectButton.addEventListener('click', async () => {
+                    let data = await rejectSpellTeacher(spell.id);
+                    if (data.success) location.reload()
+                })
+
+                buttonGroup.appendChild(rejectButton);
+
+           }
         }else if (roles.includes('student')){
 
             const learnButton = document.createElement('button');
@@ -133,6 +156,28 @@ const buildSpellCards = async () => {
             })
 
             buttonGroup.appendChild(learnButton);
+        }else if (roles.includes('dumbledore')){
+            const approveButton = document.createElement('button');
+            approveButton.classList.add('btn', 'btn-approve');
+            approveButton.textContent = 'Aprobar';
+
+            approveButton.addEventListener('click', async () => {
+                let data = await approveSpellDumbledore(spell.id);
+                if (data.success) location.reload()
+            })
+
+            buttonGroup.appendChild(approveButton);
+
+            const rejectButton = document.createElement('button');
+            rejectButton.classList.add('btn', 'btn-reject');
+            rejectButton.textContent = 'Rechazar';
+
+            rejectButton.addEventListener('click', async () => {
+                let data = await rejectSpellDumbledore(spell.id);
+                if (data.success) location.reload()
+            })
+
+            buttonGroup.appendChild(rejectButton);
         }
 
 
@@ -144,6 +189,80 @@ const buildSpellCards = async () => {
         spellContainer.appendChild(card);
     }
 };
+
+
+const buttonShowPending = document.getElementById('teacher-btn');
+if (!roles.includes('teacher')) buttonShowPending.style.display = 'none';
+buttonShowPending.addEventListener('click', async () => {
+    // const showSpellPendingModal = new bootstrap.Modal(document.getElementById('showSpellPending'));
+    // showSpellPendingModal.show();
+    const cardsCreated = document.querySelectorAll('.card')
+    console.log(cardsCreated)
+    cardsCreated.forEach(card => {
+        card.remove()
+    })
+    let newSpellData = await getSpellpendings()
+    let spellArray = []
+    const newSpells = newSpellData.spell
+    newSpells.forEach(spell => {
+        if (spell.creator === null) {
+            spell.creator = 'Desconocido'
+        }
+        const newSpell = new Spell(
+            spell.id,
+            spell.name,
+            spell.level,
+            spell.attack,
+            spell.defense,
+            spell.damage,
+            spell.healing,
+            spell.summon,
+            spell.action,
+            spell.validation_status,
+            spell.created_at,
+            spell.updated_at,
+            spell.creator
+        )
+        spellArray.push(newSpell)
+    })
+    buildSpellCards(spellArray)
+})
+
+const buttonShowDumbledore = document.getElementById('dumbledore-btn');
+if (!roles.includes('dumbledore')) buttonShowDumbledore.style.display = 'none';
+buttonShowDumbledore.addEventListener('click', async () => {
+    const cardsCreated = document.querySelectorAll('.card')
+    console.log(cardsCreated)
+    cardsCreated.forEach(card => {
+        card.remove()
+    })
+    let newSpellData = await getPendingDumbledore()
+    let spellArray = []
+    const newSpells = newSpellData.spell
+    newSpells.forEach(spell => {
+        if (spell.creator === null) {
+            spell.creator = 'Desconocido'
+        }
+        const newSpell = new Spell(
+            spell.id,
+            spell.name,
+            spell.level,
+            spell.attack,
+            spell.defense,
+            spell.damage,
+            spell.healing,
+            spell.summon,
+            spell.action,
+            spell.validation_status,
+            spell.created_at,
+            spell.updated_at,
+            spell.creator
+        )
+        spellArray.push(newSpell)
+    })
+    buildSpellCards(spellArray)
+})
+
 
 const openEditSpellModal = (spell) => {
     const editSpellModalElement = document.getElementById('updateSpell');
@@ -191,7 +310,6 @@ const openEditSpellModal = (spell) => {
         }
     };
 };
-
 
 const openSpellDetails = (spell) => {
 
@@ -312,7 +430,6 @@ const validateForm = (inputs) => {
     return isValid;
 };
 
-
 const validateName = (name, valid) => {
     let isValid = validation.validateName(name.value);
 
@@ -363,10 +480,9 @@ const setupLogoutBtn = () => {
 
 createSpells()
 
-
-await buildSpellCards()
-
-
+// await displayPendingSpells()
+// getSpellPending()
+await buildSpellCards(spellArray)
 
 buildHeader()
 showLogoutButton()

@@ -84,11 +84,95 @@ const learnSpell = async (spell_id) => {
     return data;
 }
 
+const getSpellpendings = async () => {
+    const response = await fetch('http://127.0.0.1:8000/api/spell/pending', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${getToken()}`,
+                'Content-Type': 'application/json',
+            },
+        },
+    )
+    const data = await response.json()
+    return data
+}
+
+const approveSpellTeacher = async (id) => {
+    const response = await fetch(`http://127.0.0.1:8000/api/spell/approve/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${getToken()}`,
+                'Content-Type': 'application/json',
+            },
+        },
+    )
+    const data = await response.json()
+    return data
+}
+
+const rejectSpellTeacher = async (id) => {
+    const response = await fetch(`http://127.0.0.1:8000/api/spell/reject/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${getToken()}`,
+                'Content-Type': 'application/json',
+            },
+        },
+    )
+    const data = await response.json()
+    return data
+}
+
+const getPendingDumbledore = async () => {
+    const response = await fetch('http://127.0.0.1:8000/api/spell/pending/dumbledore', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${getToken()}`,
+            'Content-Type': 'application/json',
+        },
+        },
+    )
+    const data = await response.json()
+    return data
+}
+
+const approveSpellDumbledore = async (id) => {
+    const response = await fetch(`http://127.0.0.1:8000/api/spell/validate/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${getToken()}`,
+                'Content-Type': 'application/json',
+            },
+        },
+    )
+    const data = await response.json()
+    return data
+}
+
+const rejectSpellDumbledore = async (id) => {
+    const response = await fetch(`http://127.0.0.1:8000/api/spell/invalidate/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${getToken()}`,
+                'Content-Type': 'application/json',
+            },
+            },
+    )
+    const data = await response.json()
+    return data
+}
+
 export {
     getAllSpells,
     getStudentSpells,
-    createSpell,
     deleteSpell,
     updateSpell,
-    learnSpell
+    createSpell,
+    learnSpell,
+    getSpellpendings,
+    approveSpellTeacher,
+    rejectSpellTeacher,
+    getPendingDumbledore,
+    approveSpellDumbledore,
+    rejectSpellDumbledore
 }

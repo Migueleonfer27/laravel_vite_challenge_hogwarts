@@ -51,8 +51,14 @@ Route::delete('/subjects/{subjectId}/remove-subject',[SubjectController::class, 
 
 //Monica
 Route::middleware('auth:sanctum')->prefix('spell')->group(function () {
-    Route::get('/', [SpellController::class, 'index'])->middleware('ability:student,teacher');
+    Route::get('/', [SpellController::class, 'index'])->middleware('ability:dumbledore,teacher');
     Route::get('/student', [SpellController::class, 'getSpellsStudent'])->middleware('ability:student');
+    Route::get('/pending', [SpellController::class, 'getSpellPending'])->middleware('ability:teacher');
+    Route::get('/pending/dumbledore', [SpellController::class, 'getPendingApproveTeacher'])->middleware('ability:dumbledore');
+    Route::put('/approve/{id}', [SpellController::class, 'approveSpellTeacher'])->middleware('ability:teacher');
+    Route::put('/reject/{id}', [SpellController::class, 'rejectSpellTeacher'])->middleware('ability:teacher');
+    Route::put('/validate/{id}', [SpellController::class, 'approveSpellDumbledore'])->middleware('ability:dumbledore');
+    Route::put('/invalidate/{id}', [SpellController::class, 'rejectSpellDumbledore'])->middleware('ability:dumbledore');
     Route::post('/', [SpellController::class, 'create'])->middleware('ability:student,teacher');
     Route::put('/{id}', [SpellController::class, 'update'])->middleware('ability:teacher');
     Route::delete('/{id}', [SpellController::class, 'destroy'])->middleware('ability:teacher');
