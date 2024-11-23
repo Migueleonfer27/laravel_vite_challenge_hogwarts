@@ -21,8 +21,8 @@ export async function loadPage(path) {
         window.location.href = '../user/admin/index.html'
     } else if(path === '/dumbledore' && token != null && token !== ''){
         window.location.href = '../user/admin/index.html'
-    } else if (path === '/teacher' && token != null && token !== ''){
-        // window.location.href = ''
+    } else if (path === '/teacher-subject-potion' && token != null && token !== ''){
+        window.location.href = '../potions/potions.html'
     } else if (path === '/student-subject-potion' && token != null && token !== ''){
          window.location.href = '../potions/potions.html'
     } else if (path === '/ingredients' && token != null && token !== '') {
