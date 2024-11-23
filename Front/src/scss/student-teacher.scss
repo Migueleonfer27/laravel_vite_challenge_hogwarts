@@ -16,6 +16,7 @@ html, body {
   align-items: center;
   background-size: cover;
   background-position: center;
+  min-height: calc(100vh - 138px);
   padding-bottom: 60px;
   flex-direction: column;
 }
@@ -73,6 +74,10 @@ body.teacher-background {
   max-width: 100%;
 }
 
+.card .btn {
+  width: 100%;
+}
+
 #Containertable {
   display: flex;
   justify-content: center;
@@ -114,6 +119,7 @@ tr:hover {
 td button {
   margin-right: 10px;
 }
+
 
 .card {
   height: 100%;
