@@ -15,6 +15,7 @@ import {getToken, removeToken} from "../../../../storage/tokenManager";
 import {buildHeader, showLogoutButton} from "../../../components/buildHeader";
 import {buildFooter} from "../../../components/buildFooter";
 import {buildLoader, hideLoader, showLoader} from "../../../components/buildLoader";
+import modal from "bootstrap/js/src/modal";
 
 
 
@@ -283,7 +284,10 @@ const createUserBtn = document.querySelector('#modal-create-user')
 
     const construirModalRoles = (roles, rolesUser, userID) => {
         let modalBody = document.querySelector('.modal-body');
-        modalBody.innerHTML = ''; // Clear previous content
+        let modalError = document.querySelector('#roles-modal-error')
+        modalBody.innerHTML = '';
+        modalError.textContent = '';
+        modalError.style.display = 'none';
 
         roles.forEach(role => {
             let div = document.createElement('div');
@@ -298,6 +302,21 @@ const createUserBtn = document.querySelector('#modal-create-user')
             button.classList.add(isRoleAssigned ? 'btn-custom-danger' : 'btn-');
 
             button.addEventListener('click', async (event) => {
+               const hasTeacherRole = rolesUser.some(userRole => userRole.name === 'teacher')
+                const hasStudientRole = rolesUser.some(userRole => userRole.name === 'student')
+
+                if(role.name === 'teacher' && hasStudientRole){
+                    modalError.textContent = 'No puedes asignar el rol de profesor'
+                    modalError.style.display = 'block'
+                    return
+                }
+
+                if(role.name === 'student' && hasTeacherRole){
+                    modalError.textContent = 'No puedes asignar el rol estudiante'
+                    modalError.style.display = 'block'
+                    return
+                }
+
                 if (button.textContent.includes('Eliminar rol')) {
                     const data = await apiDeleteRole(token, userID, role.id);
                     console.log(data);
@@ -305,15 +324,17 @@ const createUserBtn = document.querySelector('#modal-create-user')
                         button.textContent = `Añadir rol (${role.name})`;
                         // button.classList.add('btn');
                         button.classList.remove('btn-custom-danger');
+                        rolesUser = rolesUser.filter(userRole => userRole.name !== role.name)
                     }
                 } else if (button.textContent.includes('Añadir rol')) {
                     const data = await apiAddRole(token, userID, role.id);
-                    console.log(data);
                     if (data.success) {
                         button.textContent = `Eliminar rol (${role.name})`;
                         button.classList.add('btn-custom-danger');
+                        rolesUser.push({ id: role.id, name: role.name });
                     }
                 }
+                modalError.style.display = 'none'
             });
 
             div.appendChild(button);
