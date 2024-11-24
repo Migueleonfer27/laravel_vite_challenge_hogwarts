@@ -26,6 +26,20 @@ const getStudentSpells = async () => {
     return data
 }
 
+const getSpellLearned = async () => {
+    const response = await fetch('http://127.0.0.1:8000/api/spell/learned', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${getToken()}`,
+            'Content-Type': 'application/json',
+        },
+    },
+    )
+
+    const data = await response.json()
+    return data
+}
+
 const deleteSpell = async (id) => {
     const option = {
         method: 'DELETE',
@@ -165,6 +179,7 @@ const rejectSpellDumbledore = async (id) => {
 export {
     getAllSpells,
     getStudentSpells,
+    getSpellLearned,
     deleteSpell,
     updateSpell,
     createSpell,

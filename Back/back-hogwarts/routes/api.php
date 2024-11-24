@@ -87,6 +87,7 @@ Route::middleware('auth:api')->group(function () {
 Route::middleware('auth:sanctum')->prefix('spell')->group(function () {
     Route::get('/', [SpellController::class, 'index'])->middleware('ability:dumbledore,teacher');
     Route::get('/student', [SpellController::class, 'getSpellsStudent'])->middleware('ability:student');
+    Route::get('/learned', [SpellController::class, 'getSpellsLearned'])->middleware('ability:student');
     Route::get('/pending', [SpellController::class, 'getSpellPending'])->middleware('ability:teacher');
     Route::get('/pending/dumbledore', [SpellController::class, 'getPendingApproveTeacher'])->middleware('ability:dumbledore');
     Route::put('/approve/{id}', [SpellController::class, 'approveSpellTeacher'])->middleware('ability:teacher');

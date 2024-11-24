@@ -51,10 +51,46 @@ class SpellController extends Controller
         ->leftJoin('users', 'spells.creator', '=', 'users.id')
         ->get();
 
+        $spellsOfUser = DB::table('user_spell')
+        ->select('spells.id', 'spells.name', 'spells.attack', 'spells.defense', 'spells.healing', 'spells.damage', 'spells.summon', 'spells.action', 'spells.level', 'spells.validation_status', 'users.name as creator')
+        ->where('user_spell.user_id', Auth::user()->id)
+        ->leftJoin('spells', 'user_spell.spell_id', '=', 'spells.id')
+        ->leftJoin('users', 'spells.creator', '=', 'users.id')
+        ->get();
+
+
+        $spellsNotLearned = [];
+        foreach ($spell as $s) {
+            $found = false;
+            foreach ($spellsOfUser as $su) {
+                $found = $found || ($s->id == $su->id);
+            }
+            if (!$found) {
+                array_push($spellsNotLearned, $s);
+            }
+        }
+
         return response()->json([
             'success' => true,
-            'spell' => $spell
+            'spell' => $spellsNotLearned
         ]);
+    }
+
+    public function getSpellsLearned(){
+        $user = Auth::user();
+
+        $spells = DB::table('user_spell')
+        ->select('spells.id', 'spells.name', 'spells.attack', 'spells.defense', 'spells.healing', 'spells.damage', 'spells.summon', 'spells.action', 'spells.level', 'spells.validation_status', 'users.name as creator')
+        ->where('user_spell.user_id', $user->id)
+        ->leftJoin('spells', 'user_spell.spell_id', '=', 'spells.id')
+        ->leftJoin('users', 'spells.creator', '=', 'users.id')
+        ->get();
+
+        return response()->json([
+            'success' => true,
+            'spell' => $spells
+        ]);
+
     }
 
     public function approveSpellTeacher($id){
@@ -113,6 +149,7 @@ class SpellController extends Controller
             'message' => 'Spell approved successfully',
         ]);
     }
+
 
 
     public function rejectSpellDumbledore($id){

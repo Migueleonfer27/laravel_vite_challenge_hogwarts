@@ -169,7 +169,7 @@ const addLoginForm = () => {
     `;
     addFormButtons();
     handleLogin(() => {
-        loadPage('/')
+        // loadPage('/')
     });
 };
 

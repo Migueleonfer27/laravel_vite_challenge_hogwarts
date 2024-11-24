@@ -99,6 +99,7 @@ class AuthController extends Controller
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
             $roles = $user->roles()->pluck('name')->toArray();
+            $level = $user->level;
             $token = $user->createToken('auth_token', $roles)->plainTextToken;
 
             return response()->json([
@@ -107,7 +108,8 @@ class AuthController extends Controller
                 'data' => [
                     'token' => $token,
                     'name' => $user->name,
-                    'roles' => $roles
+                    'roles' => $roles,
+                    'level' => $level
                 ]
             ], 200);
         } else {

@@ -5,7 +5,7 @@ import '../../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
 import {buildHeader, showLogoutButton} from "../../components/buildHeader";
 import {buildFooter} from "../../components/buildFooter";
 import {removeToken} from "../../../storage/tokenManager";
-import { getAllSpells, getStudentSpells, createSpell, deleteSpell, updateSpell, learnSpell,
+import { getAllSpells, getStudentSpells, getSpellLearned, createSpell, deleteSpell, updateSpell, learnSpell,
     getSpellpendings, approveSpellTeacher, rejectSpellTeacher, getPendingDumbledore,
     approveSpellDumbledore, rejectSpellDumbledore } from "./spell-provider";
 import { Spell } from "./Spell";
@@ -147,6 +147,7 @@ const buildSpellCards = async (spellArray) => {
                         const result = await learnSpell(spell.id);
                     if (result.success) {
                         console.log(`Hechizo "${spell.name}" aprendido con éxito.`);
+                        location.reload()
                     } else {
                         console.log(`No se pudo aprender el hechizo: ${result.message}`);
                     }
@@ -263,6 +264,71 @@ buttonShowDumbledore.addEventListener('click', async () => {
     buildSpellCards(spellArray)
 })
 
+const buttonShowLearned = document.getElementById('student-btn');
+if (!roles.includes('student')) buttonShowLearned.style.display = 'none';
+buttonShowLearned.addEventListener('click', async () => {
+    const cardsCreated = document.querySelectorAll('.card')
+    console.log(cardsCreated)
+    cardsCreated.forEach(card => {
+        card.remove()
+    })
+    let newSpellData = await getSpellLearned()
+    let spellArray = []
+    const newSpells = newSpellData.spell
+    newSpells.forEach(spell => {
+        if (spell.creator === null) {
+            spell.creator = 'Desconocido'
+        }
+        const newSpell = new Spell(
+            spell.id,
+            spell.name,
+            spell.level,
+            spell.attack,
+            spell.defense,
+            spell.damage,
+            spell.healing,
+            spell.summon,
+            spell.action,
+            spell.validation_status,
+            spell.created_at,
+            spell.updated_at,
+            spell.creator
+        )
+        spellArray.push(newSpell)
+    })
+    buildLearnedCards(spellArray)
+})
+
+
+const buildLearnedCards = async (spellArray) => {
+    const spellContainer = document.querySelector('#spell_cards');
+
+    for (const spell of spellArray) {
+        const img = selectImage(spell);
+
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.innerHTML = `
+            <div class="card-body custom-body">
+                <img id="spell-img" class="card-img-top" src="${img}" alt="Spell Image">
+                <h5 class="card-title">${spell.name}</h5>
+                <p class="card-text">Creador: ${spell.creator}</p>
+                <button class="btn">Más detalles</button>
+                <div class="btn-group align-content-stretch"></div>
+            </div>
+        `;
+        const buttonGroup = card.querySelector('.btn-group');
+
+        const button = card.querySelector('.btn');
+        button.addEventListener('click', () => {
+            openSpellDetails(spell);
+        });
+
+        spellContainer.appendChild(card);
+
+    }
+
+}
 
 const openEditSpellModal = (spell) => {
     const editSpellModalElement = document.getElementById('updateSpell');
