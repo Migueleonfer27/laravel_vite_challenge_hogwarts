@@ -220,18 +220,46 @@ class SpellController extends Controller
         if ($hasCreator){
             $user = Auth::user();
 
-            $spell = new Spell();
-            $spell->name = $request['name'];
-            $spell->attack = $request['attack'];
-            $spell->defense = $request['defense'];
-            $spell->healing = $request['healing'];
-            $spell->damage = $request['damage'];
-            $spell->summon = $request['summon'];
-            $spell->action = $request['action'];
-            $spell->creator = $user->id;
-            $spell->level = $request['level'];
-            $spell->validation_status = 'pending';
-            $spell->save();
+           if ($user->hasRole('teacher')){
+               $spell = new Spell();
+               $spell->name = $request['name'];
+               $spell->attack = $request['attack'];
+               $spell->defense = $request['defense'];
+               $spell->healing = $request['healing'];
+               $spell->damage = $request['damage'];
+               $spell->summon = $request['summon'];
+               $spell->action = $request['action'];
+               $spell->creator = $user->id;
+               $spell->level = $request['level'];
+               $spell->validation_status = 'approved by teacher';
+               $spell->save();
+           }elseif($user->hasRole('dumbledore')){
+               $spell = new Spell();
+               $spell->name = $request['name'];
+               $spell->attack = $request['attack'];
+               $spell->defense = $request['defense'];
+               $spell->healing = $request['healing'];
+               $spell->damage = $request['damage'];
+               $spell->summon = $request['summon'];
+               $spell->action = $request['action'];
+               $spell->creator = $user->id;
+               $spell->level = $request['level'];
+               $spell->validation_status = 'approved by dumbledore';
+               $spell->save();
+           }else {
+               $spell = new Spell();
+                $spell->name = $request['name'];
+                $spell->attack = $request['attack'];
+                $spell->defense = $request['defense'];
+                $spell->healing = $request['healing'];
+                $spell->damage = $request['damage'];
+                $spell->summon = $request['summon'];
+                $spell->action = $request['action'];
+                $spell->creator = $user->id;
+                $spell->level = $request['level'];
+                $spell->validation_status = 'pending';
+                $spell->save();
+           }
         }else {
             $spell = new Spell();
             $spell->name = $request['name'];
@@ -243,6 +271,7 @@ class SpellController extends Controller
             $spell->action = $request['action'];
             $spell->creator = null;
             $spell->level = $request['level'];
+            $spell->validation_status = 'pending';
             $spell->save();
         }
 

@@ -176,6 +176,19 @@ const rejectSpellDumbledore = async (id) => {
     return data
 }
 
+const addExperience = (id) => {
+    const response = fetch(`http://127.0.0.1:8000/api/spell/addExperience/${id}`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${getToken()}`,
+            'Content-Type': 'application/json',
+        },
+        },
+    )
+    const data = response.json()
+    return data
+}
+
 export {
     getAllSpells,
     getStudentSpells,
@@ -189,5 +202,6 @@ export {
     rejectSpellTeacher,
     getPendingDumbledore,
     approveSpellDumbledore,
-    rejectSpellDumbledore
+    rejectSpellDumbledore,
+    addExperience
 }

@@ -93,9 +93,10 @@ Route::middleware('auth:sanctum')->prefix('spell')->group(function () {
     Route::put('/approve/{id}', [SpellController::class, 'approveSpellTeacher'])->middleware('ability:teacher');
     Route::put('/reject/{id}', [SpellController::class, 'rejectSpellTeacher'])->middleware('ability:teacher');
     Route::put('/validate/{id}', [SpellController::class, 'approveSpellDumbledore'])->middleware('ability:dumbledore');
+    Route::post('/addExperience/{id}', [PointsController::class, 'spellValidatedPoints'])->middleware('ability:dumbledore');
     Route::put('/invalidate/{id}', [SpellController::class, 'rejectSpellDumbledore'])->middleware('ability:dumbledore');
-    Route::post('/', [SpellController::class, 'create'])->middleware('ability:student,teacher');
-    Route::put('/{id}', [SpellController::class, 'update'])->middleware('ability:teacher');
-    Route::delete('/{id}', [SpellController::class, 'destroy'])->middleware('ability:teacher');
+    Route::post('/', [SpellController::class, 'create'])->middleware('ability:student,teacher,dumbledore');
+    Route::put('/{id}', [SpellController::class, 'update'])->middleware('ability:teacher,dumbledore');
+    Route::delete('/{id}', [SpellController::class, 'destroy'])->middleware('ability:teacher,dumbledore');
     Route::post('/learn/{id}', [UserSpellController::class, 'store'])->middleware('ability:dumbledore,student,teacher');
 });

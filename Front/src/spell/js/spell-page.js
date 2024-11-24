@@ -7,7 +7,7 @@ import {buildFooter} from "../../components/buildFooter";
 import {removeToken} from "../../../storage/tokenManager";
 import { getAllSpells, getStudentSpells, getSpellLearned, createSpell, deleteSpell, updateSpell, learnSpell,
     getSpellpendings, approveSpellTeacher, rejectSpellTeacher, getPendingDumbledore,
-    approveSpellDumbledore, rejectSpellDumbledore } from "./spell-provider";
+    approveSpellDumbledore, rejectSpellDumbledore, addExperience } from "./spell-provider";
 import { Spell } from "./Spell";
 import * as validation from "./validation";
 
@@ -158,27 +158,51 @@ const buildSpellCards = async (spellArray) => {
 
             buttonGroup.appendChild(learnButton);
         }else if (roles.includes('dumbledore')){
-            const approveButton = document.createElement('button');
-            approveButton.classList.add('btn', 'btn-approve');
-            approveButton.textContent = 'Aprobar';
+            if(spell.validation_status === 'approved by teacher'){
+                const approveButton = document.createElement('button');
+                approveButton.classList.add('btn', 'btn-approve');
+                approveButton.textContent = 'Aprobar';
 
-            approveButton.addEventListener('click', async () => {
-                let data = await approveSpellDumbledore(spell.id);
-                if (data.success) location.reload()
-            })
+                approveButton.addEventListener('click', async () => {
+                    let data = await approveSpellDumbledore(spell.id);
+                    if (data.success) {
+                        let dataExperience = await addExperience(spell.id)
+                        console.log(dataExperience)
+                        // location.reload()
+                    }
+                })
 
-            buttonGroup.appendChild(approveButton);
+                buttonGroup.appendChild(approveButton);
 
-            const rejectButton = document.createElement('button');
-            rejectButton.classList.add('btn', 'btn-reject');
-            rejectButton.textContent = 'Rechazar';
+                const rejectButton = document.createElement('button');
+                rejectButton.classList.add('btn', 'btn-reject');
+                rejectButton.textContent = 'Rechazar';
 
-            rejectButton.addEventListener('click', async () => {
-                let data = await rejectSpellDumbledore(spell.id);
-                if (data.success) location.reload()
-            })
+                rejectButton.addEventListener('click', async () => {
+                    let data = await rejectSpellDumbledore(spell.id);
+                    if (data.success) location.reload()
+                })
 
-            buttonGroup.appendChild(rejectButton);
+                buttonGroup.appendChild(rejectButton);
+            }else {
+                const modifyButton = document.createElement('button');
+                modifyButton.classList.add('btn', 'btn-modificar');
+                modifyButton.textContent = 'Modificar';
+
+                modifyButton.addEventListener('click', () => {
+                    openEditSpellModal(spell);
+                });
+                buttonGroup.appendChild(modifyButton);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('btn', 'btn-eliminar');
+                deleteButton.textContent = 'Eliminar';
+                deleteButton.addEventListener('click', async () => {
+                    await deleteSpell(spell.id);
+                    card.remove();
+                });
+                buttonGroup.appendChild(deleteButton);
+            }
         }
 
 

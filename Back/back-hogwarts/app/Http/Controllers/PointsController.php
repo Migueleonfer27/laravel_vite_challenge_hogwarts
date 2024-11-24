@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Potion;
 use App\Models\User;
+use App\Models\House;
+use App\Models\Spell;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Exception;
@@ -92,6 +94,36 @@ class PointsController extends Controller
         } else {
             $user->level = 1;
         }
+    }
+
+    //Monica
+    public function spellValidatedPoints($id){
+        $spell = Spell::find($id);
+        $user = $spell->user;
+        $house = $user->house;
+
+        if($user->hasRole('teacher')){
+            $user->experience += 10;
+            $house->points += 2;
+            $house->save();
+            $user->save();
+            return response()->json([
+                'success' => true,
+                'message' => 'Puntos de experiencia sumados correctamente.',
+                'data' => $user
+            ], 200);
+        }elseif($user->hasRole('student')) {
+            $user->experience += 2;
+            $house->points += 1;
+            $house->save();
+            $user->save();
+            return response()->json([
+                'success' => true,
+                'message' => 'Puntos de experiencia sumados correctamente.',
+                'data' => $user
+            ], 200);
+        }
+
     }
 
     public function addExperience(Request $request, $id) {
