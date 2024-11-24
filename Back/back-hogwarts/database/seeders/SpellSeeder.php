@@ -23,6 +23,7 @@ class SpellSeeder extends Seeder
                 'action'=> 100,
                 'creator' => null,
                 'level' => 1,
+                'validation_status' => 'approved by dumbledore',
             ],
             'Cofringo' => [
                 'attack' => 70,
@@ -33,6 +34,7 @@ class SpellSeeder extends Seeder
                 'action'=> 70,
                 'creator' => null,
                 'level' => 2,
+                'validation_status' => 'approved by dumbledore',
             ],
             'Expelliarmus' => [
                 'attack' => 50,
@@ -43,6 +45,7 @@ class SpellSeeder extends Seeder
                 'action'=> 90,
                 'creator' => null,
                 'level' => 1,
+                'validation_status' => 'approved by dumbledore',
             ],
             'Lumos' => [
                 'attack' => 0,
@@ -53,6 +56,7 @@ class SpellSeeder extends Seeder
                 'action'=> 90,
                 'creator' => null,
                 'level' => 1,
+                'validation_status' => 'approved by dumbledore',
             ],
             'Expulso' => [
                 'attack' => 80,
@@ -63,6 +67,7 @@ class SpellSeeder extends Seeder
                 'action'=> 20,
                 'creator' => null,
                 'level' => 3,
+                'validation_status' => 'approved by dumbledore',
             ],
             'Riddikulus' => [
                 'attack' => 0,
@@ -73,6 +78,7 @@ class SpellSeeder extends Seeder
                 'action'=> 40,
                 'creator' => null,
                 'level' => 2,
+                'validation_status' => 'approved by dumbledore',
             ],
             'Demaius' => [
                 'attack' => 80,
@@ -83,6 +89,7 @@ class SpellSeeder extends Seeder
                 'action'=> 60,
                 'creator' => null,
                 'level' => 3,
+                'validation_status' => 'approved by dumbledore',
             ],
             'Expectro patronus' => [
                 'attack' => 0,
@@ -93,6 +100,7 @@ class SpellSeeder extends Seeder
                 'action'=> 70,
                 'creator' => null,
                 'level' => 2,
+                'validation_status' => 'approved by dumbledore',
             ],
             'Confundo' => [
                 'attack' => 60,
@@ -103,6 +111,7 @@ class SpellSeeder extends Seeder
                 'action'=> 10,
                 'creator' => null,
                 'level' => 2,
+                'validation_status' => 'approved by dumbledore',
             ],
             'Reparo' => [
                 'attack' => 0,
@@ -113,6 +122,7 @@ class SpellSeeder extends Seeder
                 'action'=> 100,
                 'creator' => null,
                 'level' => 2,
+                'validation_status' => 'approved by dumbledore',
             ],
             'Imperio' => [
                 'attack' => 70,
@@ -123,6 +133,7 @@ class SpellSeeder extends Seeder
                 'action'=> 100,
                 'creator' => null,
                 'level' => 4,
+                'validation_status' => 'approved by dumbledore',
             ],
             'Crucio' => [
                 'attack' => 100,
@@ -133,6 +144,7 @@ class SpellSeeder extends Seeder
                 'action'=> 100,
                 'creator' => null,
                 'level' => 4,
+                'validation_status' => 'approved by dumbledore',
             ],
             'Avada Kedavra' => [
                 'attack' => 100,
@@ -143,6 +155,7 @@ class SpellSeeder extends Seeder
                 'action'=> 100,
                 'creator' => null,
                 'level' => 5,
+                'validation_status' => 'approved by dumbledore',
             ],
         ];
 

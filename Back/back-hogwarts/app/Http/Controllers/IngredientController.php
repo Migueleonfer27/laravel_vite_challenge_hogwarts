@@ -57,7 +57,7 @@ class IngredientController extends Controller
                 'sickening' => $validatedData['sickening'],
                 'inflammatory' => $validatedData['inflammatory'],
                 'deinflammatory' => $validatedData['deinflammatory'],
-                'url_photo' => $validatedData['url_photo'],
+                'url_photo' => $validatedData['url_photo'] ?? null,
             ]);
 
             return response()->json([

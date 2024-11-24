@@ -10,13 +10,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\SpellController;
+use App\Http\Controllers\UserSpellController;
 use App\Http\Controllers\ControladorS3;
 
 
 //Monica
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('/users', [AdminController::class, 'index'])->middleware('ability:dumbledore,admin');
-//    Route::get('/user/{id}', [AdminController::class, 'show'])->middleware('abilities:dumbledore');
+    Route::get('/user/{id}', [AdminController::class, 'show'])->middleware('ability:dumbledore,teacher,student');
     Route::post('/user', [AdminController::class, 'create'])->middleware('ability:dumbledore,admin');
     Route::put('/user/{id}', [AdminController::class, 'update'])->middleware('ability:dumbledore,admin');
     Route::delete('/user/{id}', [AdminController::class, 'destroy'])->middleware('ability:dumbledore,admin');
@@ -24,6 +26,8 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/user-rol/{id}', [AdminController::class, 'giveRole'])->middleware('ability:dumbledore,admin');
     Route::delete('/user-rol/{id}', [AdminController::class, 'retireRole'])->middleware('ability:dumbledore,admin');
 });
+
+
 
 // Miguel León Fernández
 Route::post('register', [AuthController::class, 'register']);
@@ -76,4 +80,23 @@ Route::middleware('auth:api')->group(function () {
 // Miguel León Fernández
 Route::middleware('auth:api')->group(function () {
     Route::post('/approve/{potionId}', [PointsController::class, 'approvePotion']);
+});
+
+
+//Monica
+Route::middleware('auth:sanctum')->prefix('spell')->group(function () {
+    Route::get('/', [SpellController::class, 'index'])->middleware('ability:dumbledore,teacher');
+    Route::get('/student', [SpellController::class, 'getSpellsStudent'])->middleware('ability:student');
+    Route::get('/learned', [SpellController::class, 'getSpellsLearned'])->middleware('ability:student');
+    Route::get('/pending', [SpellController::class, 'getSpellPending'])->middleware('ability:teacher');
+    Route::get('/pending/dumbledore', [SpellController::class, 'getPendingApproveTeacher'])->middleware('ability:dumbledore');
+    Route::put('/approve/{id}', [SpellController::class, 'approveSpellTeacher'])->middleware('ability:teacher');
+    Route::put('/reject/{id}', [SpellController::class, 'rejectSpellTeacher'])->middleware('ability:teacher');
+    Route::put('/validate/{id}', [SpellController::class, 'approveSpellDumbledore'])->middleware('ability:dumbledore');
+    Route::post('/addExperience/{id}', [PointsController::class, 'spellValidatedPoints'])->middleware('ability:dumbledore');
+    Route::put('/invalidate/{id}', [SpellController::class, 'rejectSpellDumbledore'])->middleware('ability:dumbledore');
+    Route::post('/', [SpellController::class, 'create'])->middleware('ability:student,teacher,dumbledore');
+    Route::put('/{id}', [SpellController::class, 'update'])->middleware('ability:teacher,dumbledore');
+    Route::delete('/{id}', [SpellController::class, 'destroy'])->middleware('ability:teacher,dumbledore');
+    Route::post('/learn/{id}', [UserSpellController::class, 'store'])->middleware('ability:dumbledore,student,teacher');
 });
