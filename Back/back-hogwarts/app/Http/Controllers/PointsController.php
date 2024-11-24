@@ -104,6 +104,7 @@ class PointsController extends Controller
 
         if($user->hasRole('teacher')){
             $user->experience += 10;
+            $this->updateUserLevel($user);
             $house->points += 2;
             $house->save();
             $user->save();
@@ -114,6 +115,7 @@ class PointsController extends Controller
             ], 200);
         }elseif($user->hasRole('student')) {
             $user->experience += 2;
+            $this->updateUserLevel($user);
             $house->points += 1;
             $house->save();
             $user->save();
@@ -122,6 +124,11 @@ class PointsController extends Controller
                 'message' => 'Puntos de experiencia sumados correctamente.',
                 'data' => $user
             ], 200);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permisos para realizar esta acción.'
+            ], 403);
         }
 
     }

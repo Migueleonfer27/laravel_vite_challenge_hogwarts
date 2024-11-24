@@ -176,8 +176,8 @@ const rejectSpellDumbledore = async (id) => {
     return data
 }
 
-const addExperience = (id) => {
-    const response = fetch(`http://127.0.0.1:8000/api/spell/addExperience/${id}`, {
+const addExperience = async (id) => {
+    const response =await fetch(`http://127.0.0.1:8000/api/spell/addExperience/${id}`, {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${getToken()}`,
@@ -185,7 +185,8 @@ const addExperience = (id) => {
         },
         },
     )
-    const data = response.json()
+    console.log(response)
+    const data = await response.json()
     return data
 }
 
