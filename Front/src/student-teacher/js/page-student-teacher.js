@@ -26,11 +26,11 @@ const initPage = () => {
     const subjectSpellButton = document.getElementById('subject-spell');
     if (subjectSpellButton) {
         subjectSpellButton.addEventListener('click', () => {
-            // if(roles.includes('student-teacher')){
-            //     loadPage('/student-teacher-subject-spell')
-            // }else{
-            //     loadPage('/teacher-subject-spell')
-            // }
+            if (roles.includes('student')) {
+                loadPage('/student-subject-spell');
+            } else {
+                loadPage('/teacher-subject-spell');
+            }
         });
     }
 

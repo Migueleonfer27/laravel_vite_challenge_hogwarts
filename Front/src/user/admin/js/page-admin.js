@@ -24,12 +24,21 @@ const initPage = () => {
         });
     }
 
+    const spellButton = document.getElementById('spell-button');
+    if (spellButton) {
+        spellButton.addEventListener('click', () => {
+            window.location.href ='../../../spell/index.html'
+        });
+    }
+
+
     const potionsButton = document.getElementById('potions-button');
     if (potionsButton) {
         potionsButton.addEventListener('click', () => {
             window.location.href ='../../../potions/potions.html'
         });
     }
+
 
     hideLoader(null, 600)
 

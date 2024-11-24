@@ -7,6 +7,7 @@ import {buildFooter} from "../../components/buildFooter";
 import {loadPage} from "../../js/router";
 import {removeToken} from "../../../storage/tokenManager";
 import {getUserHouse} from "./choose-role-provider";
+import {buildLoader, hideLoader, showLoader} from "../../components/buildLoader";
 
 
 let houseUser = async () =>{
@@ -113,14 +114,12 @@ const construirCard = (house) => {
 
         cardBody.appendChild(cardIcon);
 
-        // cardBody.appendChild(cardTitle);
         cardBody.appendChild(cardLink);
 
         card.appendChild(cardBody);
-
-        // Append card to the desired container
         document.getElementById('role-container').appendChild(card);
     })
+    hideLoader(null, 600)
 }
 
 
@@ -138,7 +137,8 @@ const setupLogoutBtn = () => {
 }
 
 
-
+buildLoader()
+showLoader()
 buildHeader()
 showLogoutButton()
 buildFooter()

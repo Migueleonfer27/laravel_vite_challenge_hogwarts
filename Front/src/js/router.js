@@ -27,6 +27,10 @@ export async function loadPage(path) {
          window.location.href = '../potions/potions.html'
     } else if (path === '/ingredients' && token != null && token !== '') {
         window.location.href = '../ingredients/ingredients.html'
+    }else if (path === '/student-subject-spell' && token != null && token !== ''){
+        window.location.href = '../spell/index.html'
+    } else if (path === '/teacher-subject-spell' && token != null && token !== ''){
+        window.location.href = '../spell/index.html'
     }
 
     else {

@@ -5,7 +5,8 @@
     <title>Hogwars</title>
     <link rel="stylesheet" href="./scss/style.scss">
 </head>
-<body>
+<body id="spell">
+<div id="loader-container"></div>
 <div id="header-container"></div>
 
 <main id="main-container" class="container-fluid d-flex align-items-center justify-content-center">
@@ -72,9 +73,9 @@
         </div>
 
         <div id="buttons-container">
-            <button id="teacher-btn">Mostrar Hechizos Pendientes</button>
-            <button id="dumbledore-btn">Mostrar Hechizos Pendientes Para Dumbledore</button>
-            <button id="student-btn">Hechizos aprendidos</button>
+            <button id="teacher-btn" class="btn my-1 w-75 showDetailsSpellBtn bg-secondary-person text-primary-person text-shadow-person">Mostrar Hechizos Pendientes</button>
+            <button id="dumbledore-btn" class="btn my-1 w-75 showDetailsSpellBtn bg-secondary-person text-primary-person text-shadow-person">Mostrar Hechizos Pendientes Para Dumbledore</button>
+            <button id="student-btn" class="btn my-1 w-75 showDetailsSpellBtn bg-secondary-person text-primary-person text-shadow-person" >Hechizos aprendidos</button>
         </div>
 
         <div id="spell_cards" class="spell-cards m-3"></div>

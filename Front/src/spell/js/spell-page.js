@@ -10,6 +10,7 @@ import { getAllSpells, getStudentSpells, getSpellLearned, createSpell, deleteSpe
     approveSpellDumbledore, rejectSpellDumbledore, addExperience } from "./spell-provider";
 import { Spell } from "./Spell";
 import * as validation from "./validation";
+import {buildLoader, hideLoader, showLoader} from "../../components/buildLoader";
 
 let rolesUser = localStorage.getItem('roles')
 let roles = rolesUser.split(',')
@@ -212,6 +213,7 @@ const buildSpellCards = async (spellArray) => {
 
         spellContainer.appendChild(card);
     }
+    hideLoader(null, 600)
 };
 
 
@@ -250,6 +252,7 @@ buttonShowPending.addEventListener('click', async () => {
         spellArray.push(newSpell)
     })
     buildSpellCards(spellArray)
+    hideLoader(null, 600)
 })
 
 const buttonShowDumbledore = document.getElementById('dumbledore-btn');
@@ -285,6 +288,7 @@ buttonShowDumbledore.addEventListener('click', async () => {
         spellArray.push(newSpell)
     })
     buildSpellCards(spellArray)
+    hideLoader(null, 600)
 })
 
 const buttonShowLearned = document.getElementById('student-btn');
@@ -320,6 +324,7 @@ buttonShowLearned.addEventListener('click', async () => {
         spellArray.push(newSpell)
     })
     buildLearnedCards(spellArray)
+    hideLoader(null, 600)
 })
 
 
@@ -332,11 +337,11 @@ const buildLearnedCards = async (spellArray) => {
         const card = document.createElement('div');
         card.classList.add('card');
         card.innerHTML = `
-            <div class="card-body custom-body">
+            <div class="card-body rounded-5 d-flex flex-column align-items-center bg-gradient-spell">
                 <img id="spell-img" class="card-img-top" src="${img}" alt="Spell Image">
-                <h5 class="card-title">${spell.name}</h5>
+                <h5 class="card-title mb-3 text-primary-person">${spell.name}</h5>
                 <p class="card-text">Creador: ${spell.creator}</p>
-                <button class="btn">Más detalles</button>
+                <button class="btn my-1 w-75 bg-secondary-person text-primary-person">Más detalles</button>
                 <div class="btn-group align-content-stretch"></div>
             </div>
         `;
@@ -350,7 +355,7 @@ const buildLearnedCards = async (spellArray) => {
         spellContainer.appendChild(card);
 
     }
-
+    hideLoader(null, 600)
 }
 
 const openEditSpellModal = (spell) => {
@@ -567,11 +572,16 @@ const setupLogoutBtn = () => {
     }
 }
 
+
+
+buildLoader()
+showLoader()
 createSpells()
 
 // await displayPendingSpells()
 // getSpellPending()
 await buildSpellCards(spellArray)
+
 
 buildHeader()
 showLogoutButton()
