@@ -1,0 +1,38 @@
+body{
+  font-family: var(--primary-font);
+}
+
+#footer{
+  background-color: var(--cuaternary-color);
+  color: var(--primary-color);
+  font-family: var(--primary-font);
+}
+
+.text-muted {
+  color: var(--primary-color) !important;
+}
+
+#navbar{
+  background-color: var(--cuaternary-color);
+  color: var(--primary-color);
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.navbar-brand {
+  font-family: var(--primary-font);
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 2.60rem;
+  color: var(--primary-color) !important;
+}
+
+.logout-btn{
+  display: none;
+}
+
+#navbar a {
+  text-decoration: none;
+}
+
+

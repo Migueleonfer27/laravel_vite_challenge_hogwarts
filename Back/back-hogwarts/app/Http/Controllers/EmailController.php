@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 
 class EmailController extends Controller{
-
+//Cynthia
     public function changePassword(Request $request){
 
         $validator = Validator::make($request->all(),[

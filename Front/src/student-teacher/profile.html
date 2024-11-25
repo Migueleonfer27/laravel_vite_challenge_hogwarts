@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hogwarts</title>
+  <link rel="stylesheet" href="../../scss/student-teacher.scss">
+</head>
+<body>
+<div id="loader-container"></div>
+<div id="header-container"></div>
+<div id="main-container" class="d-none mt-5">
+  <div class="profille-info bg-octa-person">
+
+    <div class="profile-section me-4 d-flex flex-column align-items-center bg-octa-person">
+      <img id="profile-img" src="" alt="Foto de perfil" class="rounded-circle mb-3" width="120" height="120">
+      <label for="upload-image" class="btn w-100 modify text-primary-person text-shadow-person">Subir Imagen</label>
+      <input type="file" id="upload-image" class="d-none" accept="image/*">
+    </div>
+
+    <div class="profile-data w-100">
+      <h2 class="text-primary-person fs-4">Perfil</h2>
+      <table class="table table-responsive table-bordered bg-octa-person">
+        <tbody class="text-center align-middle">
+        <tr>
+          <th class="text-center bg-octa-person text-primary-person fs-4">Nombre</th>
+          <td class="bg-octa-person text-primary-person" id="user-name"></td>
+        </tr>
+        <tr>
+          <th class="text-center bg-octa-person text-primary-person fs-4">Email</th>
+          <td class="bg-octa-person text-primary-person" id="user-email"></td>
+        </tr>
+        <tr>
+          <th class="text-center bg-octa-person text-primary-person fs-4">Nivel</th>
+          <td class="bg-octa-person text-primary-person" id="user-level"></td>
+        </tr>
+        <tr>
+          <th class="text-center bg-octa-person text-primary-person fs-4">Experiencia</th>
+          <td class="bg-octa-person text-primary-person" id="user-experience"></td>
+        </tr>
+        <tr>
+          <th class="text-center bg-octa-person text-primary-person fs-4">Casa</th>
+          <td class="bg-octa-person text-primary-person" id="user-house"></td>
+        </tr>
+        <tr>
+          <th class="text-center bg-octa-person text-primary-person fs-4">Nivel Casa</th>
+          <td class="bg-octa-person text-primary-person" id="house-level"></td>
+        </tr>
+        <tr>
+          <th class="text-center bg-octa-person text-primary-person fs-4">Asignaturas</th>
+          <td class="bg-octa-person text-primary-person" id="user-subject"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div id="footer-container"></div>
+
+<script type="module" src="./js/page-profile.js"></script>
+</body>
+</html>

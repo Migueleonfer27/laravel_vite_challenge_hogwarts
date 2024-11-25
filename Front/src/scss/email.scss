@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap');
+
+//Cynthia
+body.email-page{
+  background: url("../assets/img/backgroung3.jpg") no-repeat center center fixed !important;
+  background-size: cover !important;
+}
+
+#change-password-form{
+  padding: 0px;
+}
+
+div#form-container {
+  background-color: var(--cuaternary-color);
+  font-family: var(--primary-font);
+}
+
+h3 {
+  font-family: var(--primary-font);
+}
+
+.loader {
+  border: 6px solid #f3f3f3; /* Fondo gris */
+  border-top: 6px solid #3498db; /* Azul en la parte superior */
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto; /* Centra el spinner */
+  margin-top: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
