@@ -1,7 +1,7 @@
 @import "~bootstrap/scss/bootstrap";
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
-html, body {
+html {
   height: 100%;
   margin: 0;
   color:var(--primary-color) !important;
@@ -10,11 +10,19 @@ html, body {
   overflow-y: hidden;
 }
 
+#chooseRole-body {
+  background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../assets/img/fondo-choose-role.png')!important;
+  background-size: cover !important;
+  background-attachment: fixed !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
 main {
-    background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../assets/img/fondo-choose-role.png')!important;
     background-size: cover;
     background-position: center;
     min-height: 80vh;
+
 }
 
 #content-container{

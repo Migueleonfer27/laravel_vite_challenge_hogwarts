@@ -88,7 +88,7 @@ const buildCard = async (potion) => {
         <div class="card h-100 rounded-5">
             <div class="card-body rounded-5 d-flex flex-column align-items-center bg-gradient-potions">
                 <img class="object-fit-contain mb-3 bg-shadow-potions" src="${url}" alt="img-ingredient" height="200px" width="200px">
-                <h4 class="card-title mb-3 text-primary-person">${potion.name}</h4>
+                <h4 class="card-title mb-3 text-primary-person text-center">${potion.name}</h4>
                 <button class="btn my-1 w-75 showDetailsPotionBtn bg-secondary-person text-primary-person text-shadow-person">Ver Detalles</button>
                 <button class="btn btn-secondary my-1 w-75 showModifyPotionBtn bg-ternary-person text-primary-person text-shadow-person" data-id="${potion.id}">Modificar</button>
                 <button class="btn my-1 w-75 deletePotionBtn bg-hepta-person text-primary-person text-shadow-person" data-id="${potion.id}">Eliminar</button>
