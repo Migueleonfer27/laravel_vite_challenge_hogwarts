@@ -127,7 +127,7 @@ const addRegisterForm = () => {
                         </div>
                     </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn text-primary-person text-shadow-person" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn text-primary-person text-shadow-person" data-bs-dismiss="modal">Aceptar</button>
                       </div>
                     </div>
                   </div>
