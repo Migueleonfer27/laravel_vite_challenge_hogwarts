@@ -208,30 +208,7 @@ const loadUserByRole = async () => {
         users.forEach(user => {
             const roles = user.roles.filter(rol => rol.name === 'teacher' || rol.name === 'student');
 
-            if (roles.length === 0) {
-                const tr = document.createElement("tr");
-                tr.setAttribute("data-user-id", user.id);
-
-                const tdName = document.createElement("td");
-                tdName.textContent = user.name;
-
-                const tdEmail = document.createElement("td");
-                tdEmail.textContent = user.email;
-
-                const tdRol = document.createElement("td");
-                tdRol.textContent = "Sin roles asignados";
-
-                const tdActions = document.createElement("td");
-                tdActions.colSpan = 2;
-                tdActions.textContent = "No disponible";
-
-                tr.appendChild(tdName);
-                tr.appendChild(tdEmail);
-                tr.appendChild(tdRol);
-                tr.appendChild(tdActions);
-
-                userTable.appendChild(tr);
-            } else {
+            if (roles.length !== 0) {
                 roles.forEach(rol => {
                     const tr = document.createElement("tr");
                     tr.setAttribute("data-user-id", user.id);
