@@ -12,8 +12,6 @@ class Spell extends Model
     }
 
 
-
-
     public function duels(){
         return $this->belongsToMany(Duel::class);
     }
