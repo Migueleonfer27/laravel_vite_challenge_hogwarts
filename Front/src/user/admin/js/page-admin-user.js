@@ -16,6 +16,7 @@ import {buildHeader, showLogoutButton} from "../../../components/buildHeader";
 import {buildFooter} from "../../../components/buildFooter";
 import {buildLoader, hideLoader, showLoader} from "../../../components/buildLoader";
 import modal from "bootstrap/js/src/modal";
+import {handleLogout} from "../../../auth/auth-provider";
 
 
 
@@ -344,17 +345,12 @@ const createUserBtn = document.querySelector('#modal-create-user')
     getUsers()
 }
 
-const logout = () => {
-    removeToken()
-}
-
 const setupLogoutBtn = () => {
     const logoutButton = document.getElementById('logoutBtn')
     if(logoutButton){
-        logoutButton.addEventListener('click',logout)
+        logoutButton.addEventListener('click', handleLogout)
     }
 }
-
 
 buildLoader()
 showLoader()

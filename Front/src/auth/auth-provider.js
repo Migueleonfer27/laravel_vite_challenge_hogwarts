@@ -96,6 +96,8 @@ export async function handleLogout() {
     localStorage.removeItem('name');
     localStorage.removeItem('roles');
     localStorage.removeItem('level');
+    localStorage.removeItem('userProfile');
+    localStorage.removeItem('profileImage');
     removeToken();
 
     try {

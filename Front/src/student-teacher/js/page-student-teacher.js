@@ -1,9 +1,8 @@
 import {buildHeader, showLogoutButton} from "../../components/buildHeader";
 import {buildFooter} from "../../components/buildFooter";
-import {removeToken} from "../../../storage/tokenManager";
 import { loadPage} from "../../js/router";
 import {buildLoader, hideLoader, showLoader} from "../../components/buildLoader";
-
+import {handleLogout} from "../../auth/auth-provider";
 
 const initPage = () => {
     let rolesUser = localStorage.getItem('roles')
@@ -55,14 +54,10 @@ const initPage = () => {
     hideLoader(null, 600)
 }
 
-const logout = () => {
-    removeToken()
-}
-
 const setupLogoutBtn = () => {
     const logoutButton = document.getElementById('logoutBtn')
     if(logoutButton){
-        logoutButton.addEventListener('click',logout)
+        logoutButton.addEventListener('click', handleLogout)
     }
 }
 
