@@ -32,7 +32,6 @@ const populateSubjectSelect = async (selectElement, userId) => {
         const allSubjects = await apiGetSubjects(token);
         const userSubjects = await apiGetUserSubjects(token, userId);
 
-
         const unassignedSubjects = allSubjects.filter(subject =>
             !userSubjects.some(userSubject => userSubject.id === subject.id)
         );
@@ -48,7 +47,7 @@ const populateSubjectSelect = async (selectElement, userId) => {
             unassignedSubjects.forEach(subject => {
                 const option = document.createElement("option");
                 option.value = subject.id;
-                option.textContent = subject.name;
+                option.textContent = translateSubjectName(subject.name);
                 selectElement.appendChild(option);
             });
         }
@@ -60,6 +59,14 @@ const populateSubjectSelect = async (selectElement, userId) => {
         option.textContent = "Hubo un error al cargar las asignaturas";
         selectElement.appendChild(option);
     }
+};
+
+const translateSubjectName = (name) => {
+    const translations = {
+        spells: "hechizos",
+        potions: "pociones"
+    };
+    return translations[name] || name;
 };
 
 const populateUserSubjectsSelect = async (userId) => {
@@ -78,7 +85,7 @@ const populateUserSubjectsSelect = async (userId) => {
             userSubjects.forEach(subject => {
                 const option = document.createElement("option");
                 option.value = subject.id;
-                option.textContent = subject.name;
+                option.textContent = translateSubjectName(subject.name);
                 selectElement.appendChild(option);
             });
         }
@@ -109,9 +116,10 @@ const assignSubject = async (event) => {
         messageContainer.classList.add('alert-success');
         messageContainer.textContent = "Asignatura añadida correctamente";
         setTimeout(() => {
+            messageContainer.classList.add('d-none');
             addSubjectModal.hide();
             addSubjectForm.reset();
-        }, 1000);
+        }, 2000);
     } catch (error) {
         const messageContainer = document.getElementById('assign-message');
         messageContainer.classList.remove('d-none');
@@ -125,19 +133,23 @@ const confirmRemoveSubject = async () => {
 
     if (!selectedSubjectId) {
         removeMessageContainer.classList.remove('d-none');
-        removeMessageContainer.classList.add('alert-warning');
+        removeMessageContainer.classList.add('alert', 'alert-danger');
         removeMessageContainer.textContent = "Por favor, selecciona una asignatura a eliminar.";
+        setTimeout(() =>{
+            removeMessageContainer.classList.add('d-none');
+        },3000)
         return;
     }
 
     try {
         await apiRemoveSubject(token, selectedSubjectId);
-        removeMessageContainer.classList.remove('d-none');
-        removeMessageContainer.classList.add('alert-success');
+        removeMessageContainer.classList.remove('d-none', 'alert-danger');
+        removeMessageContainer.classList.add('alert', 'alert-success');
         removeMessageContainer.textContent = "Asignatura eliminada correctamente.";
         setTimeout(() => {
+            removeMessageContainer.classList.add('d-none');
             removeSubjectModal.hide();
-        }, 1000);
+        }, 2000);
     } catch (error) {
         removeMessageContainer.classList.remove('d-none');
         removeMessageContainer.classList.add('alert-danger');
