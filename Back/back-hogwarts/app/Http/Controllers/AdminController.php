@@ -58,6 +58,10 @@ class AdminController extends Controller
         $user->name = $request['name'];
         $user->email = $request['email'];
         $user->password = hash::make($request['password']);
+        $user->level = 1;
+        $user->experience = 0;
+        $user->id_house = rand(1, 4);
+        $user->url_photo = null;
         $user->save();
         return response()->json(['user' => $user,
         'success' => true,
