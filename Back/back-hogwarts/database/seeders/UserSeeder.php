@@ -68,8 +68,8 @@ class UserSeeder extends Seeder
                 'name' => $teacher['name'],
                 'email' => $teacher['email'],
                 'password' => bcrypt('123456'),
-                'level' => 3,
-                'experience' => 300,
+                'level' => 2,
+                'experience' => 50,
                 'id_house' => DB::table('houses')->where('name', 'Gryffindor')->value('id')
             ]);
 
