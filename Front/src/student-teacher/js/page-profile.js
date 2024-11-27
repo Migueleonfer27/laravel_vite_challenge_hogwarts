@@ -53,6 +53,8 @@ const loadProfile =async  () => {
     subjectsElement.innerHTML = ""
     if(subjects && subjects.length > 0){
         subjects.forEach(subject => {
+            subject = subject == 'potions' ? 'Pociones' : subject;
+            subject = subject == 'spells' ? 'Hechizos' : subject;
             const li = document.createElement('li')
             li.textContent = subject
             subjectsElement.appendChild(li)

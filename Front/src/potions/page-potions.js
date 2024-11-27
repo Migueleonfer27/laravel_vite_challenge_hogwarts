@@ -5,6 +5,9 @@ import {getPotions, removePotion, updatePotion, createPotion, approvePotion} fro
 import { getIngredients } from "../ingredients/ingredients-provider";
 import { showToastMessages } from "../js/messages";
 import {buildLoader, hideLoader, showLoader} from "../components/buildLoader";
+import {buildSearch} from "../components/buildSearch";
+
+let allPotions = [];
 
 // Miguel León Fernández
 const initPagePotions = async () => {
@@ -15,14 +18,16 @@ const initPagePotions = async () => {
     showLogoutButton();
     await buildPotionFormAccordion();
     await loadPotions();
+    await buildSearch("potion-search", "pociones", document.querySelector('#potionFormAccordion'), (query) => filterPotions(query));
 };
 
 // Miguel León Fernández
 const loadPotions = async () => {
     const potions = await getPotions();
+    allPotions = potions.reverse();
+    displayPotions(allPotions);
     const potionsContainer = document.getElementById("potions-container");
     potionsContainer.innerHTML = '';
-    potions.reverse();
 
     potions.forEach(potion => {
         if (
@@ -48,6 +53,35 @@ const loadPotions = async () => {
     });
 
     await deletePotion();
+};
+
+// Miguel León Fernández
+const displayPotions = (potions) => {
+    const potionsContainer = document.getElementById("potions-container");
+    potionsContainer.innerHTML = '';
+    console.log(potions);
+
+    potions.forEach((potion) => {
+        if (localStorage.getItem('roles').includes('teacher') && potion.approves_teacher === 0) {
+            buildCard(potion);
+        }
+        if (localStorage.getItem('roles').includes('dumbledore') && potion.approves_teacher === 1 && potion.approves_dumbledore === 0) {
+            buildCard(potion);
+        }
+        if (localStorage.getItem('roles').includes('student') && potion.user.name === localStorage.getItem('name')) {
+            buildCard(potion);
+        }
+    });
+
+    deletePotion();
+};
+
+// Miguel León Fernández
+const filterPotions = (query) => {
+    const filtered = allPotions.filter((potion) =>
+        potion.name.toLowerCase().includes(query)
+    );
+    displayPotions(filtered);
 };
 
 // Miguel León Fernández
@@ -120,6 +154,8 @@ const buildCard = async (potion) => {
             showToastMessages("Error al aprobar la poción.", false);
         }
         await loadPotions();
+        if (document.querySelector('#potion-search')) document.querySelector('#potion-search').parentElement.remove();
+        await buildSearch("potion-search", "pociones", document.querySelector('#potionFormAccordion'), (query) => filterPotions(query));
     });
 
     await potionsContainer.appendChild(card);
@@ -230,7 +266,9 @@ const buildPotionFormAccordion = async () => {
         } else {
             showToastMessages("Error al crear la poción", false);
         }
+        await buildHeader();
         await buildPotionFormAccordion();
+        await buildSearch("potion-search", "pociones", document.querySelector('#potionFormAccordion'), (query) => filterPotions(query));
     });
 };
 
@@ -524,7 +562,9 @@ const deletePotion = async () => {
             } else {
                 showToastMessages("Error al eliminar la poción", false);
             }
+            await buildHeader();
             await buildPotionFormAccordion();
+            await buildSearch("potion-search", "pociones", document.querySelector('#potionFormAccordion'), (query) => filterPotions(query));
         });
     });
 };
