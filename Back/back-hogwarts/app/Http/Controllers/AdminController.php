@@ -172,6 +172,17 @@ class AdminController extends Controller
         $roles = DB::table('roles')->get();
         return response()->json($roles, 200);
     }
+//Monica
+    public function getNameStudent(){
+        $students = DB::table('users as u')
+            ->select('u.name')
+            ->join('role_user as ru', 'u.id', '=', 'ru.user_id')
+            ->join('roles as r', 'ru.role_id', '=', 'r.id')
+            ->where('r.name', '=', 'student')
+            ->get();
+
+        return response()->json($students, 200);
+    }
 
 
 }
