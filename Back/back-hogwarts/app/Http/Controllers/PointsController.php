@@ -78,6 +78,7 @@ class PointsController extends Controller
         }
     }
 
+
     // Miguel León Fernández
     private function updateUserLevel($user)
     {
@@ -96,6 +97,7 @@ class PointsController extends Controller
         }
     }
 
+    //Monica
     //Monica
     public function spellValidatedPoints($id){
         $spell = Spell::find($id);
@@ -133,17 +135,6 @@ class PointsController extends Controller
 
     }
 
-    public function addExperience(Request $request, $id) {
-        $user = User::findOrFail($id);
-        $user->experience += $request->input('experience');
-        $user->updateLevelBasedExperience();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Experiencia actualizada correctamente.',
-            'data'=>$user
-        ],200);
-    }
 
     public function addPointsTeacherSpell(Request $request){
         $user = Auth::user();
@@ -223,6 +214,7 @@ class PointsController extends Controller
         ], 200);
     }
 
+
     public function addPointsStudentSpell(Request $request)
     {
         $user = Auth::user();
@@ -285,54 +277,43 @@ class PointsController extends Controller
         ]);
     }
 
-    public function updateLevelBasedOnExperience() :void{
-        if($this -> experience >= 0 && $this -> experience <= 49){
-            $this -> level = 1;
-        }elseif ($this -> experience >= 50 && $this -> experience <= 149){
-            $this -> level = 2;
-        }elseif ($this -> experience >= 150 && $this -> experience <= 299){
-            $this -> level = 3;
-        }elseif ($this -> experience >= 300 && $this -> experience <= 499){
-            $this -> level = 4;
-        }elseif ($this -> experience >= 500){
-            $this -> level = 5;
+
+    //Cynthia
+    public function addPointsDuels(Request $request)
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Usuario no autenticado.'
+            ], 401);
         }
 
-        if($this -> isDirty('level')){
-            $this->save();
+        if (!$user->house) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes una casa asignada'
+            ], 400);
         }
+        $user->experience +=2;
+        $this->updateUserLevel($user);
+
+        $user->house->points +=3;
+        $user->house->save();
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Has ganado el duelo',
+            'data' => [
+                'experience' => $user->experience,
+                'level' => $user->level,
+                'house_points' => $user->house->points
+            ]
+        ],200);
     }
 
-    public function addExperienceTeacherSpell(){
-        $this->experience += 10;
 
-        $house = $this->house;
 
-        if ($house) {
-            $house->points += 2;
-            $house->save();
-        }
-
-        $this->save();
-    }
-
-    public function addExperienceStudentPotion(){
-        if ($this->hasRole('student') && $this->subjects->contains('name', 'pócimas')) {
-            $this->experience += 2;
-            $this->save();
-        }
-    }
-
-    public function addExperienceStudentSpell(){
-        if ($this->hasRole('student') && $this->subjects->contains('name', 'hechizos')) {
-            $this->experience += 2;
-
-            if ($this->house) {
-                $this->house->points += 1;
-                $this->house->save();
-            }
-
-            $this->save();
-        }
-    }
 }
