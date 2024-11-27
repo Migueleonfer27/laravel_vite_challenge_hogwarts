@@ -5,14 +5,20 @@
     <title>Hogwarts</title>
     <link rel="stylesheet" href="./scss/style.scss">
 </head>
-<body id="spell">
-<!--    <div id="loader-container"></div>-->
+<body>
     <div id="header-container"></div>
 
     <main id="main-container" class="container-fluid d-flex align-items-center justify-content-center">
-        <div class="second-Container bg-cuaternary-person p-5">
-            <label for="seconds" class="text-primary-person">Di a que segundo quieres dirigirte: </label>
-            <input type="text" id="seconds" placeholder="Escribe el segundo que quieras mostrar">
+        <div class="map-container bg-cuaternary-person m-5">
+            <div class="second-Container bg-hepta-person p-5 m-3">
+                <label for="seconds" class="text-primary-person">Dime cuantos segundos quieres simular el mapa: </label>
+                <input type="text" id="seconds" placeholder="Quiero simular... ">
+            </div>
+
+            <div class="map p-5" id="map">
+                <table id="mapMerodeador" class="table table-bordered border-penta-person">
+                </table>
+            </div>
         </div>
     </main>
 
