@@ -9,11 +9,9 @@ use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
 
-
+    //Cynthia
+    //Edicion Monica
     public function run(): void
     {
         $user = User::create([

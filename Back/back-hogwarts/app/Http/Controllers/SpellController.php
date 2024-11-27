@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\Validator;
 //Monica
 class SpellController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    //Monica
     public function index()
     {
         $spell = DB::table('spells')
@@ -28,7 +26,7 @@ class SpellController extends Controller
             'spell' => $spell
         ]);
     }
-
+     //Monica
     public function getSpellPending()
     {
         $spell = DB::table('spells')
@@ -42,7 +40,7 @@ class SpellController extends Controller
             'spell' => $spell
         ]);
     }
-
+     //Monica
     public function getSpellsStudent(){
         $spell = DB::table('spells')
         ->select('spells.id', 'spells.name', 'spells.attack', 'spells.defense', 'spells.healing', 'spells.damage', 'spells.summon', 'spells.action', 'spells.level', 'spells.validation_status', 'users.name as creator')
@@ -75,7 +73,7 @@ class SpellController extends Controller
             'spell' => $spellsNotLearned
         ]);
     }
-
+     //Monica
     public function getSpellsLearned(){
         $user = Auth::user();
 
@@ -92,7 +90,7 @@ class SpellController extends Controller
         ]);
 
     }
-
+     //Monica
     public function approveSpellTeacher($id){
         $spell = Spell::find($id);
 
@@ -111,7 +109,7 @@ class SpellController extends Controller
             'message' => 'Spell approved successfully',
         ]);
     }
-
+     //Monica
     public function rejectSpellTeacher($id){
         $spell = Spell::find($id);
 
@@ -130,7 +128,7 @@ class SpellController extends Controller
             'message' => 'Spell rejected successfully',
         ]);
     }
-
+     //Monica
     public function approveSpellDumbledore($id){
         $spell = Spell::find($id);
 
@@ -149,9 +147,7 @@ class SpellController extends Controller
             'message' => 'Spell approved successfully',
         ]);
     }
-
-
-
+    //Monica
     public function rejectSpellDumbledore($id){
         $spell = Spell::find($id);
 
@@ -170,7 +166,7 @@ class SpellController extends Controller
             'message' => 'Spell rejected successfully',
         ]);
     }
-
+     //Monica
     public function getPendingApproveTeacher()
     {
         $spell = DB::table('spells')
@@ -186,9 +182,7 @@ class SpellController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+     //Monica
     public function create(Request $request)
     {
         $input = $request->all();
@@ -283,9 +277,7 @@ class SpellController extends Controller
     }
 
 
-    /**
-     * Update the specified resource in storage.
-     */
+     //Monica
     public function update(Request $request, string $id)
     {
         $input = $request->all();
@@ -337,9 +329,7 @@ class SpellController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+     //Monica
     public function destroy(string $id)
     {
         $spell = Spell::find($id);

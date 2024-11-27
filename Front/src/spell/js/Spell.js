@@ -1,4 +1,5 @@
 export class Spell {
+    //Monica
     constructor(id, name, level, attack, defense, damage, healing, summon, action, validation_status, created_at, updated_at, creator ) {
         this.id = id;
         this.name = name;

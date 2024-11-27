@@ -12,19 +12,20 @@ import { Spell } from "./Spell";
 import * as validation from "./validation";
 import {buildLoader, hideLoader, showLoader} from "../../components/buildLoader";
 
+//Monica
 let rolesUser = localStorage.getItem('roles')
 let roles = rolesUser.split(',')
 console.log(roles)
 
 let spellData = []
-
+//Monica
 if (roles.includes('teacher') || roles.includes('dumbledore')){
     spellData = await getAllSpells()
 }else {
     spellData = await getStudentSpells()
     if (localStorage.getItem('level') < 2) document.querySelector('#spellAccordion').style.display = 'none'
 }
-
+//Monica
 let spellArray = []
 let createSpells =  () => {
     const spells = spellData.spell
@@ -52,7 +53,7 @@ let createSpells =  () => {
     })
 
 }
-
+//Monica
 const selectImage = (spell) => {
     let img = '';
     const maxCharacteristic = Math.max(spell.attack, spell.defense, spell.damage, spell.healing, spell.summon, spell.action);
@@ -73,7 +74,7 @@ const selectImage = (spell) => {
 
     return img;
 };
-
+//Monica
 const buildSpellCards = async (spellArray) => {
     const spellContainer = document.querySelector('#spell_cards');
 
@@ -216,7 +217,7 @@ const buildSpellCards = async (spellArray) => {
     hideLoader(null, 600)
 };
 
-
+//Monica
 const buttonShowPending = document.getElementById('teacher-btn');
 if (!roles.includes('teacher')) buttonShowPending.style.display = 'none';
 buttonShowPending.addEventListener('click', async () => {
@@ -254,7 +255,7 @@ buttonShowPending.addEventListener('click', async () => {
     buildSpellCards(spellArray)
     hideLoader(null, 600)
 })
-
+//Monica
 const buttonShowDumbledore = document.getElementById('dumbledore-btn');
 if (!roles.includes('dumbledore')) buttonShowDumbledore.style.display = 'none';
 buttonShowDumbledore.addEventListener('click', async () => {
@@ -290,7 +291,7 @@ buttonShowDumbledore.addEventListener('click', async () => {
     buildSpellCards(spellArray)
     hideLoader(null, 600)
 })
-
+//Monica
 const buttonShowLearned = document.getElementById('student-btn');
 if (!roles.includes('student')) buttonShowLearned.style.display = 'none';
 buttonShowLearned.addEventListener('click', async () => {
@@ -327,7 +328,7 @@ buttonShowLearned.addEventListener('click', async () => {
     hideLoader(null, 600)
 })
 
-
+//Monica
 const buildLearnedCards = async (spellArray) => {
     const spellContainer = document.querySelector('#spell_cards');
 
@@ -357,7 +358,7 @@ const buildLearnedCards = async (spellArray) => {
     }
     hideLoader(null, 600)
 }
-
+//Monica
 const openEditSpellModal = (spell) => {
     const editSpellModalElement = document.getElementById('updateSpell');
     const editSpellModal = new bootstrap.Modal(editSpellModalElement);
@@ -372,13 +373,12 @@ const openEditSpellModal = (spell) => {
     document.getElementById('edit-spell-healing').value = spell.healing;
     document.getElementById('edit-spell-summon').value = spell.summon;
     document.getElementById('edit-spell-action').value = spell.action;
-    document.getElementById('edit-spell-creator').checked = spell.creator; // Manejo correcto del checkbox
+    document.getElementById('edit-spell-creator').checked = spell.creator;
 
     const editSpellForm = document.getElementById('updateSpellForm');
     editSpellForm.onsubmit = async (e) => {
-        e.preventDefault(); // Evitar recarga del formulario
+        e.preventDefault();
 
-        // Crear objeto actualizado
         const updatedSpell = {
             id: spell.id, // ID del hechizo
             name: document.getElementById('edit-spell-name').value,
@@ -392,7 +392,6 @@ const openEditSpellModal = (spell) => {
             creator: document.getElementById('edit-spell-creator').checked // Usar .checked
         };
 
-        // Llamar a la API con el método PUT
         try {
             const response = await updateSpell(spell.id, updatedSpell);
             console.log('Spell updated:', response);
@@ -404,7 +403,7 @@ const openEditSpellModal = (spell) => {
         }
     };
 };
-
+//Monica
 const openSpellDetails = (spell) => {
 
     const spellModalElement = document.getElementById('spellModal');
@@ -430,7 +429,7 @@ const openSpellDetails = (spell) => {
     modal.innerHTML = spellDetails;
 
 }
-
+//Monica
 const collapseForm = document.querySelector('#collapseForm')
 collapseForm.addEventListener('show.bs.collapse', () => {
     // console.log('Acordeón abierto');
@@ -450,7 +449,7 @@ togleAccordion.addEventListener('click', () => {
         collapse.show()
     }
 })
-
+//Monica
 const buttonAcordeon = document.querySelector('.btn-accordion')
 buttonAcordeon.addEventListener('click', async (e) => {
     //createNewSpell()
@@ -497,7 +496,7 @@ buttonAcordeon.addEventListener('click', async (e) => {
         }
 
 })
-
+//Monica
 const validateForm = (inputs) => {
     let isValid = true;
 
@@ -523,7 +522,7 @@ const validateForm = (inputs) => {
 
     return isValid;
 };
-
+//Monica
 const validateName = (name, valid) => {
     let isValid = validation.validateName(name.value);
 
@@ -535,7 +534,7 @@ const validateName = (name, valid) => {
 
     return isValid;
 }
-
+//Monica
 const validateLevel = (level, valid) => {
     let isValid = validation.validateLevel(level.value);
 
@@ -547,7 +546,7 @@ const validateLevel = (level, valid) => {
 
     return isValid;
 }
-
+//Monica
 const validateAttribute = (attribute, valid) => {
     attribute.value = Math.ceil(attribute.value);
     let isValid = validation.validateAttribute(attribute.value);
@@ -573,15 +572,11 @@ const setupLogoutBtn = () => {
 }
 
 
-
+//Monica
 buildLoader()
 showLoader()
 createSpells()
-
-// await displayPendingSpells()
-// getSpellPending()
 await buildSpellCards(spellArray)
-
 
 buildHeader()
 showLogoutButton()
