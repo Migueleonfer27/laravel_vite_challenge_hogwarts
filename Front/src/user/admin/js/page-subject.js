@@ -186,6 +186,9 @@ const createSubject = async (e) => {
         createSubjectMessage.classList.remove('d-none', 'alert-warning', 'alert-success');
         createSubjectMessage.classList.add('alert-danger');
         createSubjectMessage.textContent = 'Error al crear la asignatura';
+        setTimeout(() => {
+            createSubjectMessage.classList.add('d-none');
+        }, 3000)
     }
 };
 
