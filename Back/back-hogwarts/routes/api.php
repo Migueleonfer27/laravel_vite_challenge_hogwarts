@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DuelsController;
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\PointsController;
@@ -99,4 +100,13 @@ Route::middleware('auth:sanctum')->prefix('spell')->group(function () {
     Route::put('/{id}', [SpellController::class, 'update'])->middleware('ability:teacher,dumbledore');
     Route::delete('/{id}', [SpellController::class, 'destroy'])->middleware('ability:teacher,dumbledore');
     Route::post('/learn/{id}', [UserSpellController::class, 'store'])->middleware('ability:dumbledore,student,teacher');
+});
+
+
+Route::prefix('duels')->group(function () {
+    Route::get('/',[DuelsController::class, 'index']);
+    Route::get('/{id}',[DuelsController::class, 'show']);
+    Route::post('/create',[DuelsController::class, 'create'])->middleware('auth:sanctum');;
+    Route::post('start',[DuelsController::class, 'startDuel'])->middleware('auth:sanctum');
+    Route::post('simulate/{duelId}',[DuelsController::class, 'duelSimulation'])->middleware('auth:sanctum');
 });

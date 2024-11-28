@@ -296,10 +296,11 @@ class PointsController extends Controller
                 'message' => 'No tienes una casa asignada'
             ], 400);
         }
-        $user->experience +=2;
+
+        $user->experience += 2;
         $this->updateUserLevel($user);
 
-        $user->house->points +=3;
+        $user->house->points += 3;
         $user->house->save();
         $user->save();
 
@@ -311,7 +312,7 @@ class PointsController extends Controller
                 'level' => $user->level,
                 'house_points' => $user->house->points
             ]
-        ],200);
+        ], 200);
     }
 
 
