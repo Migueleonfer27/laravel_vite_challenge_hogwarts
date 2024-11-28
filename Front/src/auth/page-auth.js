@@ -23,9 +23,9 @@ const addWelcome = () => {
     const mainContent = document.querySelector('#main-container');
     mainContent.innerHTML = `
     <div class="container mt-5">
-      <div class="card text-center text-primary-person shadow-lg p-4 bg-octa-person border-2 border-primary-person">
-        <h1 class="card-title text-shadow-person text-primary-person">¡Bienvenido a la Academia Howarts!</h1>
-        <p class="card-text mt-3 text-shadow-person text-primary-person">Nos alegra darte la bienvenida a un lugar mágico donde podrás aprender y desarrollar tus habilidades. Prepárate para vivir experiencias inolvidables y descubrir todos los secretos que Howarts tiene para ofrecerte. ¡Que comience la aventura!</p>
+      <div class="card text-center text-primary-person shadow-lg rounded bg-octa-person border-2 border-primary-person">
+        <h1 class="card-title text-shadow-person text-primary-person bg-hepta-person rounded rounded-bottom-0 border-bottom py-3 px-3">¡Bienvenido a la Academia Howarts!</h1>
+        <p class="card-text mt-3 text-shadow-person text-primary-person pb-4 px-3">Nos alegra darte la bienvenida a un lugar mágico donde podrás aprender y desarrollar tus habilidades. Prepárate para vivir experiencias inolvidables y descubrir todos los secretos que Howarts tiene para ofrecerte. ¡Que comience la aventura!</p>
       </div>
     </div>
     `;
@@ -36,16 +36,16 @@ const addOwl = () => {
     const mainContent = document.querySelector('#main-container');
     mainContent.innerHTML += `
         <div class="container mt-5">
-            <div class="row justify-content-center align-items-center flex-nowrap">
-                <div class="col-md-6 d-none d-md-block owl-container">
-                    <img src="./assets/img/lechuza.png" alt="Imagen de Registro" class="img-fluid animated-owl" width="75%">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-12 col-md-6 order-0 order-md-0 d-flex justify-content-center owl-container">
+                    <img src="./assets/img/lechuza.png" alt="Imagen de Registro" class="img-fluid animated-owl pb-5" width="75%">
                 </div>
-                <div class="col-md-6 p-0 form-container bg-octa-person rounded-bottom-3 border" id="form-container">
+                <div class="col-12 col-md-6 order-1 order-md-1 p-0 form-container bg-octa-person rounded-bottom-3 border" id="form-container">
                 </div>
             </div>
         </div>
     `;
-}
+};
 
 // Miguel León Fernández
 const addFormButtons = () => {
