@@ -1,26 +1,11 @@
 @import "bootstrap";
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
-:root {
-  // Colors variables
-  --primary-color: #CACEC8FF;
-  --secondary-color: #7fa19b;
-  --ternary-color: #466753;
-  --cuaternary-color: #26334b;
-  --penta-color: #466753;
-  --hexa-color: #7c857f;
-  --hepta-color: #2d2540;
-
-  // Typography variables
-  --primary-font: Cinzel;
-}
-
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
   overflow-xy: hidden;
-  font-family: var(--primary-font);
 }
 
 #body-admin{

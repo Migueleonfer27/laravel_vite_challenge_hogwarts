@@ -61,6 +61,7 @@ const populateSubjectSelect = async (selectElement, userId) => {
     }
 };
 
+// Miguel León Fernández
 const translateSubjectName = (name) => {
     const translations = {
         spells: "hechizos",
@@ -215,17 +216,21 @@ const loadUserByRole = async () => {
 
                     const tdName = document.createElement("td");
                     tdName.textContent = user.name;
+                    tdName.classList.add('bg-octa-person', 'text-primary-person', 'text-shadow-person');
 
                     const tdEmail = document.createElement("td");
                     tdEmail.textContent = user.email;
+                    tdEmail.classList.add('bg-octa-person', 'text-primary-person', 'text-shadow-person');
 
                     const tdRol = document.createElement("td");
                     tdRol.textContent = rol.name === 'teacher' ? 'Profesor' : 'Estudiante';
+                    tdRol.classList.add('bg-octa-person', 'text-primary-person', 'text-shadow-person');
 
                     const tdActions = document.createElement("td");
+                    tdActions.classList.add('bg-octa-person');
 
                     const addBtn = document.createElement("button");
-                    addBtn.classList.add("btn", "w-100", "modify", "text-primary-person", "text-shadow-person");
+                    addBtn.classList.add("btn", "w-100", "modify", "text-primary-person", "text-shadow-person", 'my-1');
                     addBtn.textContent = "Asignar asignatura";
                     addBtn.addEventListener('click', addBtnHandler);
 
