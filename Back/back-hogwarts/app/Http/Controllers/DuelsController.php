@@ -69,6 +69,9 @@ class DuelsController extends Controller{
             'user_id' => $user->id,
             'resultado' => 0,
         ]);
+
+        $duel->lifeUser = 100;
+        $duel->liveMachine = 100;
         return response()->json([
             'duel' => $duel,
             'success' => true,
@@ -76,7 +79,8 @@ class DuelsController extends Controller{
         ],200);
     }
 
-    public function duelSimulation(Request $request, $duelId){
+    public function duelSimulation(Request $request, $duelId)
+    {
         $user = $request->user();
         $levelUser = $user->level;
         $pointsUser = 0;
@@ -102,82 +106,113 @@ class DuelsController extends Controller{
             ], 400);
         }
 
-        while ($pointsUser < 3 && $pointsMachine < 3) {
-            $spellsUser = $selectedSpell;
+        for ($i = 0; $i < 5; $i++) {
+            while ($duel->lifeUser > 0 && $duel->lifeMachine > 0) {
+                $spellsUser = $selectedSpell;
 
-            $spellsMachine = $this->spellsMachine($levelUser, collect($spellsUsed));
+                $spellsMachine = $this->selectMachineSpell($levelUser, $duel->lifeUser, $duel->lifeMachine, $spellsUsed);
 
-            if (!$spellsMachine) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No hay hechizos válidos para la máquina'
-                ], 400);
+                if (!$spellsMachine) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'No hay hechizos válidos para la máquina'
+                    ], 400);
+                }
+
+                $this->applySpells($spellsUser, $spellsMachine, $duel);
+
+                $spellsUsed[] = $spellsUser->id;
+                $spellsUsed[] = $spellsMachine->id;
+
+                if ($duel->lifeUser > $duel->lifeMachine) {
+                    $pointsUser++;
+                } else {
+                    $pointsMachine++;
+                }
+
+                if ($duel->lifeUser == 0 || $duel->lifeMachine == 0) {
+                    $winner = $duel->lifeUser > $duel->lifeMachine ? 'user' : 'machine';
+                    $duel->update(['resultado' => $winner]);
+
+                    if ($winner === 'user') {
+                        (new PointsController)->addPointsDuels($request);
+                    }
+                    return response()->json([
+                        'success' => true,
+                        'resultado' => $winner,
+                        'points_user' => $pointsUser,
+                        'points_machine' => $pointsMachine,
+                        'life_user' => $duel->lifeUser,
+                        'life_machine' => $duel->lifeMachine
+                    ], 200);
+                }
             }
 
-            $resultado = $this->calculateSpell($spellsUser, $spellsMachine);
-
-            $spellsUsed[] = $spellsUser->id;
-            $spellsUsed[] = $spellsMachine->id;
-
-            if ($resultado === 'user') {
-                $pointsUser++;
-            } elseif ($resultado === 'machine') {
-                $pointsMachine++;
+            $winner = $pointsUser > $pointsMachine ? 'user' : 'machine';
+            $duel->update(['resultado' => $winner]);
+            if ($winner === 'user') {
+                (new PointsController)->addPointsDuels($request);
             }
+            return response()->json([
+                'success' => true,
+                'resultado' => $winner,
+                'points_user' => $pointsUser,
+                'points_machine' => $pointsMachine,
+                'life_user' => $duel->lifeUser,
+                'life_machine' => $duel->lifeMachine
+            ], 200);
         }
-
-        $winner = $pointsUser > $pointsMachine ? 'user' : 'machine';
-        $duel->update([
-            'result' => $winner
-        ]);
-
-        if ($winner === 'user') {
-            (new PointsController)->addPointsDuels($request);
-        }
-
-        return response()->json([
-            'success' => true,
-            'result' => $winner,
-            'points_user' => $pointsUser,
-            'points_machine' => $pointsMachine
-        ], 200);
     }
 
-    public function spellsMachine($levelUser, $spellsUsed){
-        $spells = $spellsUsed->where('level','<=',$levelUser);
-        return $spells->isEmpty() ? null : $spells->random();
+    public function selectMachineSpell($levelUser, $lifeUser, $lifeMachine, $spellsUsed)
+    {
+        $spells = Spell::where('level', '<=', $levelUser)->get()->diff($spellsUsed);
+        //Compara 2 colecciones (diff)
+
+        if ($lifeMachine < 30) {
+            $spellMachine = $spells->filter(function ($spell) {
+                return $spell->ataque > 70 || $spell->defensa > 70;
+            })->random();
+        } else {
+            $spellMachine = $spells->random();
+        }
+
+        return $spellMachine;
     }
 
-    public function calculateSpell($spellUser, $spellMachine)
+    public function applySpells($spellUser, $spellMachine, $duel)
     {
         $percentage = [
             'attack' => 0.25,
             'defense' => 0.24,
             'healing' => 0.25,
             'damage' => 0.24,
-            'summon' => 0.01,
-            'action' => 0.01,
         ];
 
-        $spellForceUser = (
+        $impactUser = (
             $spellUser->attack * $percentage['attack'] +
             $spellUser->defense * $percentage['defense'] +
             $spellUser->healing * $percentage['healing'] +
-            $spellUser->damage * $percentage['damage'] +
-            $spellUser->summon * $percentage['summon'] +
-            $spellUser->action * $percentage['action']
+            $spellUser->damage * $percentage['damage']
         );
 
-        $spellForceMachine = (
+        $impactMachine = (
             $spellMachine->attack * $percentage['attack'] +
             $spellMachine->defense * $percentage['defense'] +
             $spellMachine->healing * $percentage['healing'] +
-            $spellMachine->damage * $percentage['damage'] +
-            $spellMachine->summon * $percentage['summon'] +
-            $spellMachine->action * $percentage['action']
+            $spellMachine->damage * $percentage['damage']
         );
 
-        return $spellForceUser > $spellForceMachine ? 'user' : ($spellForceUser < $spellForceMachine ? 'machine' : 'draw');
-    }
+        $duel->lifeUser -= $impactMachine;
+        $duel->lifeMachine -= $impactUser;
 
+        $duel->lifeUser += $spellUser->healing;
+        $duel->lifeMachine += $spellMachine->healing;
+
+        $duel->lifeUser = min($duel->lifeUser, 100);
+        $duel->lifeMachine = min($duel->lifeMachine, 100);
+
+        $duel->lifeUser = max($duel->lifeUser, 0);
+        $duel->lifeMachine = max($duel->lifeMachine, 0);
+    }
 }
