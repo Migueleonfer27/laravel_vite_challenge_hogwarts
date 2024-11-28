@@ -4,7 +4,7 @@ import {getToken, removeToken} from "../../../storage/tokenManager";
 import {apiGetProfile, uploadImageS3, updateProfileImage} from "./provider-student-teacher";
 import {buildLoader, hideLoader, showLoader} from "../../components/buildLoader";
 
-const saveLocalStore = (user) => {
+export const saveLocalStore = (user) => {
     localStorage.setItem('userProfile',JSON.stringify(user))
 }
 

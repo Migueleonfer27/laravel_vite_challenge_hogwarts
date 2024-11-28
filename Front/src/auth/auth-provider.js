@@ -76,7 +76,7 @@ export const handleLogin = (callback) => {
                     localStorage.setItem('name', data.data.name);
                     localStorage.setItem('roles', data.data.roles);
                     localStorage.setItem('level', data.data.level);
-
+                    localStorage.setItem('subjects', data.data.subjects);
                     toggleAuthButtons(true);
                     callback();
                 } else {
@@ -98,6 +98,7 @@ export async function handleLogout() {
     localStorage.removeItem('level');
     localStorage.removeItem('userProfile');
     localStorage.removeItem('profileImage');
+    localStorage.removeItem('subjects');
     removeToken();
 
     try {

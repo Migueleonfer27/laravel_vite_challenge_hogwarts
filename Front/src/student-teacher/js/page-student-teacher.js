@@ -61,6 +61,21 @@ const setupLogoutBtn = () => {
     }
 }
 
+// Miguel León Fernández
+const availableSubjects = () => {
+    const spellBtn = document.getElementById('subject-spell');
+    const potionBtn = document.getElementById('subject-potion');
+
+    if (!localStorage.getItem('subjects').includes('spells')) {
+        spellBtn.setAttribute('disabled', 'disabled');
+        spellBtn.classList.add('border-0');
+    }
+    if (!localStorage.getItem('subjects').includes('potions')) {
+        potionBtn.setAttribute('disabled', 'disabled');
+        potionBtn.classList.add('border-0');
+    }
+}
+
 buildLoader()
 showLoader()
 buildHeader();
@@ -68,3 +83,4 @@ showLogoutButton()
 setupLogoutBtn()
 buildFooter();
 initPage()
+availableSubjects()
