@@ -1,8 +1,15 @@
 //Miguel León Fernández
 .img-houses {
-  width: 200px !important;
-  height: 200px !important;
+  width: 90% !important;
+  height: 90% !important;
   filter: drop-shadow(0px 0px 10px var(--cuaternary-color)) !important;
+}
+
+//Miguel León Fernández
+.img-houses-pick:hover {
+  background-color: var(--hexa-color);
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 //Miguel León Fernández

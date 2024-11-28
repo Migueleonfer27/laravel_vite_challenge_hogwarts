@@ -37,15 +37,16 @@ class HouseController extends Controller
 
         if (!$validated['noPreference']) {
             $houseCounts = [
-                1 => User::where('house_id', 1)->count(),
-                2 => User::where('house_id', 2)->count(),
-                3 => User::where('house_id', 3)->count(),
-                4 => User::where('house_id', 4)->count(),
+                'gryffindor' => User::where('id_house', 1)->count(),
+                'hufflepuff' => User::where('id_house', 2)->count(),
+                'ravenclaw' => User::where('id_house', 3)->count(),
+                'slytherin' => User::where('id_house', 4)->count(),
             ];
 
             asort($houseCounts);
             $sortedHouses = array_keys($houseCounts);
-            $chosenHouse = $this->chooseHouse($sortedHouses, $randomNumber);
+
+            $chosenHouse = $this->getHouse($randomNumber, $sortedHouses, $chosenHouse);
         } else {
             $preferences = $validated['housePreferences'];
 
@@ -56,25 +57,28 @@ class HouseController extends Controller
                 ], 422);
             }
 
-            $chosenHouse = $this->chooseHouse($preferences, $randomNumber);
+            $chosenHouse = $this->getHouse($randomNumber, $preferences, $chosenHouse);
         }
 
         return $chosenHouse;
     }
 
-    private function chooseHouse($options, $randomNumber)
+    public function getHouse($randomNumber, $sortedHouses, $chosenHouse)
     {
         switch (true) {
             case ($randomNumber <= 4):
-                return $options[0];
+                $chosenHouse = $sortedHouses[0];
+                break;
             case ($randomNumber >= 5 && $randomNumber <= 7):
-                return $options[1];
+                $chosenHouse = $sortedHouses[1];
+                break;
             case ($randomNumber >= 8 && $randomNumber <= 9):
-                return $options[2];
+                $chosenHouse = $sortedHouses[2];
+                break;
             case ($randomNumber == 10):
-                return $options[3];
+                $chosenHouse = $sortedHouses[3];
+                break;
         }
-
-        return null;
+        return $chosenHouse;
     }
 }

@@ -22,10 +22,14 @@ export const initAuth = () => {
 const addWelcome = () => {
     const mainContent = document.querySelector('#main-container');
     mainContent.innerHTML = `
-    <div class="container mt-5">
+    <div class="container mt-5 p-0">
       <div class="card text-center text-primary-person shadow-lg rounded bg-octa-person border-2 border-primary-person">
         <h1 class="card-title text-shadow-person text-primary-person bg-hepta-person rounded rounded-bottom-0 border-bottom py-3 px-3">¡Bienvenido a la Academia Howarts!</h1>
-        <p class="card-text mt-3 text-shadow-person text-primary-person pb-4 px-3">Nos alegra darte la bienvenida a un lugar mágico donde podrás aprender y desarrollar tus habilidades. Prepárate para vivir experiencias inolvidables y descubrir todos los secretos que Howarts tiene para ofrecerte. ¡Que comience la aventura!</p>
+        <p class="card-text mt-3 text-shadow-person text-primary-person pb-4 px-3">Nos alegra darte la bienvenida a un lugar mágico donde podrás aprender y desarrollar tus habilidades. 
+        <br>Prepárate para vivir experiencias inolvidables y descubrir todos los secretos que Hogwarts tiene para ofrecerte. 
+        <br>Regístrate en nuestra escuela para acceder a nuestras clases de pociones y hechizos. 
+        <br>Podrás poner en práctica todo lo aprendido en nuestra sala de duelos y llevar a tu casa a lo más alto. 
+        <br>¿A qué esperas? ¡Regístrate ya y que comience la aventura!</p>
       </div>
     </div>
     `;
@@ -109,19 +113,19 @@ const addRegisterForm = () => {
                       <div class="modal-body bg-primary-person">
                         <div class="row justify-content-center">
                             <div id="preference-1" class="col-12 col-md-3 mb-3 d-flex flex-column align-items-center dropzone">
-                                <img src="../assets/img/gryffindor.png" class="object-fit-contain rounded img-houses" alt="gryffindor" draggable="true">
+                                <img src="../assets/img/gryffindor.png" class="object-fit-contain rounded img-houses img-houses-pick p-1" alt="gryffindor" draggable="true">
                                 <span class="mt-3 text-primary-person fs-3 fw-bold bg-hepta-person px-4 rounded-5">1</span>
                             </div>
                             <div id="preference-2" class="col-12 col-md-3 mb-3 d-flex flex-column align-items-center dropzone">
-                                <img src="../assets/img/hufflepuff.png" class="object-fit-contain rounded img-houses" alt="hufflepuff" draggable="true">
+                                <img src="../assets/img/hufflepuff.png" class="object-fit-contain rounded img-houses img-houses-pick p-1" alt="hufflepuff" draggable="true">
                                 <span class="mt-3 text-primary-person fs-3 fw-bold bg-hepta-person px-4 rounded-5">2</span>
                             </div>
                             <div id="preference-3" class="col-12 col-md-3 mb-3 d-flex flex-column align-items-center dropzone">
-                                <img src="../assets/img/ravenclaw.png" class="object-fit-contain rounded img-houses" alt="ravenclaw" draggable="true">
+                                <img src="../assets/img/ravenclaw.png" class="object-fit-contain rounded img-houses img-houses-pick p-1" alt="ravenclaw" draggable="true">
                                 <span class="mt-3 text-primary-person fs-3 fw-bold bg-hepta-person px-4 rounded-5">3</span>
                             </div>
                             <div id="preference-4" class="col-12 col-md-3 mb-3 d-flex flex-column align-items-center dropzone">
-                                <img src="../assets/img/slytherin.png" class="object-fit-contain rounded img-houses" alt="slytherin" draggable="true">
+                                <img src="../assets/img/slytherin.png" class="object-fit-contain rounded img-houses img-houses-pick p-1" alt="slytherin" draggable="true">
                                 <span class="mt-3 text-primary-person fs-3 fw-bold bg-hepta-person px-4 rounded-5">4</span>
                             </div>
                         </div>
