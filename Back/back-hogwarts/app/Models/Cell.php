@@ -9,7 +9,7 @@ class Cell extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['map_id', 'posicion_x', 'posicion_y', 'content'];
+    protected $fillable = ['map_id', 'posicion_x', 'posicion_y', 'content', 'second_content'];
 
     public function map()
     {

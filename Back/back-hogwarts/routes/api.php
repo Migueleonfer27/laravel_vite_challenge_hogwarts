@@ -29,9 +29,9 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::get('/nameStudent', [AdminController::class, 'getNameStudent'])->middleware('ability:dumbledore');
 
-    //Route::post('/map', [MapController::class, 'createMap'])->middleware('ability:dumbledore');
     Route::get('/map/{id}', [MapController::class, 'showMap']);
-    Route::put('/ ', [MapController::class, 'updateUsers']);
+    Route::put('/insert-users', [MapController::class, 'insertUsers']);
+    Route::put('/move-all-users', [MapController::class, 'moveAllUsers']);
 });
 
 

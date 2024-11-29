@@ -22,6 +22,7 @@ class MapSeeder extends Seeder
                     'posicion_x' => $x,
                     'posicion_y' => $y,
                     'content' => null,
+                    'second_content' => null,
                 ]);
             }
         }

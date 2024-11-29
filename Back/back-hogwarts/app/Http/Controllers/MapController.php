@@ -9,24 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class MapController extends Controller
 {
-    public function createMap(Request $request)
-    {
-
-        $map = Map::create(['name' => $request->input('name', 'MapaMerodeador')]);//por si no se pone nombre se queda por defecto
-
-        for ($y = 1; $y <= 7; $y++) {
-            for ($x = 1; $x <= 8; $x++) {
-                Cell::create([
-                    'map_id' => $map->id,
-                    'posicion_x' => $x,
-                    'posicion_y' => $y,
-                    'content' => null,
-                ]);
-            }
-        }
-
-        return response()->json(['message' => 'Mapa creado exitosamente', 'map' => $map], 201);
-    }
 
     public function showMap($id)
     {
@@ -46,7 +28,52 @@ class MapController extends Controller
         return response()->json(['message' => 'Celdas vaciadas'], 200);
     }
 
-    public function updateUsers()
+
+
+    public function moveAllUsers()
+        {
+            $allPositions = [
+                ['x' => -1, 'y' => 0],
+                ['x' => 1, 'y' => 0],
+                ['x' => 0, 'y' => -1],
+                ['x' => 0, 'y' => 1],
+            ];
+
+            shuffle($allPositions);
+            $adjacentPositions = $allPositions;
+
+
+            $users = DB::table('users')->get();
+            $map = Map::find(1);
+
+            foreach ($users as $user) {
+                $cell = $map->cells()->where('content', $user->name)->first();
+
+                if ($cell) {
+                    foreach ($adjacentPositions as $position) {
+                        $newCell = $map->cells()
+                            ->where('posicion_x', $cell->posicion_x + $position['x'])
+                            ->where('posicion_y', $cell->posicion_y + $position['y'])
+                            ->first();
+
+                        if ($newCell && !$newCell->content) {
+                            $newCell->content = $user->name;
+                            $newCell->save();
+
+                            $cell->content = null;
+                            $cell->save();
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return response()->json(['message' => 'Usuarios movidos', 'map' => $map], 200);
+        }
+
+
+
+    public function insertUsers()
     {
         $students = DB::table('users as u')
             ->select('u.name')
@@ -58,7 +85,6 @@ class MapController extends Controller
         $map = Map::find(1);
         $this->deleteCells();
 
-        // Colocar de 0 a 4 estudiantes en el mapa
         $students = $students->random(rand(0, 4));
         foreach ($students as $index => $student) {
             $randomRow = rand(2, 6);
@@ -75,4 +101,7 @@ class MapController extends Controller
 
         return response()->json(['message' => 'Usuarios actualizados en el mapa', 'map' => $map], 200);
     }
+
+
+
 }

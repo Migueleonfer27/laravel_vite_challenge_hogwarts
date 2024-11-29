@@ -15,6 +15,7 @@ return new class extends Migration
                 $table->integer('posicion_x');
                 $table->integer('posicion_y');
                 $table->string('content')->nullable();
+                $table->string('second_content')->nullable();
                 $table->timestamps();
 
                 $table->foreign('map_id')->references('id')->on('maps')->onDelete('cascade');
