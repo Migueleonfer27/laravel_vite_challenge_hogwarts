@@ -1,35 +1,15 @@
 @import "~bootstrap/scss/bootstrap";
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
-:root {
-  // Colors variables
-  --primary-color: #CACEC8FF;
-  --secondary-color: #7fa19b;
-  --ternary-color: #466753;
-  --cuaternary-color: #26334b;
-  --penta-color: #466753;
-  --hexa-color: #7c857f;
-  --hepta-color: #2d2540;
-
-  // Typography variables
-  --primary-font: Cinzel;
-}
-
-html, body {
-  height: 100%; /* Asegura que el body ocupe el 100% de la altura de la pantalla */
-  margin: 0;
-  font-family: var(--primary-font);
-  color:var(--primary-color) !important;
-}
-
 #spell{
   //display: flex;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../assets/img/fondo-hechizos.png') !important;
   background-size: cover !important;
   background-attachment: fixed !important;
   background-repeat: no-repeat !important;
-
+  background-position: center !important;
 }
+
 .custom-body {
   background: linear-gradient(to right, var(--cuaternary-color) 0%, var(--ternary-color) 100%);
   color: var(--primary-color)!important;
@@ -47,13 +27,6 @@ html, body {
   gap: 3rem;
 }
 
-
-.card-img-top {
-  width: 20vh;
-  height: 30vh;
-  object-fit: cover;
-}
-
 .modal-style {
   background: linear-gradient(to right, var(--cuaternary-color) 0%, var(--ternary-color) 100%);
   color: var(--primary-color)!important;
@@ -66,13 +39,25 @@ html, body {
 .bg-gradient-spell {
   background: linear-gradient(200deg, var(--ternary-color), var(--cuaternary-color)) !important;
 }
+
 .bg-shadow-spell {
   filter: drop-shadow(0px 0px 10px var(--primary-color)) !important;
 }
 
-
-@media (max-width: 768px) {
+@media (max-width:1200px) {
   .spell-cards {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width:1000px) {
+  .spell-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .spell-cards {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
