@@ -202,7 +202,6 @@ const createUserBtn = document.querySelector('#modal-create-user')
                         td.textContent = 'Gryffindor';
                     }
                 }
-
                 tr.appendChild(td);
             }
 
@@ -279,7 +278,10 @@ const createUserBtn = document.querySelector('#modal-create-user')
             tdBotones.appendChild(botonEliminar);
 
             tr.appendChild(tdBotones);
-            cuerpo.appendChild(tr);
+
+            if (user.name !== 'Dumbledore') {
+                cuerpo.appendChild(tr);
+            }
         });
     }
 
@@ -338,8 +340,10 @@ const createUserBtn = document.querySelector('#modal-create-user')
                 modalError.style.display = 'none'
             });
 
-            div.appendChild(button);
-            modalBody.appendChild(div);
+            if (button.id !== 'dumbledore') {
+                div.appendChild(button);
+                modalBody.appendChild(div);
+            }
         });
     }
     getUsers()

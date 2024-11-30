@@ -20,6 +20,10 @@
   --hexa-color: #7c857f;
   --hepta-color: #2d2540;
   --octa-color: #26334BE5;
+  --griffindor-color: #C02024;
+  --hufflepuff-color: #E4b226;
+  --ravenclaw-color: #009DC8;
+  --slytherin-color: #2FAA4E;
 
   // Typography variables
   --primary-font: Cinzel;
@@ -67,6 +71,22 @@ body {
 
 .bg-octa-person {
   background-color: var(--octa-color) !important;
+}
+
+.bg-griffindor {
+  background: linear-gradient(170deg, var(--griffindor-color) 0%, var(--cuaternary-color) 60%);
+}
+
+.bg-hufflepuff {
+  background: linear-gradient(170deg, var(--hufflepuff-color) 0%, var(--cuaternary-color) 60%);
+}
+
+.bg-ravenclaw {
+  background: linear-gradient(170deg, var(--ravenclaw-color) 0%, var(--cuaternary-color) 60%);
+}
+
+.bg-slytherin {
+  background: linear-gradient(170deg, var(--slytherin-color) 0%, var(--cuaternary-color) 60%);
 }
 
 //Miguel León Fernández
@@ -174,4 +194,5 @@ body {
 .btn:active {
   transition-duration: 0.3s;
   background-color: var(--hepta-color) !important;
+  color: var(--primary-color) !important;
 }

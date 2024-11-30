@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class HouseController extends Controller
 {
+    // Miguel León Fernández
     public function index() {
         $user = Auth::user();
         $house = $user->house;
@@ -25,6 +26,7 @@ class HouseController extends Controller
         ], 200);
     }
 
+    // Miguel León Fernández
     public function sortingHat(Request $request)
     {
         $validated = $request->validate([
@@ -63,6 +65,7 @@ class HouseController extends Controller
         return $chosenHouse;
     }
 
+    // Miguel León Fernández
     public function getHouse($randomNumber, $sortedHouses, $chosenHouse)
     {
         switch (true) {

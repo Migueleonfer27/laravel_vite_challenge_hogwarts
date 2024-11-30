@@ -1,6 +1,7 @@
 import '../scss/styles.scss'
 import {handleLogout} from "../auth/auth-provider";
 import {buildNavIngredients} from "./buildNavIngredients";
+import {changeColor} from "../houses/houseColors";
 
 export const buildHeader = (idContainer) => {
     const container = document.querySelector(idContainer || '#header-container');
@@ -35,6 +36,7 @@ export const buildHeader = (idContainer) => {
     buildNavIngredients('#header-container');
     showUser();
     setupLogoutBtn();
+    changeColor(localStorage.getItem('house'));
 }
 
 export const showLogoutButton = () => {

@@ -1,15 +1,6 @@
 @import "~bootstrap/scss/bootstrap";
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
-html {
-  height: 100%;
-  margin: 0;
-  color:var(--primary-color) !important;
-  font-family: var(--primary-font);
-  overflow-x: hidden;
-  overflow-y: hidden;
-}
-
 #chooseRole-body {
   background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../assets/img/fondo-choose-role.png')!important;
   background-size: cover !important;
