@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Duel;
 use App\Http\Controllers\PointsController;
 use App\Models\Spell;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -35,6 +36,7 @@ class DuelsController extends Controller
     {
         $user = $request->user(); // Obtiene el usuario autenticado
 
+
         if (!$user) {
             return response()->json([
                 'success' => false,
@@ -44,7 +46,7 @@ class DuelsController extends Controller
 
         $duel = new Duel();
         $duel->fill([
-            'user_id' => $user->id,
+            'id_user' => $user->id,
             'life_user' => 100,
             'life_machine' => 100,
             'round' => 0,
@@ -59,8 +61,7 @@ class DuelsController extends Controller
         ], 200);
     }
 
-    public function startDuel(Request $request)
-    {
+    public function startDuel(Request $request){
         $user = $request->user();
         $levelUser = $user->level;
 
@@ -122,14 +123,37 @@ class DuelsController extends Controller
             ], 400);
         }
 
+        // Verificar si el usuario ya ha usado este hechizo
+        $usedSpellUser = $duel->spellsUsed()
+            ->where('id_user', $user->id)
+            ->pluck('spells.id') // Referencia explícita a la tabla 'spells'
+            ->toArray();
+
+        if (in_array($selectedSpellId, $usedSpellUser)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'The spell has already been used'
+            ], 400);
+        }
+
+        // Buscar la máquina
+        $machine = User::where('email', 'Machine@root.com')->first();
+        if (!$machine) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Machine not found'
+            ], 404);
+        }
+        $machineId = $machine->id;
+
         // Guardar hechizo del usuario
-        $duel->spellsUsed()->attach($selectedSpell);
+        $duel->spellsUsed()->attach($selectedSpell, ['id_user' => $user->id]);
 
         // Sacar hechizo de la máquina
         $spellsUsed = $duel->spellsUsed->pluck('id')->toArray();
         $spellMachine = $this->selectMachineSpell($levelUser, $duel->life_user, $duel->life_machine, $spellsUsed);
 
-        $duel->spellsUsed()->attach($spellMachine);
+        $duel->spellsUsed()->attach($spellMachine, ['id_user' => $machineId]);
 
         // Aplicar hechizos y obtener nuevas vidas
         $newLifeValues = $this->applySpells($selectedSpell, $spellMachine, $duel->life_user, $duel->life_machine);
@@ -173,15 +197,6 @@ class DuelsController extends Controller
                 'life_machine' => $duel->life_machine
             ], 200);
         }
-
-        // Registrar información para depuración
-        Log::info('Estado después de la ronda', [
-            'round' => $duel->round,
-            'life_user' => $duel->life_user,
-            'life_machine' => $duel->life_machine,
-            'points_user' => $duel->points_user,
-            'points_machine' => $duel->points_machine
-        ]);
 
         // Si no hay un ganador, retornar el estado actual
         return response()->json([
@@ -277,15 +292,6 @@ class DuelsController extends Controller
             $newLifeUser = min(100, $newLifeUser + ($impactUser * $percentage['healing']));
         }
 
-        // Log para depuración
-        Log::info('Impactos calculados y nuevas vidas:', [
-            'impactUser' => $impactUser,
-            'impactMachine' => $impactMachine,
-            'newLifeUser' => $newLifeUser,
-            'newLifeMachine' => $newLifeMachine,
-            'spellUser' => $spellUser->toArray(),
-            'spellMachine' => $spellMachine->toArray()
-        ]);
 
         return [
             'lifeUser' => $newLifeUser,
@@ -294,7 +300,6 @@ class DuelsController extends Controller
             'impactMachine' => $impactMachine
         ];
     }
-
 
 
 
