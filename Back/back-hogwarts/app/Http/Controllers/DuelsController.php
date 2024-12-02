@@ -108,6 +108,21 @@ class DuelsController extends Controller
             ], 400);
         }
 
+        // Verificar si el usuario tiene hechizos disponibles
+        $usedSpellUser = $duel->spellsUsed()
+            ->where('id_user', $user->id)
+            ->pluck('spells.id')
+            ->toArray();
+
+        $availableSpellsUser = Spell::where('level', '<=', $levelUser)
+            ->whereNotIn('id', $usedSpellUser)
+            ->exists(); // Verifica si hay hechizos disponibles
+
+        if (!$availableSpellsUser) {
+            // Si el usuario no tiene hechizos, termina el duelo
+            return $this->endDuel($duel, $pointsController);
+        }
+
         // Obtener hechizo seleccionado por el usuario
         $selectedSpellId = $request->input('spell_id');
         $selectedSpell = Spell::find($selectedSpellId);
@@ -120,11 +135,6 @@ class DuelsController extends Controller
         }
 
         // Verificar si el usuario ya ha usado este hechizo
-        $usedSpellUser = $duel->spellsUsed()
-            ->where('id_user', $user->id)
-            ->pluck('spells.id') // Referencia explícita a la tabla 'spells'
-            ->toArray();
-
         if (in_array($selectedSpellId, $usedSpellUser)) {
             return response()->json([
                 'success' => false,
@@ -132,7 +142,7 @@ class DuelsController extends Controller
             ], 400);
         }
 
-        // Incrementar contador de rondas y guardar el duelo solo si el hechizo es válido
+        // Incrementar contador de rondas y guardar el duelo
         $duel->round++;
         $duel->save();
 
@@ -152,6 +162,11 @@ class DuelsController extends Controller
         // Sacar hechizo de la máquina
         $spellsUsed = $duel->spellsUsed->pluck('id')->toArray();
         $spellMachine = $this->selectMachineSpell($levelUser, $duel->life_user, $duel->life_machine, $spellsUsed);
+
+        // Si no hay hechizos disponibles para la máquina, termina el duelo
+        if (!$spellMachine) {
+            return $this->endDuel($duel, $pointsController);
+        }
 
         $duel->spellsUsed()->attach($spellMachine, ['id_user' => $machineId]);
 
@@ -173,25 +188,7 @@ class DuelsController extends Controller
 
         // Verificar si alguien ha ganado el duelo
         if ($duel->points_user >= 3 || $duel->points_machine >= 3 || $duel->life_user <= 0 || $duel->life_machine <= 0) {
-
-            $resultado = $duel->points_user >= 3 ? 1 : 2;
-            $winner = $resultado === 1 ? 'user' : 'machine';
-
-            $duel->update(['result' => $resultado]);
-
-            if ($resultado === 1) {
-                $pointsController->addPointsDuels($request);
-            }
-
-            return response()->json([
-                'success' => true,
-                'result' => $resultado,
-                'winner' => $winner,
-                'points_user' => $duel->points_user,
-                'points_machine' => $duel->points_machine,
-                'life_user' => $duel->life_user,
-                'life_machine' => $duel->life_machine
-            ], 200);
+            return $this->endDuel($duel, $pointsController);
         }
 
         // Si no hay un ganador, retornar el estado actual
@@ -205,6 +202,31 @@ class DuelsController extends Controller
         ], 200);
     }
 
+
+    public function endDuel($duel, PointsController $pointsController){
+        // Determinar el resultado basado en los puntos o vidas
+        $result = $duel->points_user > $duel->points_machine || $duel->life_user > $duel->life_machine ? 1 : 2;
+        $winner = $result === 1 ? 'user' : 'machine';
+
+        // Actualizar el resultado en el modelo Duel
+        $duel->update(['result' => $result]);
+
+        // Si el usuario gana, se suman puntos
+        if ($result === 1) {
+            $pointsController->addPointsDuels($duel->user); // Asegúrate de que el modelo $duel incluya la relación con el usuario
+        }
+
+        // Responder con el estado final del duelo
+        return response()->json([
+            'success' => true,
+            'result' => $result,
+            'winner' => $winner,
+            'points_user' => $duel->points_user,
+            'points_machine' => $duel->points_machine,
+            'life_user' => $duel->life_user,
+            'life_machine' => $duel->life_machine,
+        ], 200);
+    }
 
 
     public function selectMachineSpell($levelUser, $lifeUser, $lifeMachine, $spellsUsed)
