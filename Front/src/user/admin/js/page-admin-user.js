@@ -18,7 +18,9 @@ import {buildLoader, hideLoader, showLoader} from "../../../components/buildLoad
 import modal from "bootstrap/js/src/modal";
 import {handleLogout} from "../../../auth/auth-provider";
 
-
+// Mónica
+// Cynthia
+// Pequeña modificación Miguel
 
 const initPage = () => {
 
@@ -278,10 +280,8 @@ const createUserBtn = document.querySelector('#modal-create-user')
             tdBotones.appendChild(botonEliminar);
 
             tr.appendChild(tdBotones);
-
-            if (user.name !== 'Dumbledore') {
+            if (user.name !== 'Dumbledore' && user.name !== localStorage.getItem('name'))
                 cuerpo.appendChild(tr);
-            }
         });
     }
 
