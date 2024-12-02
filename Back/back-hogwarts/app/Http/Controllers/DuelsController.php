@@ -85,7 +85,7 @@ class DuelsController extends Controller
         ], 200);
     }
 
-    public function duelSimulation(Request $request, $duelId)
+    public function duelSimulation(Request $request, $duelId, PointsController $pointsController)
     {
         $user = $request->user();
         $levelUser = $user->level;
@@ -107,10 +107,6 @@ class DuelsController extends Controller
                 'message' => 'The duel has ended'
             ], 400);
         }
-
-        // Incrementar contador de rondas
-        $duel->round++;
-        $duel->save();
 
         // Obtener hechizo seleccionado por el usuario
         $selectedSpellId = $request->input('spell_id');
@@ -135,6 +131,10 @@ class DuelsController extends Controller
                 'message' => 'The spell has already been used'
             ], 400);
         }
+
+        // Incrementar contador de rondas y guardar el duelo solo si el hechizo es válido
+        $duel->round++;
+        $duel->save();
 
         // Buscar la máquina
         $machine = User::where('email', 'Machine@root.com')->first();
@@ -172,19 +172,15 @@ class DuelsController extends Controller
         $duel->save();
 
         // Verificar si alguien ha ganado el duelo
-        if (
-            $duel->points_user >= 3 ||
-            $duel->points_machine >= 3 ||
-            $duel->life_user <= 0 ||
-            $duel->life_machine <= 0
-        ) {
+        if ($duel->points_user >= 3 || $duel->points_machine >= 3 || $duel->life_user <= 0 || $duel->life_machine <= 0) {
+
             $resultado = $duel->points_user >= 3 ? 1 : 2;
             $winner = $resultado === 1 ? 'user' : 'machine';
 
             $duel->update(['result' => $resultado]);
 
             if ($resultado === 1) {
-                (new PointsController)->addPointsDuels($request);
+                $pointsController->addPointsDuels($request);
             }
 
             return response()->json([
@@ -208,6 +204,7 @@ class DuelsController extends Controller
             'rounds' => $duel->round
         ], 200);
     }
+
 
 
     public function selectMachineSpell($levelUser, $lifeUser, $lifeMachine, $spellsUsed)
@@ -300,7 +297,6 @@ class DuelsController extends Controller
             'impactMachine' => $impactMachine
         ];
     }
-
 
 
 }
