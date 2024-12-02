@@ -153,6 +153,8 @@ const buildCard = async (potion) => {
         } else {
             showToastMessages("Error al aprobar la poción.", false);
         }
+        await buildHeader();
+        await buildPotionFormAccordion();
         await loadPotions();
         if (document.querySelector('#potion-search')) document.querySelector('#potion-search').parentElement.remove();
         await buildSearch("potion-search", "pociones", document.querySelector('#potionFormAccordion'), (query) => filterPotions(query));
@@ -220,9 +222,9 @@ const buildPotionFormAccordion = async () => {
                                 tus resultados para que puedas <span class="text-hepta-person fw-bold text-shadow-light-person fst-italic">progresar de nivel</span> y <span class="text-hepta-person fw-bold text-shadow-light-person fst-italic">añadir puntos a tu casa</span>.
                             </p>
                             <label for="potionName" class="form-label text-primary-person fs-2 fs-md-2 text-shadow-person">Nombre de la Poción</label>
-                            <input type="text" class="form-control bg-hexa-person text-cuaternary-person w-100 w-md-75 fs-4" placeholder="Ej: poción de velocidad..." id="potionName" minlength="5" maxlength="40" required>
+                            <input type="text" class="form-control bg-hexa-person text-primary-person text-shadow-light-person w-100 w-md-75 fs-4" placeholder="Ej: poción de velocidad..." id="potionName" minlength="5" maxlength="40" required>
                             <label for="potionDescription" class="form-label text-primary-person fs-2 fs-md-2 mt-3 text-shadow-person">Descripción de la Poción</label>
-                            <textarea id="potionDescription" class="form-control textarea bg-hexa-person text-cuaternary-person w-100 w-md-75 fs-4" placeholder="Ej: Esta poción aumenta la velociad de la persona..." cols="30" rows="3" minlength="1" maxlength="255" required></textarea>
+                            <textarea id="potionDescription" class="form-control textarea bg-hexa-person text-primary-person text-shadow-light-person w-100 w-md-75 fs-4" placeholder="Ej: Esta poción aumenta la velociad de la persona..." cols="30" rows="3" minlength="1" maxlength="255" required></textarea>
                         </div>
 
                         <div class="mb-3">

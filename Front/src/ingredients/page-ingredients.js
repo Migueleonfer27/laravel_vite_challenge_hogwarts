@@ -234,7 +234,7 @@ const buildIngredientFormAccordion = async () => {
                     <form id="createIngredientForm" class="px-5 py-3 text-shadow-person">
                         <div class="mb-4">
                             <label for="ingredientName" class="form-label text-primary-person fs-2">Nombre del Ingrediente</label>
-                            <input type="text" class="form-control bg-hexa-person text-primary-person w-100 fs-4" placeholder="Ej: Mandrágora..." id="ingredientName" minlength="5" maxlength="60" required>
+                            <input type="text" class="form-control bg-hexa-person text-primary-person text-shadow-light-person w-100 fs-4" placeholder="Ej: Mandrágora..." id="ingredientName" minlength="5" maxlength="60" required>
                         </div>
 
                         <div class="row g-3">

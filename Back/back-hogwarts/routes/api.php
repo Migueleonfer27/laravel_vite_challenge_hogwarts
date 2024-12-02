@@ -64,8 +64,8 @@ Route::put('/updateimage',[ControladorS3::class,'updateProfileImage'])->middlewa
 // Miguel León Fernández
 Route::middleware('auth:api')->group(function () {
     Route::get('/ingredients', [IngredientController::class, 'index']);
-    Route::post('/ingredients', [IngredientController::class, 'store']);
-    Route::delete('/ingredients/{id}', [IngredientController::class, 'destroy']);
+    Route::post('/ingredients', [IngredientController::class, 'store'])->middleware('ability:dumbledore,admin,teacher');
+    Route::delete('/ingredients/{id}', [IngredientController::class, 'destroy'])->middleware('ability:dumbledore,admin,teacher');
 });
 
 // Miguel León Fernández
