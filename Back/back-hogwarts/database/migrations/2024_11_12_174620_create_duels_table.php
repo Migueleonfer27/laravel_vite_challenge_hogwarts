@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('duels', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->integer('life_user');
-            $table->integer('life_machine');
-            $table->integer('round');
-            $table->integer('result');
+            $table->integer('life_user')->default(100);
+            $table->integer('life_machine')->default(100);
+            $table->integer('round')->default(0);
+            $table->integer('points_user')->default(0);
+            $table->integer('points_machine')->default(0);
+            $table->integer('result')->default(0);
             $table->timestamps();
         });
     }
