@@ -88,8 +88,6 @@ class DuelsController extends Controller
     {
         $user = $request->user();
         $levelUser = $user->level;
-        $pointsUser = 0;
-        $pointsMachine = 0;
 
         // Buscar el duelo por ID
         $duel = Duel::find($duelId);
@@ -101,17 +99,16 @@ class DuelsController extends Controller
             ], 404);
         }
 
-        // Verificar si el duelo ya tiene el máximo de rondas o si uno de los participantes ha perdido toda la vida
-        if ($duel->round >= 5 || $duel->life_user <= 0 || $duel->life_machine <= 0) {
+        // Verificar si el duelo ya terminó
+        if ($duel->round >= 5 || $duel->life_user <= 0 || $duel->life_machine <= 0 || $duel->points_user >= 3 || $duel->points_machine >= 3) {
             return response()->json([
                 'success' => false,
                 'message' => 'The duel has ended'
             ], 400);
         }
 
-        // Incrementar contador de rondas solo si no se ha alcanzado el máximo
-        $rounds = $duel->round + 1;
-        $duel->round = $rounds;
+        // Incrementar contador de rondas
+        $duel->round++;
         $duel->save();
 
         // Obtener hechizo seleccionado por el usuario
@@ -140,17 +137,24 @@ class DuelsController extends Controller
         // Actualizar los valores de vida en el modelo
         $duel->life_user = $newLifeValues['lifeUser'];
         $duel->life_machine = $newLifeValues['lifeMachine'];
-        $duel->save();
 
-        if ($duel->life_user > $duel->life_machine) {
-            $pointsUser++;
-        } elseif ($duel->life_machine > $duel->life_user) {
-            $pointsMachine++;
+        // Determinar puntos en esta ronda
+        if ($newLifeValues['lifeUser'] > $newLifeValues['lifeMachine']) {
+            $duel->points_user++;
+        } elseif ($newLifeValues['lifeMachine'] > $newLifeValues['lifeUser']) {
+            $duel->points_machine++;
         }
 
+        $duel->save();
+
         // Verificar si alguien ha ganado el duelo
-        if ($pointsUser === 3 || $pointsMachine === 3 || $duel->life_user <= 0 || $duel->life_machine <= 0) {
-            $resultado = $pointsUser === 3 ? 1 : ($pointsMachine === 3 ? 2 : ($duel->life_user <= 0 ? 2 : 1));
+        if (
+            $duel->points_user >= 3 ||
+            $duel->points_machine >= 3 ||
+            $duel->life_user <= 0 ||
+            $duel->life_machine <= 0
+        ) {
+            $resultado = $duel->points_user >= 3 ? 1 : 2;
             $winner = $resultado === 1 ? 'user' : 'machine';
 
             $duel->update(['result' => $resultado]);
@@ -163,23 +167,33 @@ class DuelsController extends Controller
                 'success' => true,
                 'result' => $resultado,
                 'winner' => $winner,
-                'points_user' => $pointsUser,
-                'points_machine' => $pointsMachine,
+                'points_user' => $duel->points_user,
+                'points_machine' => $duel->points_machine,
                 'life_user' => $duel->life_user,
                 'life_machine' => $duel->life_machine
             ], 200);
         }
 
+        // Registrar información para depuración
+        Log::info('Estado después de la ronda', [
+            'round' => $duel->round,
+            'life_user' => $duel->life_user,
+            'life_machine' => $duel->life_machine,
+            'points_user' => $duel->points_user,
+            'points_machine' => $duel->points_machine
+        ]);
+
         // Si no hay un ganador, retornar el estado actual
         return response()->json([
             'success' => true,
-            'points_user' => $pointsUser,
-            'points_machine' => $pointsMachine,
+            'points_user' => $duel->points_user,
+            'points_machine' => $duel->points_machine,
             'life_user' => $duel->life_user,
             'life_machine' => $duel->life_machine,
             'rounds' => $duel->round
         ], 200);
     }
+
 
     public function selectMachineSpell($levelUser, $lifeUser, $lifeMachine, $spellsUsed)
     {
@@ -209,64 +223,70 @@ class DuelsController extends Controller
 
     public function applySpells($spellUser, $spellMachine, $lifeUser, $lifeMachine)
     {
-        // Ajustamos los porcentajes para que la suma total sea 100 y summon y action sean 0.01
+        // Porcentajes para el cálculo
         $percentage = [
-            'attack' => 0.35,   // 35%
-            'defense' => 0.20,  // 20%
-            'healing' => 0.20,  // 20%
-            'damage' => 0.35,   // 35%
-            'summon' => 0.01,   // 1%
-            'action' => 0.01    // 1%
+            'attack' => 0.35,
+            'defense' => 0.20,
+            'healing' => 0.20,
+            'damage' => 0.35,
+            'summon' => 0.01,
+            'action' => 0.01
         ];
 
-        // Calculamos el impacto del usuario
+        // Cálculo del impacto del usuario
         $impactUser = max(0, (
-            ($spellUser->attack ?? 0 * $percentage['attack'] * $lifeMachine / 100) +
-            ($spellUser->defense ?? 0 * $percentage['defense'] * $lifeUser / 100) +
-            ($spellUser->healing ?? 0 * $percentage['healing'] * $lifeUser / 100) -
-            ($spellUser->damage ?? 0 * $percentage['damage'] * $lifeMachine / 100) +
-            ($spellUser->summon ?? 0 * $percentage['summon'] * $lifeMachine / 100) -
-            ($spellUser->action ?? 0 * $percentage['action'] * $lifeMachine / 100)
+            ($spellUser->attack ?? 0) * $percentage['attack'] -
+            ($spellMachine->defense ?? 0) * $percentage['defense'] +
+            ($spellUser->healing ?? 0) * $percentage['healing'] -
+            ($spellMachine->damage ?? 0) * $percentage['damage'] +
+            ($spellUser->summon ?? 0) * $percentage['summon'] -
+            ($spellMachine->action ?? 0) * $percentage['action']
         ));
 
-        // Aseguramos que siempre haya un impacto, incluso si es pequeño
+        // Aseguramos que el impacto mínimo sea 1
         if ($impactUser <= 0) {
-            $impactUser = 1; // Forzar un impacto mínimo
+            $impactUser = 1;
         }
 
-        // Calculamos el impacto de la máquina
+        // Cálculo del impacto de la máquina
         $impactMachine = max(0, (
-            ($spellMachine->attack ?? 0 * $percentage['attack'] * $lifeUser / 100) +
-            ($spellMachine->defense ?? 0 * $percentage['defense'] * $lifeMachine / 100) +
-            ($spellMachine->healing ?? 0 * $percentage['healing'] * $lifeMachine / 100) -
-            ($spellMachine->damage ?? 0 * $percentage['damage'] * $lifeUser / 100) +
-            ($spellMachine->summon ?? 0 * $percentage['summon'] * $lifeUser / 100) -
-            ($spellMachine->action ?? 0 * $percentage['action'] * $lifeUser / 100)
+            ($spellMachine->attack ?? 0) * $percentage['attack'] -
+            ($spellUser->defense ?? 0) * $percentage['defense'] +
+            ($spellMachine->healing ?? 0) * $percentage['healing'] -
+            ($spellUser->damage ?? 0) * $percentage['damage'] +
+            ($spellMachine->summon ?? 0) * $percentage['summon'] -
+            ($spellUser->action ?? 0) * $percentage['action']
         ));
 
-        // Aseguramos que siempre haya un impacto, incluso si es pequeño
+        // Aseguramos que el impacto mínimo sea 1
         if ($impactMachine <= 0) {
-            $impactMachine = 1; // Forzar un impacto mínimo
+            $impactMachine = 1;
         }
 
-        // Calculamos nuevas vidas después de aplicar los impactos
-        $newLifeUser = max(0, min(100, $lifeUser - $impactMachine + $impactUser));
-        $newLifeMachine = max(0, min(100, $lifeMachine - $impactUser + $impactMachine));
+        // Cálculo de la nueva vida de la máquina y del usuario
+        $newLifeUser = max(0, $lifeUser - $impactMachine);
+        $newLifeMachine = max(0, $lifeMachine - $impactUser);
 
-        // Si hay curación (impactos positivos), permitimos que la vida suba un poco, pero no más de 100
-        if ($spellUser->healing > 0) {
-            $newLifeUser = min(100, $newLifeUser + ($impactUser * 0.5)); // Ajustamos la cantidad de curación
-        }
-
+        // Si la máquina se cura, la vida no debe superar 100
         if ($spellMachine->healing > 0) {
-            $newLifeMachine = min(100, $newLifeMachine + ($impactMachine * 0.5)); // Ajustamos la cantidad de curación
+            $newLifeMachine = min(100, $newLifeMachine + ($impactMachine * $percentage['healing']));
+        }
+
+        // Si el usuario se cura, la vida no debe superar 100
+        if ($spellUser->healing > 0) {
+            $newLifeUser = min(100, $newLifeUser + ($impactUser * $percentage['healing']));
         }
 
         // Log para depuración
-        Log::info('Impacto calculado del usuario', ['impactUser' => $impactUser, 'newLifeUser' => $newLifeUser]);
-        Log::info('Impacto calculado de la máquina', ['impactMachine' => $impactMachine, 'newLifeMachine' => $newLifeMachine]);
+        Log::info('Impactos calculados y nuevas vidas:', [
+            'impactUser' => $impactUser,
+            'impactMachine' => $impactMachine,
+            'newLifeUser' => $newLifeUser,
+            'newLifeMachine' => $newLifeMachine,
+            'spellUser' => $spellUser->toArray(),
+            'spellMachine' => $spellMachine->toArray()
+        ]);
 
-        // Retornamos las nuevas vidas calculadas y los impactos
         return [
             'lifeUser' => $newLifeUser,
             'lifeMachine' => $newLifeMachine,
@@ -274,5 +294,8 @@ class DuelsController extends Controller
             'impactMachine' => $impactMachine
         ];
     }
+
+
+
 
 }
