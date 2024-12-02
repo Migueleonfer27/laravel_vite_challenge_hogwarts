@@ -1,5 +1,7 @@
 import {getToken} from "../../../storage/tokenManager";
 
+// Cynthia
+
 export const  apiGetProfile = async (token) =>{
     const option = {
         method : 'GET',

@@ -3,6 +3,9 @@ import {buildFooter} from "../../components/buildFooter";
 import {getToken, removeToken} from "../../../storage/tokenManager";
 import {apiGetProfile, uploadImageS3, updateProfileImage} from "./provider-student-teacher";
 import {buildLoader, hideLoader, showLoader} from "../../components/buildLoader";
+import {handleLogout} from "../../auth/auth-provider";
+
+// Cynthia
 
 export const saveLocalStore = (user) => {
     localStorage.setItem('userProfile',JSON.stringify(user))
@@ -83,15 +86,10 @@ const loadProfile =async  () => {
     hideLoader()
 }
 
-
-const logout = () => {
-    removeToken()
-}
-
 const setupLogoutBtn = () => {
     const logoutButton = document.getElementById('logoutBtn')
     if(logoutButton){
-        logoutButton.addEventListener('click',logout)
+        logoutButton.addEventListener('click', handleLogout)
     }
 }
 

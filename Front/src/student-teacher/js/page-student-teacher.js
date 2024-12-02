@@ -4,6 +4,9 @@ import { loadPage} from "../../js/router";
 import {buildLoader, hideLoader, showLoader} from "../../components/buildLoader";
 import {handleLogout} from "../../auth/auth-provider";
 
+// Cynthia
+// Pequeña modificación Miguel
+
 const initPage = () => {
     let rolesUser = localStorage.getItem('roles')
     let roles = rolesUser.split(',')

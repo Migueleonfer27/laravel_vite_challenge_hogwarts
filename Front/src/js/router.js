@@ -1,6 +1,7 @@
+// Cynthia
+// Miguel León Fernández
 export async function loadPage(path) {
     const token = localStorage.getItem('authToken')
-    const roles = localStorage.getItem('roles'); // Usar más adelante para controlar abilities
 
     if (path === '/index.html'){
         if(token != null && token !== ''){

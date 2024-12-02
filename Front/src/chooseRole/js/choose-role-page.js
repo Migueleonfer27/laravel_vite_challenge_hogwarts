@@ -1,14 +1,15 @@
 import '../../scss/styles.scss';
 // import {apiGetRoles } from './choose-role-provider';
 // import {handleLogout} from "../../auth/auth-provider";
-
 import {buildHeader, showLogoutButton} from "../../components/buildHeader";
 import {buildFooter} from "../../components/buildFooter";
 import {loadPage} from "../../js/router";
 import {removeToken} from "../../../storage/tokenManager";
 import {getUserHouse} from "./choose-role-provider";
 import {buildLoader, hideLoader, showLoader} from "../../components/buildLoader";
+import {handleLogout} from "../../auth/auth-provider";
 
+// Mónica
 
 let houseUser = async () =>{
     let res = await getUserHouse()
@@ -122,17 +123,10 @@ const construirCard = (house) => {
     hideLoader(null, 600)
 }
 
-
-
-//TODO: Implementar la función de cerrar sesión
-const logout = () => {
-    removeToken()
-}
-
 const setupLogoutBtn = () => {
     const logoutButton = document.getElementById('logoutBtn')
     if(logoutButton){
-        logoutButton.addEventListener('click',logout)
+        logoutButton.addEventListener('click', handleLogout)
     }
 }
 

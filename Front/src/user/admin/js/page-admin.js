@@ -55,6 +55,17 @@ const setupLogoutBtn = () => {
     }
 }
 
+// Miguel León Fernández
+const hideDivsAdmin = () => {
+    const divPotion = document.getElementById('admin-potion-container');
+    const divSpell = document.getElementById('admin-spell-container');
+
+    if (localStorage.getItem('roles').includes('admin')) {
+        divPotion.classList.add('d-none');
+        divSpell.classList.add('d-none');
+    }
+}
+
 buildLoader()
 showLoader()
 buildHeader();
@@ -62,5 +73,4 @@ showLogoutButton()
 setupLogoutBtn()
 buildFooter()
 initPage()
-
-
+hideDivsAdmin()
