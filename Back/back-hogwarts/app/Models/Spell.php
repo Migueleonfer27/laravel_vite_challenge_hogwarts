@@ -13,7 +13,7 @@ class Spell extends Model
 
 
     public function duels(){
-        return $this->belongsToMany(Duel::class);
+        return $this->belongsToMany(Duel::class, 'spell_duel', 'id_spell', 'id_duel');
     }
 
 }

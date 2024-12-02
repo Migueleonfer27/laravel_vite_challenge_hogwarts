@@ -11,7 +11,10 @@ class Duel extends Model{
 
     protected $fillable = [
         'user_id',
-        'resultado'
+        'life_user',
+        'life_machine',
+        'round',
+        'result'
     ];
 
 
@@ -21,6 +24,11 @@ class Duel extends Model{
 
     public function spell(){
         return $this->belongsToMany(Spell::class, 'spell_duel');
+    }
+
+    public function spellsUsed()
+    {
+        return $this->belongsToMany(Spell::class, 'spell_duel', 'id_duel', 'id_spell');
     }
 
 }
