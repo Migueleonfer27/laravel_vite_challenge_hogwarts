@@ -175,3 +175,7 @@ body {
   transition-duration: 0.3s;
   background-color: var(--hepta-color) !important;
 }
+
+// Cynthia Rivas Del Moral
+// Se importa al final para que los estilos no entren en conflicto al tener "important"
+@import "duels";

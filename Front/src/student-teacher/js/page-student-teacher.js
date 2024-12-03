@@ -48,7 +48,7 @@ const initPage = () => {
     const duelsButton = document.getElementById('duels-button');
     if (duelsButton) {
         duelsButton.addEventListener('click', () => {
-            //window.location.href = '../../User/Admin/admin-subject.html';
+            loadPage('/duels')
         });
     }
 

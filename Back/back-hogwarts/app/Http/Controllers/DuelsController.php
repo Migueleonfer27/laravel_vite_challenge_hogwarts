@@ -204,19 +204,18 @@ class DuelsController extends Controller
 
 
     public function endDuel($duel, PointsController $pointsController){
-        // Determinar el resultado basado en los puntos o vidas
+        // Ver quien gana segun los puntos o las vidas vidas
         $result = $duel->points_user > $duel->points_machine || $duel->life_user > $duel->life_machine ? 1 : 2;
         $winner = $result === 1 ? 'user' : 'machine';
 
-        // Actualizar el resultado en el modelo Duel
+        // Modificar el resultado
         $duel->update(['result' => $result]);
 
         // Si el usuario gana, se suman puntos
         if ($result === 1) {
-            $pointsController->addPointsDuels($duel->user); // Asegúrate de que el modelo $duel incluya la relación con el usuario
+            $pointsController->addPointsDuels($duel->user);
         }
 
-        // Responder con el estado final del duelo
         return response()->json([
             'success' => true,
             'result' => $result,
@@ -257,7 +256,7 @@ class DuelsController extends Controller
 
     public function applySpells($spellUser, $spellMachine, $lifeUser, $lifeMachine)
     {
-        // Porcentajes para el cálculo
+        // Porcentajes de los atributos del hechizo
         $percentage = [
             'attack' => 0.35,
             'defense' => 0.20,
@@ -267,7 +266,7 @@ class DuelsController extends Controller
             'action' => 0.01
         ];
 
-        // Cálculo del impacto del usuario
+        // Impacto usuario
         $impactUser = max(0, (
             ($spellUser->attack ?? 0) * $percentage['attack'] -
             ($spellMachine->defense ?? 0) * $percentage['defense'] +
@@ -277,12 +276,12 @@ class DuelsController extends Controller
             ($spellMachine->action ?? 0) * $percentage['action']
         ));
 
-        // Aseguramos que el impacto mínimo sea 1
+        // Quitar vida aun que sea 1, para ver cambio
         if ($impactUser <= 0) {
             $impactUser = 1;
         }
 
-        // Cálculo del impacto de la máquina
+        // Impacto maquina
         $impactMachine = max(0, (
             ($spellMachine->attack ?? 0) * $percentage['attack'] -
             ($spellUser->defense ?? 0) * $percentage['defense'] +
@@ -292,12 +291,12 @@ class DuelsController extends Controller
             ($spellUser->action ?? 0) * $percentage['action']
         ));
 
-        // Aseguramos que el impacto mínimo sea 1
+        // Quitar vida aun que sea 1, para ver cambio
         if ($impactMachine <= 0) {
             $impactMachine = 1;
         }
 
-        // Cálculo de la nueva vida de la máquina y del usuario
+        // Vida usuario y maquina
         $newLifeUser = max(0, $lifeUser - $impactMachine);
         $newLifeMachine = max(0, $lifeMachine - $impactUser);
 

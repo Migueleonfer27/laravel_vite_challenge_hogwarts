@@ -1,0 +1,43 @@
+// Cynthia Rivas Del Moral
+#duels {
+  background-image: url('../assets/img/background_duels.png') !important;
+  background-size: cover;
+  background-position: center;
+}
+
+#duels #main-container {
+  width: 100%;
+}
+
+#duels .deck {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  width: 100%;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+#duels .card {
+  width: 165px;
+  height: 250px;
+  background-color: #ffcccb;
+  border: 2px solid #ff0000;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#duels .selection-area {
+  width: 200px;
+  height: 300px;
+  background-color: rgba(0, 0, 0, 0.32);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.in-drop-zone {
+  position: absolute;
+  z-index: 10;
+  transform: translate(-50%, -50%);
+}
