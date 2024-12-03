@@ -100,7 +100,7 @@ class DuelsController extends Controller
             ], 404);
         }
 
-        // Verificar si el duelo ya terminó
+        // Ver si el duelo ha terminado
         if ($duel->round >= 5 || $duel->life_user <= 0 || $duel->life_machine <= 0 || $duel->points_user >= 3 || $duel->points_machine >= 3) {
             return response()->json([
                 'success' => false,
@@ -108,7 +108,7 @@ class DuelsController extends Controller
             ], 400);
         }
 
-        // Verificar si el usuario tiene hechizos disponibles
+        // Ver si al usuario le quedan hechizos disponibles
         $usedSpellUser = $duel->spellsUsed()
             ->where('id_user', $user->id)
             ->pluck('spells.id')
@@ -116,7 +116,7 @@ class DuelsController extends Controller
 
         $availableSpellsUser = Spell::where('level', '<=', $levelUser)
             ->whereNotIn('id', $usedSpellUser)
-            ->exists(); // Verifica si hay hechizos disponibles
+            ->exists(); // Ver si hay hechizos disponibles
 
         if (!$availableSpellsUser) {
             // Si el usuario no tiene hechizos, termina el duelo
@@ -186,12 +186,12 @@ class DuelsController extends Controller
 
         $duel->save();
 
-        // Verificar si alguien ha ganado el duelo
+        // Ver quien ha ganado el duelo
         if ($duel->points_user >= 3 || $duel->points_machine >= 3 || $duel->life_user <= 0 || $duel->life_machine <= 0) {
             return $this->endDuel($duel, $pointsController);
         }
 
-        // Si no hay un ganador, retornar el estado actual
+        // Si no hay un ganador, devuelve la informacion
         return response()->json([
             'success' => true,
             'points_user' => $duel->points_user,
@@ -235,7 +235,7 @@ class DuelsController extends Controller
             ->get();
 
         if ($spells->isEmpty()) {
-            return Spell::where('level', '<=', $levelUser)->inRandomOrder()->first(); // Hechizo aleatorio de respaldo
+            return Spell::where('level', '<=', $levelUser)->inRandomOrder()->first();
         }
 
         $spellMachine = $spells->filter(function ($spell) use ($lifeMachine, $lifeUser) {

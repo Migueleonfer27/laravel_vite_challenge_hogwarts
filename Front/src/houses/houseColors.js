@@ -3,6 +3,7 @@ const changeColor = async (house) => {
     const header = document.querySelector('#navbar');
     const footer = document.querySelector('#footer');
 
+
     switch (house) {
         case 'Gryffindor':
             header.classList.add('bg-griffindor');

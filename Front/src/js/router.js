@@ -30,8 +30,10 @@ export async function loadPage(path) {
         window.location.href = '../spell/index.html'
     } else if (path === '/teacher-subject-spell' && token != null && token !== '') {
         window.location.href = '../spell/index.html'
-    } else if (path === '/duels' && token != null && token !== '') {
+    } else if (path === '/start-duels' && token != null && token !== '') {
         window.location.href = '../duels/index.html'
+    }else if (path === '/duels' && token != null && token !== '') {
+        window.location.href = '../duels/duels.html'
     } else {
         window.location.href = '../index.html'
     }

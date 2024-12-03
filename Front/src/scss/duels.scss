@@ -1,11 +1,51 @@
 // Cynthia Rivas Del Moral
-#duels {
+#start-duels #main-container-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  padding-bottom: 60px;
+  flex-direction: column;
+}
+
+#start-duels #starDuels {
+  background-color: var(--cuaternary-color);
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#start-duels #starDuelsBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+#start-duels #starDuelTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+#start-duels #startDuelText {
+  font-size: 1rem;
+  color: var(--hexa-color);
+  margin-bottom: 20px;
+}
+
+
+#duels, #start-duels{
   background-image: url('../assets/img/background_duels.png') !important;
   background-size: cover;
   background-position: center;
 }
 
-#duels #main-container {
+#duels #main-container-2 {
   width: 100%;
 }
 

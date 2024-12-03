@@ -34,6 +34,9 @@ const buildDeck = () => {
                     <div>Defensa: ${spell.defense}</div>
                     <div>Vida: ${spell.healing}</div>
                     <div>Daño: ${spell.damage}</div>
+                     <!--<div>Invocación: ${spell.summon}</div>
+                     <div>Accion: ${spell.action}</div>-->
+                    
                 </div>
             `;
             cardElement.addEventListener("click", (e) => {
