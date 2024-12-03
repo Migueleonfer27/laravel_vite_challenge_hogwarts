@@ -36,7 +36,9 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 });
     Route::put('/map/{id}', [MapController::class, 'createMap']);
     Route::put('/insertUsers/{id}', [MapController::class, 'insertUsers']);
-    Route::put('/simulation/{id}', [MapController::class, 'simulationMap']);
+    Route::put('/moveUser/{id}/{second}', [MapController::class, 'moveUser']);
+    Route::put('/simulation/{id}/{second}', [MapController::class, 'simulationMap']);
+
 
 
 // Miguel León Fernández
