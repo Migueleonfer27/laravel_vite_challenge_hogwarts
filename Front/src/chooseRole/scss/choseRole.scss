@@ -1,14 +1,8 @@
 @import "~bootstrap/scss/bootstrap";
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
-html {
-  height: 100%;
-  margin: 0;
-  color:var(--primary-color) !important;
-  font-family: var(--primary-font);
-  overflow-x: hidden;
-  overflow-y: hidden;
-}
+// Mónica
+// Pequeña modificación Miguel
 
 #chooseRole-body {
   background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../assets/img/fondo-choose-role.png')!important;
@@ -26,7 +20,7 @@ main {
 }
 
 #content-container{
-    background-color: var(--cuaternary-color) !important;
+    background-color: var(--octa-color) !important;
     border-radius: 20px;
     justify-content: center;
     align-items: center;
@@ -64,49 +58,45 @@ footer {
 //colores en funcion de las casas
 //1
 .Gryffindor *{
-  color: #a10404 !important;
-
+  color: var(--griffindor-color) !important;
 }
-.Gryffindor {
-  box-shadow: 0 0 10px rgba(116, 0, 1, 0.3) !important;
-  border: 1px solid #a10404 !important;
-  border-radius: 1.25rem;
 
+.Gryffindor {
+  box-shadow: 0 0 15px var(--griffindor-color) !important;
+  border: 1px solid var(--griffindor-color) !important;
+  border-radius: 1.25rem;
 }
 
 //2
 .Hufflepuff *{
-  color: #ecb939 !important;
-
+  color: var(--hufflepuff-color) !important;
 }
+
 .Hufflepuff {
-  box-shadow: 0 0 10px rgba(116, 0, 1, 0.3) !important;
-  border: 1px solid #f7d117 !important;
+  box-shadow: 0 0 15px var(--hufflepuff-color) !important;
+  border: 1px solid var(--hufflepuff-color) !important;
   border-radius: 1.25rem;
-
-
 }
 
 //3
 .Ravenclaw *{
-  color: #0a132f !important;
-
+  color: var(--ravenclaw-color) !important;
 }
-.Ravenclaw {
-  box-shadow: 0 0 10px rgba(10, 19, 47, 0.3) !important;
-  border: 1px solid #000000 !important;
-  border-radius: 1.25rem;
 
+.Ravenclaw {
+  box-shadow: 0 0 15px var(--ravenclaw-color) !important;
+  border: 1px solid var(--ravenclaw-color) !important;
+  border-radius: 1.25rem;
 }
 
 //4
 .Slytherin *{
-  color: #163b23 !important;
+  color: var(--slytherin-color) !important;
 }
 
 .Slytherin {
-  box-shadow: 0 0 10px rgba(93, 93, 93, 0.3) !important;
-  border: 1px solid #1a472a !important;
+  box-shadow: 0 0 15px var(--slytherin-color) !important;
+  border: 1px solid var(--slytherin-color) !important;
   border-radius: 1.25rem;
   padding: 0.625rem;
 }
@@ -117,10 +107,9 @@ footer {
     max-width: 90vh;
     max-height: 60vh;
 
-
   p{
     aling-text: center;
-    color: var(--primary-color)!important;
+    color: var(--primary-color) !important;
   }
 
   .card-icon{
@@ -129,6 +118,7 @@ footer {
 
   }
 }
+
 .Gryffindor .card {
   background-color: #f8d7da;
 }
@@ -140,12 +130,13 @@ footer {
   margin-right: auto;
   margin-top: -5px;
   padding: 0.5rem;
-  filter: drop-shadow(0 0 10px rgba(116, 0, 1, 0.8));
+  filter: drop-shadow(0 0 15px var(--griffindor-color));
 }
+
 .container-div .Gryffindor {
-  background-color: #da9090 !important;
+  background-color: var(--cuaternary-color) !important;
   .btn {
-    text-shadow: 2px 2px 4px rgba(116, 0, 1, 0.5);
+    text-shadow: 0px 0px 5px var(--griffindor-color);
     font-size: math(1.5rem + 0.5rem);
   }
 }
@@ -157,13 +148,13 @@ footer {
   margin-right: auto;
   margin-top: -5px;
   padding: 0.5rem;
-  filter: drop-shadow(0 0 10px rgba(247, 209, 23, 0.8));
+  filter: drop-shadow(0 0 15px var(--hufflepuff-color));
 }
 
 .container-div .Hufflepuff {
-  background-color: #e3d7b8 !important;
+  background-color: var(--octa-color) !important;
   .btn {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    text-shadow: 0px 0px 5px var(--hufflepuff-color);
     font-size: math(1.5rem + 0.5rem);
   }
 }
@@ -175,12 +166,13 @@ footer {
   margin-right: auto;
   margin-top: -5px;
   padding: 0.5rem;
-  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.8));
+  filter: drop-shadow(0 0 15px var(--ravenclaw-color));
 }
+
 .container-div .Ravenclaw {
-  background-color: #869be0 !important;
+  background-color: var(--octa-color) !important;
   .btn {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 0px 0px 5px var(--ravenclaw-color);
     font-size: math(1.5rem + 0.5rem);
   }
 }
@@ -192,23 +184,18 @@ footer {
   margin-right: auto;
   margin-top: -5px;
   padding: 0.5rem;
-  filter: drop-shadow(0 0 10px rgba(26, 71, 42, 0.8));
+  filter: drop-shadow(0 0 15px var(--slytherin-color));
 }
+
 .container-div .Slytherin {
-  background-color: #97b29d !important;
+  background-color: var(--octa-color) !important;
   .btn {
-    text-shadow: 2px 2px 4px rgba(26, 71, 42, 0.5);
+    text-shadow: 0px 0px 5px var(--slytherin-color);
     font-size: math(1.5rem + 0.5rem);
   }
 }
-
 
 .Gryffindor, .Hufflepuff, .Ravenclaw, .Slytherin {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   padding: 1rem;
 }
-
-
-
-
-

@@ -100,6 +100,8 @@ class AuthController extends Controller
             $user = Auth::user();
             $roles = $user->roles()->pluck('name')->toArray();
             $level = $user->level;
+            $subjects = $user->subjects()->pluck('name')->toArray();
+            $house = $user->house->name;
             $token = $user->createToken('auth_token', $roles)->plainTextToken;
 
             return response()->json([
@@ -109,6 +111,8 @@ class AuthController extends Controller
                     'token' => $token,
                     'name' => $user->name,
                     'roles' => $roles,
+                    'subjects' => $subjects,
+                    'house' => $house,
                     'level' => $level
                 ]
             ], 200);

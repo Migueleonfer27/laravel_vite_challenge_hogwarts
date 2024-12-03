@@ -11,6 +11,7 @@ import { getAllSpells, getStudentSpells, getSpellLearned, createSpell, deleteSpe
 import { Spell } from "./Spell";
 import * as validation from "./validation";
 import {buildLoader, hideLoader, showLoader} from "../../components/buildLoader";
+import {handleLogout} from "../../auth/auth-provider";
 
 let rolesUser = localStorage.getItem('roles')
 let roles = rolesUser.split(',')
@@ -50,7 +51,6 @@ let createSpells =  () => {
         )
         spellArray.push(newSpell)
     })
-
 }
 
 const selectImage = (spell) => {
@@ -81,14 +81,15 @@ const buildSpellCards = async (spellArray) => {
         const img = selectImage(spell);
 
         const card = document.createElement('div');
-        card.classList.add('card');
+        card.classList.add('card', 'rounded-5', 'not-learned-spell');
         card.innerHTML = `
-            <div class="card-body custom-body">
-                <img id="spell-img" class="card-img-top" src="${img}" alt="Spell Image">
-                <h5 class="card-title">${spell.name}</h5>
-                <p class="card-text">Creador: ${spell.creator}</p>
-                <button class="btn">Más detalles</button>
-                <div class="btn-group align-content-stretch"></div>
+            <div class="card-body rounded-5 d-flex flex-column align-items-center bg-gradient-spell p-4">
+                <img id="spell-img" class="card-img-top bg-shadow-spell object-fit-contain" src="${img}" alt="Spell Image" height="100%" width="100%">
+                <h5 class="card-title mb-3 text-primary-person text-shadow-person text-center fs-3">${spell.name}</h5>
+                <p class="card-text text-shadow-person text-primary-person text-center fs-5">Creador: ${spell.creator}</p>
+                <div class="btn-group align-content-stretch d-flex justify-content-center flex-column">
+                    <button class="btn my-1 bg-secondary-person text-primary-person text-shadow-person rounded-2 fs-5 px-5">Más detalles</button>
+                </div>
             </div>
         `;
         const buttonGroup = card.querySelector('.btn-group');
@@ -96,7 +97,7 @@ const buildSpellCards = async (spellArray) => {
         if (roles.includes('teacher')){
            if(spell.validation_status !== 'pending'){
                const modifyButton = document.createElement('button');
-               modifyButton.classList.add('btn', 'btn-modificar');
+               modifyButton.classList.add('btn', 'btn-modificar', 'bg-ternary-person', 'rounded-2', 'text-primary-person', 'text-shadow-person', 'mt-1', 'fs-5', 'px-5');
                modifyButton.textContent = 'Modificar';
 
                modifyButton.addEventListener('click', () => {
@@ -105,7 +106,7 @@ const buildSpellCards = async (spellArray) => {
                buttonGroup.appendChild(modifyButton);
 
                const deleteButton = document.createElement('button');
-               deleteButton.classList.add('btn', 'btn-eliminar');
+               deleteButton.classList.add('btn', 'btn-eliminar', 'bg-hepta-person', 'rounded-2', 'text-primary-person', 'text-shadow-person', 'mt-2', 'fs-5', 'px-5');
                deleteButton.textContent = 'Eliminar';
                deleteButton.addEventListener('click', async () => {
                    await deleteSpell(spell.id);
@@ -139,7 +140,7 @@ const buildSpellCards = async (spellArray) => {
         }else if (roles.includes('student')){
 
             const learnButton = document.createElement('button');
-            learnButton.classList.add('btn', 'btn-learn');
+            learnButton.classList.add('btn', 'btn-learn', 'text-primary-person', 'text-shadow-person', 'text-center', 'mt-2', 'fs-5', 'px-5', 'bg-hepta-person', 'rounded-2');
             learnButton.textContent = 'Aprender';
 
             learnButton.addEventListener('click', async () => {
@@ -186,7 +187,7 @@ const buildSpellCards = async (spellArray) => {
                 buttonGroup.appendChild(rejectButton);
             }else {
                 const modifyButton = document.createElement('button');
-                modifyButton.classList.add('btn', 'btn-modificar');
+                modifyButton.classList.add('btn', 'btn-modificar', 'bg-ternary-person', 'rounded-2', 'text-primary-person', 'text-shadow-person', 'mt-1', 'fs-5', 'px-5');
                 modifyButton.textContent = 'Modificar';
 
                 modifyButton.addEventListener('click', () => {
@@ -195,7 +196,7 @@ const buildSpellCards = async (spellArray) => {
                 buttonGroup.appendChild(modifyButton);
 
                 const deleteButton = document.createElement('button');
-                deleteButton.classList.add('btn', 'btn-eliminar');
+                deleteButton.classList.add('btn', 'btn-eliminar', 'bg-hepta-person', 'rounded-2', 'text-primary-person', 'text-shadow-person', 'mt-2', 'fs-5', 'px-5');
                 deleteButton.textContent = 'Eliminar';
                 deleteButton.addEventListener('click', async () => {
                     await deleteSpell(spell.id);
@@ -293,39 +294,77 @@ buttonShowDumbledore.addEventListener('click', async () => {
 
 const buttonShowLearned = document.getElementById('student-btn');
 if (!roles.includes('student')) buttonShowLearned.style.display = 'none';
+
+let showingLearned = true;
+
 buttonShowLearned.addEventListener('click', async () => {
-    const cardsCreated = document.querySelectorAll('.card')
-    console.log(cardsCreated)
+    const cardsCreated = document.querySelectorAll('.card');
     cardsCreated.forEach(card => {
-        card.remove()
-    })
-    let newSpellData = await getSpellLearned()
-    let spellArray = []
-    const newSpells = newSpellData.spell
-    newSpells.forEach(spell => {
-        if (spell.creator === null) {
-            spell.creator = 'Desconocido'
-        }
-        const newSpell = new Spell(
-            spell.id,
-            spell.name,
-            spell.level,
-            spell.attack,
-            spell.defense,
-            spell.damage,
-            spell.healing,
-            spell.summon,
-            spell.action,
-            spell.validation_status,
-            spell.created_at,
-            spell.updated_at,
-            spell.creator
-        )
-        spellArray.push(newSpell)
-    })
-    buildLearnedCards(spellArray)
-    hideLoader(null, 600)
-})
+        card.remove();
+    });
+
+    let spellArray = [];
+    if (showingLearned) {
+        let newSpellData = await getSpellLearned();
+        const newSpells = newSpellData.spell;
+
+        newSpells.forEach(spell => {
+            if (spell.creator === null) {
+                spell.creator = 'Desconocido';
+            }
+            const newSpell = new Spell(
+                spell.id,
+                spell.name,
+                spell.level,
+                spell.attack,
+                spell.defense,
+                spell.damage,
+                spell.healing,
+                spell.summon,
+                spell.action,
+                spell.validation_status,
+                spell.created_at,
+                spell.updated_at,
+                spell.creator
+            );
+            spellArray.push(newSpell);
+        });
+
+        buttonShowLearned.textContent = "Hechizos no aprendidos";
+        buildLearnedCards(spellArray);
+    } else {
+        let newSpellData = await getStudentSpells();
+        const newSpells = newSpellData.spell;
+
+        newSpells.forEach(spell => {
+            if (spell.creator === null) {
+                spell.creator = 'Desconocido';
+            }
+            const newSpell = new Spell(
+                spell.id,
+                spell.name,
+                spell.level,
+                spell.attack,
+                spell.defense,
+                spell.damage,
+                spell.healing,
+                spell.summon,
+                spell.action,
+                spell.validation_status,
+                spell.created_at,
+                spell.updated_at,
+                spell.creator
+            );
+            spellArray.push(newSpell);
+        });
+
+        buttonShowLearned.textContent = "Hechizos aprendidos";
+        buildSpellCards(spellArray);
+    }
+
+    hideLoader(null, 600);
+    showingLearned = !showingLearned;
+});
 
 
 const buildLearnedCards = async (spellArray) => {
@@ -335,13 +374,13 @@ const buildLearnedCards = async (spellArray) => {
         const img = selectImage(spell);
 
         const card = document.createElement('div');
-        card.classList.add('card');
+        card.classList.add('card', 'rounded-5', 'learned-spell');
         card.innerHTML = `
-            <div class="card-body rounded-5 d-flex flex-column align-items-center bg-gradient-spell">
-                <img id="spell-img" class="card-img-top" src="${img}" alt="Spell Image">
-                <h5 class="card-title mb-3 text-primary-person">${spell.name}</h5>
-                <p class="card-text">Creador: ${spell.creator}</p>
-                <button class="btn my-1 w-75 bg-secondary-person text-primary-person">Más detalles</button>
+            <div class="card-body rounded-5 d-flex flex-column align-items-center bg-gradient-spell p-4">
+                <img id="spell-img" class="card-img-top bg-shadow-spell object-fit-contain" src="${img}" alt="Spell Image" height="100%" width="100%">
+                <h5 class="card-title mb-3 text-primary-person text-shadow-person text-center fs-3">${spell.name}</h5>
+                <p class="card-text text-shadow-person text-primary-person text-center fs-5">Creador: ${spell.creator}</p>
+                <button class="btn my-1 w-75 bg-secondary-person text-primary-person text-shadow-person fs-5 px-5">Más detalles</button>
                 <div class="btn-group align-content-stretch"></div>
             </div>
         `;
@@ -561,28 +600,19 @@ const validateAttribute = (attribute, valid) => {
     return isValid;
 }
 
-const logout = () => {
-    removeToken()
-}
-
 const setupLogoutBtn = () => {
     const logoutButton = document.getElementById('logoutBtn')
     if(logoutButton){
-        logoutButton.addEventListener('click',logout)
+        logoutButton.addEventListener('click', handleLogout)
     }
 }
-
-
 
 buildLoader()
 showLoader()
 createSpells()
-
 // await displayPendingSpells()
 // getSpellPending()
 await buildSpellCards(spellArray)
-
-
 buildHeader()
 showLogoutButton()
 setupLogoutBtn()

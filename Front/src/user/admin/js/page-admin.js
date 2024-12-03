@@ -7,6 +7,8 @@ import {removeToken} from "../../../../storage/tokenManager";
 import {buildLoader, hideLoader, showLoader} from "../../../components/buildLoader";
 import {loadPage} from "../../../js/router";
 
+// Cynthia
+// Pequeño aporte Miguel
 
 const initPage = () => {
     const adminButton = document.getElementById('admin-button');
@@ -16,6 +18,13 @@ const initPage = () => {
         });
     }
 
+    // Miguel León Fernández
+    const profileButton = document.getElementById('profileButton');
+    if (profileButton) {
+        profileButton.addEventListener('click', () => {
+            window.location.href = '../../student-teacher/profile.html';
+        })
+    }
 
     const manageSubjectsButton = document.getElementById('manage-subjects-button');
     if (manageSubjectsButton) {
@@ -55,6 +64,17 @@ const setupLogoutBtn = () => {
     }
 }
 
+// Miguel León Fernández
+const hideDivsAdmin = () => {
+    const divPotion = document.getElementById('admin-potion-container');
+    const divSpell = document.getElementById('admin-spell-container');
+
+    if (localStorage.getItem('roles').includes('admin')) {
+        divPotion.classList.add('d-none');
+        divSpell.classList.add('d-none');
+    }
+}
+
 buildLoader()
 showLoader()
 buildHeader();
@@ -62,5 +82,4 @@ showLogoutButton()
 setupLogoutBtn()
 buildFooter()
 initPage()
-
-
+hideDivsAdmin()

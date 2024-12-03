@@ -3,8 +3,11 @@ import {buildFooter} from "../../components/buildFooter";
 import {getToken, removeToken} from "../../../storage/tokenManager";
 import {apiGetProfile, uploadImageS3, updateProfileImage} from "./provider-student-teacher";
 import {buildLoader, hideLoader, showLoader} from "../../components/buildLoader";
+import {handleLogout} from "../../auth/auth-provider";
 
-const saveLocalStore = (user) => {
+// Cynthia
+
+export const saveLocalStore = (user) => {
     localStorage.setItem('userProfile',JSON.stringify(user))
 }
 
@@ -53,6 +56,8 @@ const loadProfile =async  () => {
     subjectsElement.innerHTML = ""
     if(subjects && subjects.length > 0){
         subjects.forEach(subject => {
+            subject = subject == 'potions' ? 'Pociones' : subject;
+            subject = subject == 'spells' ? 'Hechizos' : subject;
             const li = document.createElement('li')
             li.textContent = subject
             subjectsElement.appendChild(li)
@@ -81,15 +86,10 @@ const loadProfile =async  () => {
     hideLoader()
 }
 
-
-const logout = () => {
-    removeToken()
-}
-
 const setupLogoutBtn = () => {
     const logoutButton = document.getElementById('logoutBtn')
     if(logoutButton){
-        logoutButton.addEventListener('click',logout)
+        logoutButton.addEventListener('click', handleLogout)
     }
 }
 

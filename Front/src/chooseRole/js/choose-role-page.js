@@ -1,14 +1,15 @@
 import '../../scss/styles.scss';
 // import {apiGetRoles } from './choose-role-provider';
 // import {handleLogout} from "../../auth/auth-provider";
-
 import {buildHeader, showLogoutButton} from "../../components/buildHeader";
 import {buildFooter} from "../../components/buildFooter";
 import {loadPage} from "../../js/router";
 import {removeToken} from "../../../storage/tokenManager";
 import {getUserHouse} from "./choose-role-provider";
 import {buildLoader, hideLoader, showLoader} from "../../components/buildLoader";
+import {handleLogout} from "../../auth/auth-provider";
 
+// Mónica
 
 let houseUser = async () =>{
     let res = await getUserHouse()
@@ -18,7 +19,7 @@ let houseUser = async () =>{
 
 const imgHouse = (house) => {
     let img = document.querySelector('#img-house')
-    img.className = 'house-badge'
+    img.className = 'house-badge object-fit-contain'
 
     if (house === 'Gryffindor') {
         img.src = '../../assets/img/gryffindor.png'
@@ -46,7 +47,7 @@ const construirCard = (house) => {
         card.className = 'card';
         card.setAttribute('class', house)
         let contentContainer = document.querySelector('#content-container')
-        contentContainer.className = `container-div ${house}`
+        contentContainer.className = `container-div ${house} d-flex align-items-center justify-content-center flex-column w-100 p-3`;
         //console.log(house)
 
         let cardIcon = document.createElement('div');
@@ -79,7 +80,7 @@ const construirCard = (house) => {
             cardTitle.innerText = 'Admin';
         }else if (role === 'teacher') {
             cardTitle.innerText = 'Profesor';
-        }else if (role === 'student-teacher') {
+        }else if (role === 'student') {
             cardTitle.innerText = 'Estudiante';
         }else {
             cardTitle.innerText = role;
@@ -122,17 +123,10 @@ const construirCard = (house) => {
     hideLoader(null, 600)
 }
 
-
-
-//TODO: Implementar la función de cerrar sesión
-const logout = () => {
-    removeToken()
-}
-
 const setupLogoutBtn = () => {
     const logoutButton = document.getElementById('logoutBtn')
     if(logoutButton){
-        logoutButton.addEventListener('click',logout)
+        logoutButton.addEventListener('click', handleLogout)
     }
 }
 

@@ -5,6 +5,9 @@ import {getPotions, removePotion, updatePotion, createPotion, approvePotion} fro
 import { getIngredients } from "../ingredients/ingredients-provider";
 import { showToastMessages } from "../js/messages";
 import {buildLoader, hideLoader, showLoader} from "../components/buildLoader";
+import {buildSearch} from "../components/buildSearch";
+
+let allPotions = [];
 
 // Miguel León Fernández
 const initPagePotions = async () => {
@@ -15,14 +18,16 @@ const initPagePotions = async () => {
     showLogoutButton();
     await buildPotionFormAccordion();
     await loadPotions();
+    await buildSearch("potion-search", "pociones", document.querySelector('#potionFormAccordion'), (query) => filterPotions(query));
 };
 
 // Miguel León Fernández
 const loadPotions = async () => {
     const potions = await getPotions();
+    allPotions = potions.reverse();
+    displayPotions(allPotions);
     const potionsContainer = document.getElementById("potions-container");
     potionsContainer.innerHTML = '';
-    potions.reverse();
 
     potions.forEach(potion => {
         if (
@@ -48,6 +53,35 @@ const loadPotions = async () => {
     });
 
     await deletePotion();
+};
+
+// Miguel León Fernández
+const displayPotions = (potions) => {
+    const potionsContainer = document.getElementById("potions-container");
+    potionsContainer.innerHTML = '';
+    console.log(potions);
+
+    potions.forEach((potion) => {
+        if (localStorage.getItem('roles').includes('teacher') && potion.approves_teacher === 0) {
+            buildCard(potion);
+        }
+        if (localStorage.getItem('roles').includes('dumbledore') && potion.approves_teacher === 1 && potion.approves_dumbledore === 0) {
+            buildCard(potion);
+        }
+        if (localStorage.getItem('roles').includes('student') && potion.user.name === localStorage.getItem('name')) {
+            buildCard(potion);
+        }
+    });
+
+    deletePotion();
+};
+
+// Miguel León Fernández
+const filterPotions = (query) => {
+    const filtered = allPotions.filter((potion) =>
+        potion.name.toLowerCase().includes(query)
+    );
+    displayPotions(filtered);
 };
 
 // Miguel León Fernández
@@ -119,7 +153,11 @@ const buildCard = async (potion) => {
         } else {
             showToastMessages("Error al aprobar la poción.", false);
         }
+        await buildHeader();
+        await buildPotionFormAccordion();
         await loadPotions();
+        if (document.querySelector('#potion-search')) document.querySelector('#potion-search').parentElement.remove();
+        await buildSearch("potion-search", "pociones", document.querySelector('#potionFormAccordion'), (query) => filterPotions(query));
     });
 
     await potionsContainer.appendChild(card);
@@ -184,9 +222,9 @@ const buildPotionFormAccordion = async () => {
                                 tus resultados para que puedas <span class="text-hepta-person fw-bold text-shadow-light-person fst-italic">progresar de nivel</span> y <span class="text-hepta-person fw-bold text-shadow-light-person fst-italic">añadir puntos a tu casa</span>.
                             </p>
                             <label for="potionName" class="form-label text-primary-person fs-2 fs-md-2 text-shadow-person">Nombre de la Poción</label>
-                            <input type="text" class="form-control bg-hexa-person text-cuaternary-person w-100 w-md-75 fs-4" placeholder="Ej: poción de velocidad..." id="potionName" minlength="5" maxlength="40" required>
+                            <input type="text" class="form-control bg-hexa-person text-primary-person text-shadow-light-person w-100 w-md-75 fs-4" placeholder="Ej: poción de velocidad..." id="potionName" minlength="5" maxlength="40" required>
                             <label for="potionDescription" class="form-label text-primary-person fs-2 fs-md-2 mt-3 text-shadow-person">Descripción de la Poción</label>
-                            <textarea id="potionDescription" class="form-control textarea bg-hexa-person text-cuaternary-person w-100 w-md-75 fs-4" placeholder="Ej: Esta poción aumenta la velociad de la persona..." cols="30" rows="3" minlength="1" maxlength="255" required></textarea>
+                            <textarea id="potionDescription" class="form-control textarea bg-hexa-person text-primary-person text-shadow-light-person w-100 w-md-75 fs-4" placeholder="Ej: Esta poción aumenta la velociad de la persona..." cols="30" rows="3" minlength="1" maxlength="255" required></textarea>
                         </div>
 
                         <div class="mb-3">
@@ -230,7 +268,9 @@ const buildPotionFormAccordion = async () => {
         } else {
             showToastMessages("Error al crear la poción", false);
         }
+        await buildHeader();
         await buildPotionFormAccordion();
+        await buildSearch("potion-search", "pociones", document.querySelector('#potionFormAccordion'), (query) => filterPotions(query));
     });
 };
 
@@ -524,7 +564,9 @@ const deletePotion = async () => {
             } else {
                 showToastMessages("Error al eliminar la poción", false);
             }
+            await buildHeader();
             await buildPotionFormAccordion();
+            await buildSearch("potion-search", "pociones", document.querySelector('#potionFormAccordion'), (query) => filterPotions(query));
         });
     });
 };

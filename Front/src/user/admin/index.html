@@ -11,7 +11,16 @@
 <div id="header-container"></div>
 
 <main id="main-container" class="container my-5">
-    <div class="row row-cols-1 g-4 justify-content-center">
+    <div id="admin-user-container" class="row row-cols-1 g-4 justify-content-center">
+        <div class="col d-flex justify-content-center">
+            <div class="card card-uniform bg-octa-person border border-primary-person h-100 w-75">
+                <div class="card-body d-flex flex-column text-center p-3 text-primary-person align-items-center">
+                    <h5 class="card-title fs-2 mb-3">Gestión de perfil</h5>
+                    <p class="card-text fs-5 flex-grow-1">Gestiona tu perfil y mira tus estadísticas</p>
+                    <button id="profileButton" class="btn w-100 fs-5 text-primary-person">Mi Perfil</button>
+                </div>
+            </div>
+        </div>
         <div class="col d-flex justify-content-center">
             <div class="card card-uniform bg-octa-person border border-primary-person h-100 w-75">
                 <div class="card-body d-flex flex-column text-center p-3 text-primary-person align-items-center">
@@ -21,7 +30,7 @@
                 </div>
             </div>
         </div>
-        <div class="col d-flex justify-content-center">
+        <div id="admin-subject-container" class="col d-flex justify-content-center">
             <div class="card card-uniform bg-octa-person border border-primary-person h-100 w-75">
                 <div class="card-body d-flex flex-column text-center p-3 text-primary-person align-items-center">
                     <h5 class="card-title fs-2 mb-3">Gestionar Asignaturas</h5>
@@ -30,16 +39,16 @@
                 </div>
             </div>
         </div>
-        <div class="col d-flex justify-content-center">
+        <div id="admin-potion-container" class="col d-flex justify-content-center">
             <div class="card card-uniform bg-octa-person border border-primary-person h-100 w-75">
                 <div class="card-body d-flex flex-column text-center p-3 text-primary-person align-items-center">
-                    <h5 class="card-title fs-2 mb-3">Clase de Pócimas</h5>
-                    <p class="card-text fs-5 flex-grow-1">Domina la magia y aprueba todas tus pócimas.</p>
+                    <h5 class="card-title fs-2 mb-3">Clase de Pociones</h5>
+                    <p class="card-text fs-5 flex-grow-1">Domina la magia y aprueba todas tus pociones.</p>
                     <button id="potions-button" class="btn w-100 fs-5 text-primary-person">Ir a clase</button>
                 </div>
             </div>
         </div>
-        <div class="col d-flex justify-content-center pb-5">
+        <div id="admin-spell-container" class="col d-flex justify-content-center pb-5">
             <div class="card card-uniform bg-octa-person border border-primary-person h-100 w-75">
                 <div class="card-body d-flex flex-column text-center p-3 text-primary-person align-items-center">
                     <h5 class="card-title fs-2 mb-3">Clase de Hechizos</h5>

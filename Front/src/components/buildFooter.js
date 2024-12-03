@@ -1,4 +1,6 @@
 import '../scss/componets.scss'
+import {changeColor} from "../houses/houseColors";
+
 export const buildFooter = (idContainer) => {
     const container = document.querySelector(idContainer || '#footer-container');
     container.innerHTML = `
@@ -13,4 +15,5 @@ export const buildFooter = (idContainer) => {
             </div>
         </footer>
     `;
+    changeColor(localStorage.getItem('house'));
 }

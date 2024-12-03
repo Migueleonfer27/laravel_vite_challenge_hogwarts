@@ -16,8 +16,11 @@ import {buildHeader, showLogoutButton} from "../../../components/buildHeader";
 import {buildFooter} from "../../../components/buildFooter";
 import {buildLoader, hideLoader, showLoader} from "../../../components/buildLoader";
 import modal from "bootstrap/js/src/modal";
+import {handleLogout} from "../../../auth/auth-provider";
 
-
+// Mónica
+// Cynthia
+// Pequeña modificación Miguel
 
 const initPage = () => {
 
@@ -201,7 +204,6 @@ const createUserBtn = document.querySelector('#modal-create-user')
                         td.textContent = 'Gryffindor';
                     }
                 }
-
                 tr.appendChild(td);
             }
 
@@ -278,7 +280,8 @@ const createUserBtn = document.querySelector('#modal-create-user')
             tdBotones.appendChild(botonEliminar);
 
             tr.appendChild(tdBotones);
-            cuerpo.appendChild(tr);
+            if (user.name !== 'Dumbledore' && user.name !== localStorage.getItem('name'))
+                cuerpo.appendChild(tr);
         });
     }
 
@@ -337,24 +340,21 @@ const createUserBtn = document.querySelector('#modal-create-user')
                 modalError.style.display = 'none'
             });
 
-            div.appendChild(button);
-            modalBody.appendChild(div);
+            if (button.id !== 'dumbledore') {
+                div.appendChild(button);
+                modalBody.appendChild(div);
+            }
         });
     }
     getUsers()
 }
 
-const logout = () => {
-    removeToken()
-}
-
 const setupLogoutBtn = () => {
     const logoutButton = document.getElementById('logoutBtn')
     if(logoutButton){
-        logoutButton.addEventListener('click',logout)
+        logoutButton.addEventListener('click', handleLogout)
     }
 }
-
 
 buildLoader()
 showLoader()

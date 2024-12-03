@@ -32,7 +32,6 @@ const populateSubjectSelect = async (selectElement, userId) => {
         const allSubjects = await apiGetSubjects(token);
         const userSubjects = await apiGetUserSubjects(token, userId);
 
-
         const unassignedSubjects = allSubjects.filter(subject =>
             !userSubjects.some(userSubject => userSubject.id === subject.id)
         );
@@ -48,7 +47,7 @@ const populateSubjectSelect = async (selectElement, userId) => {
             unassignedSubjects.forEach(subject => {
                 const option = document.createElement("option");
                 option.value = subject.id;
-                option.textContent = subject.name;
+                option.textContent = translateSubjectName(subject.name);
                 selectElement.appendChild(option);
             });
         }
@@ -60,6 +59,15 @@ const populateSubjectSelect = async (selectElement, userId) => {
         option.textContent = "Hubo un error al cargar las asignaturas";
         selectElement.appendChild(option);
     }
+};
+
+// Miguel León Fernández
+const translateSubjectName = (name) => {
+    const translations = {
+        spells: "hechizos",
+        potions: "pociones"
+    };
+    return translations[name] || name;
 };
 
 const populateUserSubjectsSelect = async (userId) => {
@@ -78,7 +86,7 @@ const populateUserSubjectsSelect = async (userId) => {
             userSubjects.forEach(subject => {
                 const option = document.createElement("option");
                 option.value = subject.id;
-                option.textContent = subject.name;
+                option.textContent = translateSubjectName(subject.name);
                 selectElement.appendChild(option);
             });
         }
@@ -109,9 +117,10 @@ const assignSubject = async (event) => {
         messageContainer.classList.add('alert-success');
         messageContainer.textContent = "Asignatura añadida correctamente";
         setTimeout(() => {
+            messageContainer.classList.add('d-none');
             addSubjectModal.hide();
             addSubjectForm.reset();
-        }, 1000);
+        }, 2000);
     } catch (error) {
         const messageContainer = document.getElementById('assign-message');
         messageContainer.classList.remove('d-none');
@@ -125,19 +134,23 @@ const confirmRemoveSubject = async () => {
 
     if (!selectedSubjectId) {
         removeMessageContainer.classList.remove('d-none');
-        removeMessageContainer.classList.add('alert-warning');
+        removeMessageContainer.classList.add('alert', 'alert-danger');
         removeMessageContainer.textContent = "Por favor, selecciona una asignatura a eliminar.";
+        setTimeout(() =>{
+            removeMessageContainer.classList.add('d-none');
+        },3000)
         return;
     }
 
     try {
         await apiRemoveSubject(token, selectedSubjectId);
-        removeMessageContainer.classList.remove('d-none');
-        removeMessageContainer.classList.add('alert-success');
+        removeMessageContainer.classList.remove('d-none', 'alert-danger');
+        removeMessageContainer.classList.add('alert', 'alert-success');
         removeMessageContainer.textContent = "Asignatura eliminada correctamente.";
         setTimeout(() => {
+            removeMessageContainer.classList.add('d-none');
             removeSubjectModal.hide();
-        }, 1000);
+        }, 2000);
     } catch (error) {
         removeMessageContainer.classList.remove('d-none');
         removeMessageContainer.classList.add('alert-danger');
@@ -173,6 +186,9 @@ const createSubject = async (e) => {
         createSubjectMessage.classList.remove('d-none', 'alert-warning', 'alert-success');
         createSubjectMessage.classList.add('alert-danger');
         createSubjectMessage.textContent = 'Error al crear la asignatura';
+        setTimeout(() => {
+            createSubjectMessage.classList.add('d-none');
+        }, 3000)
     }
 };
 
@@ -196,47 +212,28 @@ const loadUserByRole = async () => {
         users.forEach(user => {
             const roles = user.roles.filter(rol => rol.name === 'teacher' || rol.name === 'student');
 
-            if (roles.length === 0) {
-                const tr = document.createElement("tr");
-                tr.setAttribute("data-user-id", user.id);
-
-                const tdName = document.createElement("td");
-                tdName.textContent = user.name;
-
-                const tdEmail = document.createElement("td");
-                tdEmail.textContent = user.email;
-
-                const tdRol = document.createElement("td");
-                tdRol.textContent = "Sin roles asignados";
-
-                const tdActions = document.createElement("td");
-                tdActions.colSpan = 2;
-                tdActions.textContent = "No disponible";
-
-                tr.appendChild(tdName);
-                tr.appendChild(tdEmail);
-                tr.appendChild(tdRol);
-                tr.appendChild(tdActions);
-
-                userTable.appendChild(tr);
-            } else {
+            if (roles.length !== 0) {
                 roles.forEach(rol => {
                     const tr = document.createElement("tr");
                     tr.setAttribute("data-user-id", user.id);
 
                     const tdName = document.createElement("td");
                     tdName.textContent = user.name;
+                    tdName.classList.add('bg-octa-person', 'text-primary-person', 'text-shadow-person');
 
                     const tdEmail = document.createElement("td");
                     tdEmail.textContent = user.email;
+                    tdEmail.classList.add('bg-octa-person', 'text-primary-person', 'text-shadow-person');
 
                     const tdRol = document.createElement("td");
                     tdRol.textContent = rol.name === 'teacher' ? 'Profesor' : 'Estudiante';
+                    tdRol.classList.add('bg-octa-person', 'text-primary-person', 'text-shadow-person');
 
                     const tdActions = document.createElement("td");
+                    tdActions.classList.add('bg-octa-person');
 
                     const addBtn = document.createElement("button");
-                    addBtn.classList.add("btn", "w-100", "modify", "text-primary-person", "text-shadow-person");
+                    addBtn.classList.add("btn", "w-100", "modify", "text-primary-person", "text-shadow-person", 'my-1');
                     addBtn.textContent = "Asignar asignatura";
                     addBtn.addEventListener('click', addBtnHandler);
 

@@ -5,6 +5,9 @@ import {createIngredient, removeIngredient, getIngredients} from "./ingredients-
 import {showToastMessages} from "../js/messages";
 import {uploadImageS3} from "../student-teacher/js/provider-student-teacher";
 import {buildLoader, hideLoader, showLoader} from "../components/buildLoader";
+import {buildSearch} from "../components/buildSearch";
+
+let allIngredients = [];
 
 // Miguel León Fernández
 const initPageIngredients = async () => {
@@ -14,23 +17,44 @@ const initPageIngredients = async () => {
     buildFooter();
     showLogoutButton();
     await buildIngredientFormAccordion();
+    await buildSearch("search-ingredients","ingredientes", document.querySelector("#ingredientFormAccordion"), filterIngredients);
     await loadIngredients();
 };
 
 // Miguel León Fernández
 const loadIngredients = async () => {
     const ingredients = await getIngredients();
+    allIngredients = ingredients.reverse();
+    displayIngredients(allIngredients);
     const ingredientsContainer = document.getElementById("ingredients-container");
     ingredientsContainer.innerHTML = '';
-    ingredients.reverse();
 
     ingredients.forEach(ingredient => {
-        {buildCard(ingredient)
-        }
+        buildCard(ingredient)
         hideLoader(null, 600)
     });
 
     await deleteIngredient();
+};
+
+// Miguel León Fernández
+const displayIngredients = (ingredients) => {
+    const ingredientsContainer = document.getElementById("ingredients-container");
+    ingredientsContainer.innerHTML = '';
+
+    ingredients.forEach((ingredient) => {
+        buildCard(ingredient);
+    });
+
+    deleteIngredient();
+};
+
+// Miguel León Fernández
+const filterIngredients = (query) => {
+    const filtered = allIngredients.filter((ingredient) =>
+        ingredient.name.toLowerCase().includes(query)
+    );
+    displayIngredients(filtered);
 };
 
 // Miguel León Fernández
@@ -60,7 +84,6 @@ const pickImage = (ingredient) => {
 
     return img;
 };
-
 
 // Miguel León Fernández
 const buildCard = async (ingredient) => {
@@ -178,6 +201,8 @@ const deleteIngredient = async () => {
             }
             await loadIngredients();
             await buildIngredientFormAccordion();
+            await buildSearch("search-ingredients","ingredientes", document.querySelector("#ingredientFormAccordion"), filterIngredients);
+            buildHeader();
         });
     });
 };
@@ -209,7 +234,7 @@ const buildIngredientFormAccordion = async () => {
                     <form id="createIngredientForm" class="px-5 py-3 text-shadow-person">
                         <div class="mb-4">
                             <label for="ingredientName" class="form-label text-primary-person fs-2">Nombre del Ingrediente</label>
-                            <input type="text" class="form-control bg-hexa-person text-primary-person w-100 fs-4" placeholder="Ej: Mandrágora..." id="ingredientName" minlength="5" maxlength="60" required>
+                            <input type="text" class="form-control bg-hexa-person text-primary-person text-shadow-light-person w-100 fs-4" placeholder="Ej: Mandrágora..." id="ingredientName" minlength="5" maxlength="60" required>
                         </div>
 
                         <div class="row g-3">
@@ -316,7 +341,8 @@ const handleCreateIngredient = async (event) => {
 
     await loadIngredients();
     await buildIngredientFormAccordion();
+    await buildSearch("search-ingredients","ingredientes", document.querySelector("#ingredientFormAccordion"), filterIngredients);
+    buildHeader();
 };
-
 
 await initPageIngredients();
