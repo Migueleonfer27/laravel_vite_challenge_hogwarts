@@ -64,6 +64,8 @@
 //         }
 //     });
 // };
+
+// addDoor([[1, 0],[6,2], [0,5], [4,7]]);
 //
 // await getName()
 // await createMap()

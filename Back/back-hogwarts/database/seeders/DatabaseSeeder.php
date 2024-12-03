@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             SubjectSeeder::class,
             IngredientSeeder::class,
             SpellSeeder::class,
-            MapSeeder::class,
+//             MapSeeder::class,
         ]);
     }
 }

@@ -29,11 +29,14 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::get('/nameStudent', [AdminController::class, 'getNameStudent'])->middleware('ability:dumbledore');
 
-    Route::get('/map/{id}', [MapController::class, 'showMap']);
-    Route::put('/insert-users', [MapController::class, 'insertUsers']);
-    Route::put('/move-all-users', [MapController::class, 'moveAllUsers']);
-});
 
+//     Route::put('/insert-users/{id}', [MapController::class, 'insertUsers']);
+//     Route::put('/move-all-users/{id}/{second}', [MapController::class, 'moveAllUsers']);
+
+});
+    Route::put('/map/{id}', [MapController::class, 'createMap']);
+    Route::put('/insertUsers/{id}', [MapController::class, 'insertUsers']);
+    Route::put('/simulation/{id}', [MapController::class, 'simulationMap']);
 
 
 // Miguel León Fernández
