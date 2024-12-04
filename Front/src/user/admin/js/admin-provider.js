@@ -15,7 +15,7 @@ const apiGetUsers = async (token) => {
         return data
 
 }
-
+//Monica
 const apiUpdateUser = async (token, id, body) => {
     const option = {
         method: 'PUT',
@@ -30,7 +30,7 @@ const apiUpdateUser = async (token, id, body) => {
     const data = await response.json();
     return data;
 }
-
+//Monica
 const apiGetRoles = async (token) => {
     const option = {
         method: 'GET',
@@ -43,7 +43,7 @@ const apiGetRoles = async (token) => {
     const response = await fetch(url, option);
     return await response.json();
 }
-
+//Monica
 const apiDeleteRole = async (token, userID, roleID) => {
     const option = {
         method: 'DELETE',
@@ -57,7 +57,7 @@ const apiDeleteRole = async (token, userID, roleID) => {
     const response = await fetch(url, option);
     return await response.json();
 }
-
+//Monica
 const apiAddRole = async (token, userID, roleID) => {
     const option = {
         method: 'POST',
@@ -71,7 +71,7 @@ const apiAddRole = async (token, userID, roleID) => {
     const response = await fetch(url, option);
     return await response.json();
 }
-
+//Monica
 const apiDeleteUser = async (token, id) => {
     const option = {
         method: 'DELETE',
@@ -84,7 +84,7 @@ const apiDeleteUser = async (token, id) => {
     const response = await fetch(url, option);
     return await response.json();
 }
-
+//Monica
 const apiCreateUser = async (token, body) => {
     const option = {
         method: 'POST',
@@ -98,7 +98,7 @@ const apiCreateUser = async (token, body) => {
     const response = await fetch(url, option);
     return await response.json();
 }
-
+//Monica
 export {
     apiGetUsers,
     apiUpdateUser,

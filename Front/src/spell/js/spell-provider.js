@@ -1,5 +1,5 @@
 import { getToken } from "../../../storage/tokenManager";
-
+//Monica
 const getAllSpells = async () => {
     const response = await fetch('http://127.0.0.1:8000/api/spell/', {
         method: 'GET',
@@ -12,7 +12,7 @@ const getAllSpells = async () => {
     const data = await response.json()
     return data
 }
-
+//Monica
 const getStudentSpells = async () => {
     const response = await fetch('http://127.0.0.1:8000/api/spell/student', {
         method: 'GET',
@@ -25,7 +25,7 @@ const getStudentSpells = async () => {
     const data = await response.json()
     return data
 }
-
+//Monica
 const getSpellLearned = async () => {
     const response = await fetch('http://127.0.0.1:8000/api/spell/learned', {
         method: 'GET',
@@ -39,7 +39,7 @@ const getSpellLearned = async () => {
     const data = await response.json()
     return data
 }
-
+//Monica
 const deleteSpell = async (id) => {
     const option = {
         method: 'DELETE',
@@ -53,7 +53,7 @@ const deleteSpell = async (id) => {
     const data = await response.json();
     return data;
 }
-
+//Monica
 const updateSpell = async (id, body) => {
     const option = {
         method: 'PUT',
@@ -68,7 +68,7 @@ const updateSpell = async (id, body) => {
     const data = await response.json();
     return data;
 }
-
+//Monica
 const createSpell = async (body) => {
     const option = {
         method: 'POST',
@@ -83,7 +83,7 @@ const createSpell = async (body) => {
     const data = await response.json();
     return data;
 }
-
+//Monica
 const learnSpell = async (spell_id) => {
     const option = {
         method: 'POST',
@@ -97,7 +97,7 @@ const learnSpell = async (spell_id) => {
     const data = await response.json();
     return data;
 }
-
+//Monica
 const getSpellpendings = async () => {
     const response = await fetch('http://127.0.0.1:8000/api/spell/pending', {
             method: 'GET',
@@ -110,7 +110,7 @@ const getSpellpendings = async () => {
     const data = await response.json()
     return data
 }
-
+//Monica
 const approveSpellTeacher = async (id) => {
     const response = await fetch(`http://127.0.0.1:8000/api/spell/approve/${id}`, {
             method: 'PUT',
@@ -123,7 +123,7 @@ const approveSpellTeacher = async (id) => {
     const data = await response.json()
     return data
 }
-
+//Monica
 const rejectSpellTeacher = async (id) => {
     const response = await fetch(`http://127.0.0.1:8000/api/spell/reject/${id}`, {
             method: 'PUT',
@@ -136,7 +136,7 @@ const rejectSpellTeacher = async (id) => {
     const data = await response.json()
     return data
 }
-
+//Monica
 const getPendingDumbledore = async () => {
     const response = await fetch('http://127.0.0.1:8000/api/spell/pending/dumbledore', {
         method: 'GET',
@@ -149,7 +149,7 @@ const getPendingDumbledore = async () => {
     const data = await response.json()
     return data
 }
-
+//Monica
 const approveSpellDumbledore = async (id) => {
     const response = await fetch(`http://127.0.0.1:8000/api/spell/validate/${id}`, {
             method: 'PUT',
@@ -162,7 +162,7 @@ const approveSpellDumbledore = async (id) => {
     const data = await response.json()
     return data
 }
-
+//Monica
 const rejectSpellDumbledore = async (id) => {
     const response = await fetch(`http://127.0.0.1:8000/api/spell/invalidate/${id}`, {
             method: 'PUT',
@@ -175,7 +175,7 @@ const rejectSpellDumbledore = async (id) => {
     const data = await response.json()
     return data
 }
-
+//Monica
 const addExperience = async (id) => {
     const response =await fetch(`http://127.0.0.1:8000/api/spell/addExperience/${id}`, {
         method: 'POST',
@@ -189,7 +189,7 @@ const addExperience = async (id) => {
     const data = await response.json()
     return data
 }
-
+//Monica
 export {
     getAllSpells,
     getStudentSpells,

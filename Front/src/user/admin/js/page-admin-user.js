@@ -23,7 +23,6 @@ import {handleLogout} from "../../../auth/auth-provider";
 // Pequeña modificación Miguel
 
 const initPage = () => {
-
 const tbody = document.getElementById('body-table');
 const button = document.getElementById('btn-alumns');
 const token = getToken();
@@ -34,12 +33,12 @@ const createUserBtn = document.querySelector('#modal-create-user')
 // let rolesUser = localStorage.getItem('roles')
 // let roles = rolesUser.split(',')
 
-
+//Monica
     addUsersBtn.addEventListener('click', () => {
         const addUserModal = new bootstrap.Modal(document.getElementById('addUserModal'))
         addUserModal.show()
     })
-
+//Monica
     createUserBtn.addEventListener('click', async (e) => {
         e.preventDefault();
 
@@ -77,6 +76,7 @@ const createUserBtn = document.querySelector('#modal-create-user')
         }
     });
 
+//Monica
     const validateForm = (inputs) => {
         let isValid = true;
         inputs.forEach(input => {
@@ -90,6 +90,7 @@ const createUserBtn = document.querySelector('#modal-create-user')
         return isValid;
     }
 
+    //Monica
     const validateEmail = (email) => {
         let isValid = validations.validateEmail(email);
         if (!isValid) {
@@ -100,6 +101,7 @@ const createUserBtn = document.querySelector('#modal-create-user')
         return isValid;
     }
 
+    //Monica
     const validatePassword = (password) => {
         let isValid = validations.validatePassword(password);
         if (!isValid) {
@@ -110,18 +112,18 @@ const createUserBtn = document.querySelector('#modal-create-user')
         return isValid;
     }
 
-
+    //Monica
     document.getElementById('rolesModal').addEventListener('hidden.bs.modal', () => {
         location.reload();
     });
-
+    //Monica
     const getUsers = async () => {
         const res = await apiGetUsers(token);
         construirCabecera(res[0]);
         construirCuerpo(res);
         hideLoader(null, 600)
     }
-
+    //Monica
     const construirCabecera = (objeto) => {
         let cabecera = document.querySelector('#header');
         let tr = document.createElement('tr');
@@ -163,6 +165,8 @@ const createUserBtn = document.querySelector('#modal-create-user')
 
         cabecera.appendChild(tr);
     };
+
+    //Monica
     const construirCuerpo = (users) => {
         let cuerpo = document.querySelector('#body');
 
@@ -285,6 +289,7 @@ const createUserBtn = document.querySelector('#modal-create-user')
         });
     }
 
+    //Monica
     const construirModalRoles = (roles, rolesUser, userID) => {
         let modalBody = document.querySelector('.modal-body');
         let modalError = document.querySelector('#roles-modal-error')

@@ -13,6 +13,7 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\SpellController;
 use App\Http\Controllers\UserSpellController;
 use App\Http\Controllers\ControladorS3;
+use App\Http\Controllers\MapController;
 
 
 //Monica
@@ -25,7 +26,18 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('role', [AdminController::class, 'getRole'])->middleware('ability:dumbledore,admin');
     Route::post('/user-rol/{id}', [AdminController::class, 'giveRole'])->middleware('ability:dumbledore,admin');
     Route::delete('/user-rol/{id}', [AdminController::class, 'retireRole'])->middleware('ability:dumbledore,admin');
+
+    Route::get('/nameStudent', [AdminController::class, 'getNameStudent'])->middleware('ability:dumbledore');
+
+//     Route::put('/simulation/{id}/{second}', [MapController::class, 'simulationMap']);
+
+//     Route::put('/insert-users/{id}', [MapController::class, 'insertUsers']);
+//     Route::put('/move-all-users/{id}/{second}', [MapController::class, 'moveAllUsers']);
+    Route::put('/simulation/{id}/{second}', [MapController::class, 'simulationMap']);
 });
+
+
+
 
 
 

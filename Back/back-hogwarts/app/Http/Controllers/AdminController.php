@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\Validator;
 //Monica
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+     //Monica
     public function index()
     {
         $users = User::with('roles')->get();
@@ -23,7 +21,7 @@ class AdminController extends Controller
             return response()->json($users, 200);
         }
     }
-
+     //Monica
     public function show($id)
     {
         $user = User::with('roles')->find($id);
@@ -34,7 +32,7 @@ class AdminController extends Controller
             return response()->json('User not found', 404);
         }
     }
-
+     //Monica
     public function create(Request $request)
     {
         $input = $request->all();
@@ -67,7 +65,7 @@ class AdminController extends Controller
         'success' => true,
         ], 201);
     }
-
+     //Monica
     public function update(Request $request, $id)
     {
         $input = $request->all();
@@ -100,6 +98,7 @@ class AdminController extends Controller
             ], 200);
         }
     }
+    //Monica
     public function destroy($id)
     {
         $user = User::with('roles')->find($id);
@@ -111,7 +110,7 @@ class AdminController extends Controller
             return response()->json(['message' => 'user not found', 'success' => false], 404);
         }
     }
-
+     //Monica
     public function giveRole(Request $request, $id)
     {
         $input = $request->all();
@@ -141,6 +140,7 @@ class AdminController extends Controller
         return response()->json(['message' => 'Role assigned successfully.', 'success' => true], 200);
     }
 
+     //Monica
     public function retireRole(Request $request, $id)
     {
         $input = $request->all();
@@ -170,11 +170,22 @@ class AdminController extends Controller
         return response()->json(['message' => 'Role removed successfully.', 'success' => true], 200);
     }
 
-
+     //Monica
     public function getRole()
     {
         $roles = DB::table('roles')->get();
         return response()->json($roles, 200);
+    }
+//Monica
+    public function getNameStudent(){
+        $students = DB::table('users as u')
+            ->select('u.name')
+            ->join('role_user as ru', 'u.id', '=', 'ru.user_id')
+            ->join('roles as r', 'ru.role_id', '=', 'r.id')
+            ->where('r.name', '=', 'student')
+            ->get();
+
+        return response()->json($students, 200);
     }
 
 

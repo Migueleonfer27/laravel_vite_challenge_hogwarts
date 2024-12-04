@@ -16,7 +16,7 @@ let houseUser = async () =>{
     //console.log(house)
     return res
 }
-
+//Monica
 const imgHouse = (house) => {
     let img = document.querySelector('#img-house')
     img.className = 'house-badge object-fit-contain'
@@ -36,7 +36,7 @@ const imgHouse = (house) => {
 let rolesUser = localStorage.getItem('roles')
 let roles = rolesUser.split(',')
 console.log(roles)
-
+//Monica
 const construirCard = (house) => {
     let construirDiv = document.querySelector('#role-container');
 
@@ -130,7 +130,7 @@ const setupLogoutBtn = () => {
     }
 }
 
-
+//Monica
 buildLoader()
 showLoader()
 buildHeader()
