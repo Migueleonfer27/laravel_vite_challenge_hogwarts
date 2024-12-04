@@ -1,7 +1,7 @@
 import {getToken} from "../../../storage/tokenManager";
 
 //Cynthia
-export const apiStartDuel = async () => {
+export const apiCreateDuel = async () => {
     const token = getToken();
     const options = {
         method: 'POST',
@@ -10,9 +10,9 @@ export const apiStartDuel = async () => {
             'Authorization': `Bearer ${token}`,
         },
     }
-    const url = `http://127.0.0.1:8000/api/duels/start`;
-    const response = await fetch(url,options);
-    return await response.json()
+    const url = `http://127.0.0.1:8000/api/duels/create`;
+    const response = await fetch(url, options);
+    return response.json()
 }
 
 export const apiGetActiveDuels = async () => {
@@ -24,11 +24,48 @@ export const apiGetActiveDuels = async () => {
             'Authorization': `Bearer ${token}`,
         },
     };
-    const url = `http://127.0.0.1:8000/api/duels/active`;
-    const response = await fetch(url,options);
-    if(response.ok){
+    const url = `http://127.0.0.1:8000/api/duels/getActiveDuels`;
+    const response = await fetch(url, options);
+    if (response.ok) {
         return await response.json()
-    }else{
+    } else {
         return [];
     }
+}
+
+export const apiGetDuelById = async (id) => {
+    const token = getToken()
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+    };
+    const url = `http://127.0.0.1:8000/api/duels/get/${id}`;
+    const response = await fetch(url, options);
+    if (response.ok) {
+        return await response.json()
+    } else {
+        return [];
+    }
+}
+
+export const apiCastSpells = async (selectedSpell, duelModel) => {
+    const token = getToken();
+    const data = {
+        userSpell: selectedSpell,
+        duel: duelModel
+    }
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(data)
+    }
+    const url = `http://127.0.0.1:8000/api/duels/castSpells`;
+    const response = await fetch(url,options);
+    return await response.json()
 }

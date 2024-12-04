@@ -105,9 +105,8 @@ Route::middleware('auth:sanctum')->prefix('spell')->group(function () {
 
 Route::middleware('auth:sanctum')->prefix('duels')->group(function (){
     Route::get('/',[DuelsController::class, 'index'])->middleware('ability:dumbledore,student,teacher,admin');
-    Route::get('/show/{id}',[DuelsController::class, 'show'])->middleware('ability:dumbledore,student,teacher,admin');
+    Route::get('/get/{id}',[DuelsController::class, 'show'])->middleware('ability:dumbledore,student,teacher,admin');
+    Route::get('/getActiveDuels',[DuelsController::class, 'getUserActiveDuels'])->middleware('ability:dumbledore,student,teacher,admin');
     Route::post('/create',[DuelsController::class, 'create'])->middleware('ability:dumbledore,student,teacher,admin');
-    Route::post('/start',[DuelsController::class, 'startDuel'])->middleware('ability:dumbledore,student,teacher,admin');
-    Route::post('/simulate/{duelId}',[DuelsController::class, 'duelSimulation'])->middleware('ability:dumbledore,student,teacher,admin');
-    Route::get('/active',[DuelsController::class, 'getUserActiveDuels'])->middleware('ability:dumbledore,student,teacher,admin');
+    Route::post('/castSpells',[DuelsController::class, 'castSpells'])->middleware('ability:dumbledore,student,teacher,admin');
 });

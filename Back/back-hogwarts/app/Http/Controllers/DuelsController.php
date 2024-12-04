@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Duel;
-use App\Http\Controllers\PointsController;
 use App\Models\Spell;
 use App\Models\User;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\SpellController;
 
 class DuelsController extends Controller
 {
+
+    // Recupera todos los duelos
     public function index()
     {
         $duels = Duel::all();
@@ -22,6 +22,47 @@ class DuelsController extends Controller
         return response()->json($duels, 200);
     }
 
+    // Crea un duelo
+    public function create(Request $request)
+    {
+        $user = $request->user();
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Usuario no autenticado'
+            ], 401);
+        }
+
+        // Se valida que el usuario tenga hechizos para usar, si no tiene hechizos no puede iniciar un duelo.
+        $response = (new SpellController)->getSpellsLearned()->getData();
+        $spellUser = $response->spell;
+        if (empty($spellUser)) {
+            return response()->json([
+                'codError' => 100,
+                'success' => true,
+                'message' => 'No hay hechizos disponibles'
+            ], 400);
+        }
+
+        // Se crea y guarda el duelo en base de datos
+        $duel = new Duel();
+        $duel->fill([
+            'user_id' => $user->id,
+            'life_user' => 100,
+            'life_machine' => 100,
+            'round' => 0,
+            'result' => 0,
+        ]);
+        $duel->save();
+
+        return response()->json([
+            'data' => json_encode($duel),
+            'success' => true,
+            'message' => 'Duelo creado correctamente'
+        ], 200);
+    }
+
+    // Recupera un duelo en por id
     public function show($id)
     {
         $duel = Duel::find($id);
@@ -32,58 +73,56 @@ class DuelsController extends Controller
         return response()->json($duel, 200);
     }
 
-    public function create(Request $request)
-    {
-        $user = $request->user(); // Obtiene el usuario autenticado
-
-
-        if (!$user) {
+    // Recupera todos los duelos no terminados por usuario
+    public function getUserActiveDuels(Request $request){
+        $user = $request->user();
+        if(!$user){
             return response()->json([
                 'success' => false,
-                'message' => 'Usuario no autenticado'
+                'message' => 'Usuario no autenticado.'
+            ],401);
+        }
+
+        $activeDuel = Duel::where('user_id', $user->id)
+            ->where('result',0)
+            ->get();
+
+        if($activeDuel->isEmpty()){
+            return response()->json([
+                'success' => false,
+                'message' => 'No se hay duelos activos.'
+            ],404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'activeDuels' => $activeDuel
+        ],200);
+    }
+
+    public function castSpells(Request $request){
+        $user = $request->user();
+        if(!$user){
+            return response()->json([
+                'success' => false,
+                'message' => 'Usuario no autenticado.'
             ], 401);
         }
 
-        $duel = new Duel();
-        $duel->fill([
-            'id_user' => $user->id,
-            'life_user' => 100,
-            'life_machine' => 100,
-            'round' => 0,
-            'result' => 0,
-        ]);
-        $duel->save();
+        // Se recupera los datos del cliente
+        $data = json_decode($request->getContent());
+        $duel = $data->duel;
+        $spellUser = $data->userSpell;
+
+        // Buscar el duelo por ID
+        $duel = Duel::find($duel->id);
 
         return response()->json([
-            'duel' => $duel,
             'success' => true,
-            'message' => 'Duelo creado correctamente'
-        ], 200);
+            'duel' => json_encode($duel)
+        ],200);
     }
 
-    public function startDuel(Request $request){
-        $user = $request->user();
-        $levelUser = $user->level;
-
-        $spellUser = Spell::where('level', '<=', $levelUser)->get();
-        if ($spellUser->isEmpty()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'No hay hechizos disponibles'
-            ], 400);
-        }
-
-        // Crear un nuevo duelo y reiniciar la lista de hechizos usados
-        $duel = Duel::create([
-            'user_id' => $user->id,
-        ]);
-
-        return response()->json([
-            'duel' => $duel,
-            'success' => true,
-            'message' => 'Duel started',
-        ], 200);
-    }
 
     public function duelSimulation(Request $request, $duelId, PointsController $pointsController)
     {
@@ -319,31 +358,4 @@ class DuelsController extends Controller
         ];
     }
 
-
-    public function getUserActiveDuels(Request $request){
-        $user = $request->user();
-
-        if(!$user){
-            return response()->json([
-                'success' => false,
-                'message' => 'Usuario no autenticado.'
-            ],401);
-        }
-
-        $activeDuel = Duel::where('user_id', $user->id)
-            ->where('result',0)
-            ->get();
-
-        if($activeDuel->isEmpty()){
-            return response()->json([
-                'success' => false,
-                'message' => 'No se hay duelos activos.'
-            ],404);
-        }
-
-        return response()->json([
-            'success' => true,
-            'activeDuels' => $activeDuel
-        ],200);
-    }
 }

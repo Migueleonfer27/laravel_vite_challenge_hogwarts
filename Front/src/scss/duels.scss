@@ -1,12 +1,7 @@
 // Cynthia Rivas Del Moral
-#start-duels #main-container-1 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-size: cover;
-  background-position: center;
-  padding-bottom: 60px;
-  flex-direction: column;
+#start-duels #main-container {
+  overflow: auto;
+  height: calc(100vh - 269px);
 }
 
 #start-duels #starDuels {
@@ -45,8 +40,10 @@
   background-position: center;
 }
 
-#duels #main-container-2 {
+#duels #main-container {
   width: 100%;
+  overflow: auto;
+  height: calc(100vh - 269px);
 }
 
 #duels .deck {
@@ -60,13 +57,13 @@
 
 #duels .card-down,
 #duels .card-up {
-  width: 185px;
-  height: 256px;
+  width: 154px;
+  height: 212px;
   border-radius: 10px;
   cursor: pointer;
   transform: translate(0,0);
   transition: transform 0.5s ease-in-out;
-  box-shadow: 2px 2px 4px 0 rgba(46, 124, 227, 0.85);
+  box-shadow: 7px 7px 7px 0 rgba(0, 0, 0, 0.80);
 }
 
 #duels .card-up {
@@ -75,8 +72,8 @@
 
 #duels .card-up:hover{
   position: relative;
-  top: -7px;
-  box-shadow: 7px 7px 12px 0 rgba(46, 124, 227, 0.91);
+  top: -5px;
+  box-shadow: 7px 7px 7px 0 rgba(46, 124, 227, 0.80);
 }
 
 #duels .card-down {
@@ -86,15 +83,21 @@
 }
 
 #duels .selection-area {
-  width: 205px;
-  height: 276px;
-  background-color: rgba(0, 0, 0, 0.32);
+  width: 174px;
+  height: 233px;
   display: flex;
   padding: 10px;
+  border-radius: 10px;
 }
 
-.in-drop-zone {
-  position: absolute;
-  z-index: 10;
-  transform: translate(-50%, -50%);
+#duels .area {
+  background-color: rgba(163, 163, 163, 0.61);
+  display: flex;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid white;
+}
+
+#duels #startDuelButton {
+  width: 100px;
 }
