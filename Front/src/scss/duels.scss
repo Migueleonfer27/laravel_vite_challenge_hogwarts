@@ -51,29 +51,46 @@
 
 #duels .deck {
   display: flex;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 15px;
   justify-content: center;
   width: 100%;
-  overflow-x: auto;
-  padding: 10px;
+  padding: 20px;
 }
 
-#duels .card {
-  width: 165px;
-  height: 250px;
-  background-color: #ffcccb;
-  border: 2px solid #ff0000;
+#duels .card-down,
+#duels .card-up {
+  width: 185px;
+  height: 256px;
   border-radius: 10px;
   cursor: pointer;
+  transform: translate(0,0);
+  transition: transform 0.5s ease-in-out;
+  box-shadow: 2px 2px 4px 0 rgba(46, 124, 227, 0.85);
+}
+
+#duels .card-up {
+  background-color: #cbe3ff;
+}
+
+#duels .card-up:hover{
+  position: relative;
+  top: -7px;
+  box-shadow: 7px 7px 12px 0 rgba(46, 124, 227, 0.91);
+}
+
+#duels .card-down {
+  background-image: url("../assets/img/background-duels-card.png");
+  background-size: cover;
+  background-position: center;
 }
 
 #duels .selection-area {
-  width: 200px;
-  height: 300px;
+  width: 205px;
+  height: 276px;
   background-color: rgba(0, 0, 0, 0.32);
   display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 10px;
 }
 
 .in-drop-zone {
