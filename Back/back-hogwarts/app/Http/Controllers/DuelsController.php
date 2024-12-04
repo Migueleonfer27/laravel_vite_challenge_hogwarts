@@ -320,4 +320,30 @@ class DuelsController extends Controller
     }
 
 
+    public function getUserActiveDuels(Request $request){
+        $user = $request->user();
+
+        if(!$user){
+            return response()->json([
+                'success' => false,
+                'message' => 'Usuario no autenticado.'
+            ],401);
+        }
+
+        $activeDuel = Duel::where('user_id', $user->id)
+            ->where('result',0)
+            ->get();
+
+        if($activeDuel->isEmpty()){
+            return response()->json([
+                'success' => false,
+                'message' => 'No se hay duelos activos.'
+            ],404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'activeDuels' => $activeDuel
+        ],200);
+    }
 }
