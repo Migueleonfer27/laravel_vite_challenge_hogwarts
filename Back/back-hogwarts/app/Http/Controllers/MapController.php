@@ -73,6 +73,46 @@ class MapController extends Controller
        return response()->json(['message' => 'Mapa creado con puertas', 'map' => $map], 200);
     }
 
+    public function createCells($id){
+
+        $map = Map::find($id);
+
+        $doorPositions = [
+                    [1, 6],
+                    [3, 1],
+                    [5, 8],
+                    [7, 3]
+                ];
+
+                for ($y = 1; $y <= 7; $y++) {
+                    for ($x = 1; $x <= 8; $x++) {
+                        $isDoor = false;
+                        foreach ($doorPositions as $door) {
+                            if ($door[0] === $y && $door[1] === $x) {
+                                $isDoor = true;
+                                break;
+                            }
+                        }
+
+                        $content = null;
+
+                        if ($isDoor) {
+                            $content = 'PUERTA';
+                        } elseif ($y == 1 || $y == 7 || $x == 1 || $x == 8) {
+                            $content = 'XXXX';
+                        }
+
+                        Cell::create([
+                            'map_id' => $map->id,
+                            'posicion_x' => $x,
+                            'posicion_y' => $y,
+                            'content' => $content,
+                            'second_content' => 0,
+                        ]);
+                    }
+                }
+    }
+
     public function getStudent(){
         $students = DB::table('users as u')
             ->join('role_user as ru', 'u.id', '=', 'ru.user_id')
@@ -171,118 +211,126 @@ class MapController extends Controller
 
 
     public function moveUser($id, $second)
-    {
-        $positions = [
-            ['x' => -1, 'y' => 0], // izquierda
-            ['x' => 1, 'y' => 0],  // derecha
-            ['x' => 0, 'y' => -1], // arriba
-            ['x' => 0, 'y' => 1]   // abajo
-        ];
-        shuffle($positions);
-        $adjacentPositions = $positions;
+{
+    $positions = [
+        ['x' => -1, 'y' => 0], // izquierda
+        ['x' => 1, 'y' => 0],  // derecha
+        ['x' => 0, 'y' => -1], // arriba
+        ['x' => 0, 'y' => 1]   // abajo
+    ];
+    shuffle($positions);
+    $adjacentPositions = $positions;
 
-        $map = Map::find($id);
+    $map = Map::find($id);
 
-        $originalCells = $map->cells()->where('second_content', $second - 1)->get();
-        $movedStudents = [];
+    if (!$map) {
+        return response()->json(['message' => 'Mapa no encontrado'], 404);
+    }
 
-        foreach ($originalCells as $cell) {
-            $newCellContent = $cell->content;
-            $secondContent = $second;
-            $moved = false;
+    $originalCells = $map->cells()->where('second_content', $second - 1)->get();
+    $movedStudents = [];
 
-            if ($cell->content == "XXXX" || $cell->content == "PUERTA") {
-                if ($cell->content !== null) {
-                    $map->cells()->create([
-                        'posicion_x' => $cell->posicion_x,
-                        'posicion_y' => $cell->posicion_y,
-                        'content' => $cell->content, // No se mueve, solo se replica
-                        'second_content' => $secondContent,
-                    ]);
-                }
-            } elseif ($cell->content) {
-                foreach ($adjacentPositions as $position) {
-                    $newX = $cell->posicion_x + $position['x'];
-                    $newY = $cell->posicion_y + $position['y'];
+    foreach ($originalCells as $cell) {
+        $newCellContent = $cell->content;
+        $secondContent = $second;
+        $moved = false;
 
-                    if ($newX > 0 && $newX <= 8 && $newY > 0 && $newY <= 7) {
-                        $newCell = $map->cells()
-                            ->where('posicion_x', $newX)
-                            ->where('posicion_y', $newY)
-                            ->where('second_content', $second - 1)
-                            ->first();
+        if ($cell->content == "XXXX" || $cell->content == "PUERTA") {
+            if ($cell->content !== null) {
+                $cell->update(['second_content' => $secondContent]);
+            }
+        } elseif ($cell->content) {
+            foreach ($adjacentPositions as $position) {
+                $newX = $cell->posicion_x + $position['x'];
+                $newY = $cell->posicion_y + $position['y'];
 
-                        if ($newCell && !$newCell->content && !$moved) {
-                            if ($newCell->content == "PUERTA") {
-                                // Eliminar al alumno del mapa y actualizar las variables globales
-                                $this->studentsInMap = array_diff($this->studentsInMap, [$cell->content]);
-                                $this->studentsNotInMap[] = $cell->content;
-                            } else {
-                                $movedStudents[] = [
-                                    'student' => $cell->content,
-                                    'from' => ['x' => $cell->posicion_x, 'y' => $cell->posicion_y],
-                                    'to' => ['x' => $newX, 'y' => $newY]
-                                ];
+                if ($newX > 0 && $newX <= 8 && $newY > 0 && $newY <= 7) {
+                    $newCell = $map->cells()
+                        ->where('posicion_x', $newX)
+                        ->where('posicion_y', $newY)
+                        ->where('second_content', $second - 1)
+                        ->first();
 
-                                Cell::create([
-                                    'map_id' => $id,
-                                    'posicion_x' => $newCell->posicion_x,
-                                    'posicion_y' => $newCell->posicion_y,
-                                    'content' => $cell->content,
-                                    'second_content' => $secondContent,
-                                ]);
-                            }
+                    if ($newCell && !$newCell->content && !$moved) {
+                        if ($newCell->content == "PUERTA") {
+                            $this->studentsInMap = array_diff($this->studentsInMap, [$cell->content]);
+                            $this->studentsNotInMap[] = $cell->content;
+                        } else {
+                            $movedStudents[] = [
+                                'student' => $cell->content,
+                                'from' => ['x' => $cell->posicion_x, 'y' => $cell->posicion_y],
+                                'to' => ['x' => $newX, 'y' => $newY]
+                            ];
 
-                            Cell::create([
-                                'map_id' => $id,
-                                'posicion_x' => $cell->posicion_x,
-                                'posicion_y' => $cell->posicion_y,
-                                'content' => null,
+                            $newCell->update([
+                                'content' => $cell->content,
                                 'second_content' => $secondContent,
                             ]);
-
-                            $moved = true;
                         }
+
+                        $cell->update([
+                            'content' => null,
+                            'second_content' => $secondContent,
+                        ]);
+
+                        $moved = true;
                     }
                 }
+            }
 
-                if (!$moved) {
-                    $map->cells()->create([
-                        'posicion_x' => $cell->posicion_x,
-                        'posicion_y' => $cell->posicion_y,
-                        'content' => $newCellContent,
-                        'second_content' => $secondContent,
-                    ]);
-                }
-            } else {
-                $map->cells()->create([
-                    'posicion_x' => $cell->posicion_x,
-                    'posicion_y' => $cell->posicion_y,
-                    'content' => $newCellContent,
+            if (!$moved) {
+                $cell->update([
                     'second_content' => $secondContent,
                 ]);
             }
+        } else {
+            $cell->update([
+                'second_content' => $secondContent,
+            ]);
         }
-
-        return response()->json(['message' => 'Usuarios movidos', 'map' => $map, 'movedStudents' => $movedStudents], 200);
     }
 
+    return response()->json(['message' => 'Usuarios movidos', 'map' => $map, 'movedStudents' => $movedStudents], 200);
+}
+
+
+    public function deletePreviousMap($id)
+    {
+        $map = Map::find($id);
+        $map->cells()->delete();
+
+        return response()->json(['message' => 'Mapa eliminado'], 200);
+    }
 
 
     public function simulationMap($id, $second){
 
-        $this->createMap($id);
+
+        if ($map = Map::find($id)) {
+            $this->deletePreviousMap($id);
+            $this->createCells($id);
+        }else {
+            $this->createMap($id);
+        }
+
         $this->insertUsers($id);
 
         for ($i = 1; $i <= $second; $i++) {
             $random = rand(0, 1);
-            if ($random) {
+            if ($random == 1) {
                 $this->insertStudentAtDoor($id, $i);
             }
             $this->moveUser($id, $i);
         }
 
-        return response()->json(['message' => 'simulacion creada'], 200);
+        $map = DB::table('maps')
+            ->join('cells', 'maps.id', '=', 'cells.map_id')
+            ->where('maps.id', $id)
+            ->where('second_content', $second)
+            ->select('cells.posicion_x', 'cells.posicion_y', 'cells.content', 'cells.second_content')
+            ->get();
+
+        return response()->json(['message' => 'simulacion creada', 'map', $map], 200);
     }
 
 
@@ -428,29 +476,6 @@ class MapController extends Controller
 //     return $
 // }
 
-    public function ijdifosjo($second, $id = 1)
-    {
-        $this->cleanMap($id);
-        $this->insertUsers($id);
 
-        for ($i = 1; $i <= $second; $i++) {
-            $this->moveAllUsers($i);
-        }
-
-        $map = DB::table('maps')
-            ->join('cells', 'maps.id', '=', 'cells.map_id')
-            ->where('maps.id', $id)
-            ->select('cells.posicion_x', 'cells.posicion_y', 'cells.content', 'cells.second_content')
-            ->get();
-
-        $grid = [];
-        foreach ($map as $cell) {
-            $grid[$cell->posicion_y][$cell->posicion_x] = $cell->content ?? '-';
-        }
-
-        ksort($grid);
-
-        return response()->json(['message' => 'Mapa obtenido', 'map' => $grid], 200);
-    }
 
 }

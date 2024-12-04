@@ -1,9 +1,9 @@
 import {getToken} from "../../../storage/tokenManager";
 
 //Monica
-const getNameStudent = async () => {
-    const response = await fetch('http://127.0.0.1:8000/api/admin/nameStudent', {
-        method: 'GET',
+const doSimulation = async (id, seconds) => {
+    const response = await fetch(`http://127.0.0.1:8000/api/admin/simulation/${id}/${seconds}`, {
+        method: 'PUT',
         headers: {
             'Authorization': `Bearer ${getToken()}`,
             'Content-Type': 'application/json',
@@ -15,5 +15,5 @@ const getNameStudent = async () => {
 }
 
 export{
-    getNameStudent
+    doSimulation
 }
