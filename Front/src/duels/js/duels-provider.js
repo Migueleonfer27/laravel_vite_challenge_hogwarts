@@ -69,3 +69,32 @@ export const apiCastSpells = async (selectedSpell, duelModel) => {
     const response = await fetch(url,options);
     return await response.json()
 }
+
+
+export const apiGetDuelStatistics = async () => {
+    const token = getToken()
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+    }
+    const url = `http://127.0.0.1:8000/api/duels/statistics`;
+    const response = await fetch(url,options)
+
+    if(response.ok){
+        return await response.json()
+    }else{
+        return {
+            success: false,
+            message: 'Error fetching duel statistics',
+            statistics: {
+                total_duels: 0,
+                won_duels: 0,
+                lost_duels: 0,
+                active_duels: 0,
+            }
+        }
+    }
+}

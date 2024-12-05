@@ -3,6 +3,7 @@ import {buildHeader, showLogoutButton, hideLogoutButton} from "../../components/
 import {buildFooter} from "../../components/buildFooter";
 import {getSpellLearned} from "../../spell/js/spell-provider";
 import {apiGetDuelById, apiCastSpells} from "./duels-provider";
+import {showToastMessages} from "../../js/messages";
 
 
 const buildBody = () => {
@@ -40,7 +41,7 @@ const castSpells = () => {
             console.log(response)
         });
     }else{
-        alert('Debe seleccionar un hechiso antes de poder lanzarlo')
+        showToastMessages('Debe seleccionar un hechizo antes de poder lanzarlo',false)
     }
 }
 
@@ -138,6 +139,8 @@ const buildDecks = () => {
             let selectedCard = null;
 
             spellLearned.forEach(spell => {
+
+
                 const cardElement = document.createElement('div');
                 cardElement.classList.add('card-up');
                 cardElement.setAttribute('id', spell.id);

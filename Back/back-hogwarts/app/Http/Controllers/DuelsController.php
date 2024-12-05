@@ -358,4 +358,42 @@ class DuelsController extends Controller
         ];
     }
 
+    public function getDuelStatistics (Request $request){
+        $user = $request->user();
+
+        //REcuperar los duelos del usuario
+        $duels = Duel::where('user_id', $user->id)->get();
+
+        if($duels->isEmpty()){
+            return response()->json([
+                'success' => true,
+                'message' => 'No se han encontrado duelos',
+                'statistics' => [
+                    'total_duels' => 0,
+                    'won_duels' => 0,
+                    'lost_duels' => 0,
+                    'active_duels' => 0,
+                ]
+            ],200);
+        }
+
+        //Contar los duelos que ha ganado, perdido, empezado y ha realizado
+        $totalDuels = $duels->count();
+        $wonDuels = $duels->where('result,1')->count();
+        $lostDuels = $duels->where('result,2')->count();
+        $activeDuels = $duels->where('result,0')->count();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'No se han encontrado duelos',
+            'statistics' => [
+                'total_duels' => $totalDuels,
+                'won_duels' => $wonDuels,
+                'lost_duels' => $lostDuels,
+                'active_duels' => $activeDuels,
+            ]
+        ],200);
+
+    }
+
 }

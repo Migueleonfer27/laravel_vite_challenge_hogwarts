@@ -53,7 +53,7 @@ let createSpells =  () => {
     })
 }
 
-const selectImage = (spell) => {
+export const selectImage = (spell) => {
     let img = '';
     const maxCharacteristic = Math.max(spell.attack, spell.defense, spell.damage, spell.healing, spell.summon, spell.action);
 

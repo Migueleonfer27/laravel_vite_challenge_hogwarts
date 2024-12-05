@@ -109,4 +109,5 @@ Route::middleware('auth:sanctum')->prefix('duels')->group(function (){
     Route::get('/getActiveDuels',[DuelsController::class, 'getUserActiveDuels'])->middleware('ability:dumbledore,student,teacher,admin');
     Route::post('/create',[DuelsController::class, 'create'])->middleware('ability:dumbledore,student,teacher,admin');
     Route::post('/castSpells',[DuelsController::class, 'castSpells'])->middleware('ability:dumbledore,student,teacher,admin');
+    Route::get('/statistics', [DuelsController::class, 'getDuelStatistics'])->middleware('ability:dumbledore,student,teacher,admin');
 });
