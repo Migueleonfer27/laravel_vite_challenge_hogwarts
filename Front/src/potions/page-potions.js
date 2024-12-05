@@ -213,7 +213,7 @@ const buildPotionFormAccordion = async () => {
                 <div class="accordion-body bg-gradient-creator">
                     <form id="createPotionForm" class="px-5 py-3">
                         <div class="mb-4 d-flex flex-column justify-content-center">
-                            <p class="text-center text-shadow-person fs-4 p-5 text-primary-person bg-ternary-person rounded-3 border border-3 border-primary-person">
+                            <p class="text-center responsive-text text-shadow-person fs-4 p-3 p-md-5 text-primary-person bg-ternary-person rounded-3 border border-3 border-primary-person text-wrap">
                                 En esta sección podrás crear tus pócimas, las cuales serán aprobadas por tu profesor y posteriormente por el flamante y afable director Dumbledore.
                                 Para crear tus pócimas deberás ponerle un <span class="text-hepta-person fw-bold text-shadow-light-person fst-italic">nombre</span> 
                                 obligatoriamente, una <span class="text-hepta-person fw-bold text-shadow-light-person fst-italic">descripción</span> de la poción y añadir alguno de los 
@@ -227,7 +227,7 @@ const buildPotionFormAccordion = async () => {
                             <textarea id="potionDescription" class="form-control textarea bg-hexa-person text-primary-person text-shadow-light-person w-100 w-md-75 fs-4" placeholder="Ej: Esta poción aumenta la velociad de la persona..." cols="30" rows="3" minlength="1" maxlength="255" required></textarea>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-3 d-flex align-content-center justify-content-center">
                             <table class="table table-responsive table-bordered">
                                 <thead>
                                     <tr>
