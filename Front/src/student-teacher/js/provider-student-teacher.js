@@ -1,7 +1,7 @@
 import {getToken} from "../../../storage/tokenManager";
+import {BASE_URL} from "../../parameters/parameters";
 
 // Cynthia
-
 export const  apiGetProfile = async (token) =>{
     const option = {
         method : 'GET',
@@ -10,7 +10,7 @@ export const  apiGetProfile = async (token) =>{
             'Authorization': `Bearer ${token}`
         }
     }
-    const url = `http://127.0.0.1:8000/api/user/profile`
+    const url = `${BASE_URL}/api/user/profile`
     const response = await fetch(url, option);
     return await response.json();
 }
@@ -27,7 +27,7 @@ export const uploadImageS3 = async (file) => {
         },
         body: formData,
     }
-    const url = `http://127.0.0.1:8000/api/subirs3`;
+    const url = `${BASE_URL}/api/subirs3`;
     const response = await fetch(url,option);
     return await response.json()
 }
@@ -44,7 +44,7 @@ export const updateProfileImage = async (imageUrl) =>{
         body: JSON.stringify({profile_image: imageUrl})
     }
 
-    const url = `http://127.0.0.1:8000/updateimage`
+    const url = `${BASE_URL}/updateimage`
     const response = await fetch(url,option)
     return await response.json()
 

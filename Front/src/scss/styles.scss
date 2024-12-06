@@ -228,3 +228,11 @@ body {
 // Se importa al final para que los estilos no entren en conflicto
 @import "duels";
 @import "student-teacher";
+
+// Miguel León Fernández
+@media (max-width: 576px) {
+  .responsive-text {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+}
