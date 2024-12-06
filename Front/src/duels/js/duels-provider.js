@@ -1,4 +1,5 @@
 import {getToken} from "../../../storage/tokenManager";
+import {BASE_URL} from "../../parameters/parameters";
 
 //Cynthia
 export const apiCreateDuel = async () => {
@@ -10,7 +11,7 @@ export const apiCreateDuel = async () => {
             'Authorization': `Bearer ${token}`,
         },
     }
-    const url = `http://127.0.0.1:8000/api/duels/create`;
+    const url = `${BASE_URL}/api/duels/create`;
     const response = await fetch(url, options);
     return response.json()
 }
@@ -24,7 +25,7 @@ export const apiGetActiveDuels = async () => {
             'Authorization': `Bearer ${token}`,
         },
     };
-    const url = `http://127.0.0.1:8000/api/duels/getActiveDuels`;
+    const url = `${BASE_URL}/api/duels/getActiveDuels`;
     const response = await fetch(url, options);
     if (response.ok) {
         return await response.json()
@@ -42,7 +43,7 @@ export const apiGetDuelById = async (id) => {
             'Authorization': `Bearer ${token}`,
         },
     };
-    const url = `http://127.0.0.1:8000/api/duels/get/${id}`;
+    const url = `${BASE_URL}/api/duels/get/${id}`;
     const response = await fetch(url, options);
     if (response.ok) {
         return await response.json()
@@ -65,7 +66,7 @@ export const apiCastSpells = async (selectedSpell, duelModel) => {
         },
         body: JSON.stringify(data)
     }
-    const url = `http://127.0.0.1:8000/api/duels/castSpells`;
+    const url = `${BASE_URL}/api/duels/castSpells`;
     const response = await fetch(url,options);
     return await response.json()
 }
@@ -80,7 +81,7 @@ export const apiGetDuelStatistics = async () => {
             'Authorization': `Bearer ${token}`,
         },
     }
-    const url = `http://127.0.0.1:8000/api/duels/statistics`;
+    const url = `${BASE_URL}/api/duels/statistics`;
     const response = await fetch(url,options)
 
     if(response.ok){

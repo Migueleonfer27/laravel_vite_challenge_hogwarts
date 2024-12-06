@@ -53,7 +53,11 @@ Route::get('/nologin', function () {
 });
 
 //Cynthia
-Route::put('changePassword', [EmailController::class, 'changePassword']);
+
+Route::prefix('email')->group(function () {
+    Route::put('changePassword', [EmailController::class, 'changePassword']);
+    Route::put('updatePassword', [EmailController::class, 'updatePassword'])->middleware('auth:sanctum');;
+});
 
 Route::get('/subjects',[SubjectController::class, 'index']);
 Route::get('/subject/{id}',[SubjectController::class, 'show']);

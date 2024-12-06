@@ -1,6 +1,6 @@
 import '../../scss/email.scss';
-import { updatePassword } from "./email-provider.js";
-import { buildHeader } from "../../components/buildHeader.js"
+import {changePassword} from "./email-provider.js";
+import { buildHeader } from "../../components/buildHeader.js";
 import { buildFooter } from "../../components/buildFooter";
 
 const buildPage = () => {
@@ -16,10 +16,6 @@ const buildPage = () => {
                                 <label for="email" class="form-label text-primary-person text-shadow-person">Correo Electrónico</label>
                                 <input type="email" class="form-control bg-primary-person" id="email" name="email" required route-link="/">
                             </div>
-                            <div class="mb-4">
-                                <label for="password" class="form-label text-primary-person text-shadow-person">Nueva Contraseña</label>
-                                <input type="password" class="form-control bg-primary-person" id="password" name="password" required minlength="6">
-                            </div>
                             <button type="submit" class="btn w-100 modify text-primary-person text-shadow-person">Modificar</button>
                         </form>
                         <div id="loader" class="loader pt-2" style="display: none;"></div>
@@ -29,29 +25,20 @@ const buildPage = () => {
             </div>
         </div>
     `;
-    addValidation()
-    addEventSubmit()
-}
+    addValidation();
+    addEventSubmit();
+};
 
 const addValidation = () => {
     const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
     const messageDiv = document.getElementById('message');
 
     // Validación del campo de correo en tiempo real
     emailInput.addEventListener('input', () => {
-        if (!emailInput.value === '') {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailInput.value)) {
             messageDiv.style.display = 'block';
             messageDiv.textContent = 'Por favor, introduce un correo electrónico válido.';
-        } else {
-            messageDiv.style.display = 'none';
-        }
-    });
-
-    passwordInput.addEventListener('input', () => {
-        if (passwordInput.value.length < 6) {
-            messageDiv.style.display = 'block';
-            messageDiv.textContent = 'La contraseña debe tener 6 o más caracteres.';
         } else {
             messageDiv.style.display = 'none';
         }
@@ -68,12 +55,11 @@ const addEventSubmit = () => {
             e.preventDefault();
 
             const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
 
             loader.style.display = 'block';
             messageDiv.style.display = 'none';
 
-            const { response, text } = await updatePassword(email, password);
+            const { response, text } = await changePassword(email);
 
             if (response === 'ok') {
                 form.hidden = true;
@@ -104,6 +90,6 @@ const addEventSubmit = () => {
     }
 };
 
-buildHeader()
-buildPage()
-buildFooter()
+buildHeader();
+buildPage();
+buildFooter();
