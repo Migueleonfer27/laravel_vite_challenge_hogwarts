@@ -43,7 +43,6 @@ const buildBody = () => {
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title text-primary-person text-shadow-person fs-1 mb-3">Práctica duelo</h5>
                         <p class="card-text text-primary-person text-shadow-person mb-3 fs-5">Perfecciona tu arte, domina la magia</p>
-                        <p class="card-text text-primary-person text-shadow-person mb-3 fs-5">PROXIMAMENTE</p>
                         <button id="duels-button" class="btn mt-auto w-100 modify text-primary-person text-shadow-person fs-5">Duelo</button>
                     </div>
                 </div>
