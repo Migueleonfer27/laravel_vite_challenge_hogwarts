@@ -1,8 +1,11 @@
+import {BASE_URL} from "../../parameters/parameters";
+
+// Cynthia
 export async function updatePassword(email, password)  {
     let message = {}
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/changePassword', {
+        const response = await fetch(`${BASE_URL}/api/changePassword`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

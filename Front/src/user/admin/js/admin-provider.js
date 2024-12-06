@@ -1,4 +1,7 @@
 //Monica
+import {BASE_URL} from "../../../parameters/parameters";
+
+// Mónica
 const apiGetUsers = async (token) => {
 
         const option = {
@@ -8,7 +11,7 @@ const apiGetUsers = async (token) => {
                 'Authorization': 'Bearer ' + token
             }
         };
-        const url = 'http://127.0.0.1:8000/api/admin/users'
+        const url = `${BASE_URL}/api/admin/users`
         const response = await fetch(url, option);
 
         const data = await response.json();
@@ -25,7 +28,7 @@ const apiUpdateUser = async (token, id, body) => {
         },
         body: JSON.stringify(body)
     };
-    const url = `http://127.0.0.1:8000/api/admin/user/${id}`
+    const url = `${BASE_URL}/api/admin/user/${id}`
     const response = await fetch(url, option);
     const data = await response.json();
     return data;
@@ -39,7 +42,7 @@ const apiGetRoles = async (token) => {
             'Authorization': 'Bearer ' + token
         }
     };
-    const url = 'http://127.0.0.1:8000/api/admin/role'
+    const url = `${BASE_URL}/api/admin/role`
     const response = await fetch(url, option);
     return await response.json();
 }
@@ -53,7 +56,7 @@ const apiDeleteRole = async (token, userID, roleID) => {
         },
         body: JSON.stringify({role_id: roleID})
     }
-    const url = `http://127.0.0.1:8000/api/admin/user-rol/${userID}`
+    const url = `${BASE_URL}/api/admin/user-rol/${userID}`
     const response = await fetch(url, option);
     return await response.json();
 }
@@ -67,7 +70,7 @@ const apiAddRole = async (token, userID, roleID) => {
         },
         body: JSON.stringify({role_id: roleID})
     }
-    const url = `http://127.0.0.1:8000/api/admin/user-rol/${userID}`
+    const url = `${BASE_URL}/api/admin/user-rol/${userID}`
     const response = await fetch(url, option);
     return await response.json();
 }
@@ -80,7 +83,7 @@ const apiDeleteUser = async (token, id) => {
             'Authorization': 'Bearer ' + token
         }
     }
-    const url = `http://127.0.0.1:8000/api/admin/user/${id}`
+    const url = `${BASE_URL}/api/admin/user/${id}`
     const response = await fetch(url, option);
     return await response.json();
 }
@@ -94,7 +97,7 @@ const apiCreateUser = async (token, body) => {
         },
         body: JSON.stringify(body)
     }
-    const url = `http://127.0.0.1:8000/api/admin/user`
+    const url = `${BASE_URL}/api/admin/user`
     const response = await fetch(url, option);
     return await response.json();
 }

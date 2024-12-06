@@ -1,7 +1,9 @@
 import { getToken } from "../../../storage/tokenManager";
-//Monica
+import {BASE_URL} from "../../parameters/parameters";
+
+// Mónica
 const getAllSpells = async () => {
-    const response = await fetch('http://127.0.0.1:8000/api/spell/', {
+    const response = await fetch(`${BASE_URL}/api/spell/`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${getToken()}`,
@@ -14,7 +16,7 @@ const getAllSpells = async () => {
 }
 //Monica
 const getStudentSpells = async () => {
-    const response = await fetch('http://127.0.0.1:8000/api/spell/student', {
+    const response = await fetch(`${BASE_URL}/api/spell/student`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${getToken()}`,
@@ -27,7 +29,7 @@ const getStudentSpells = async () => {
 }
 //Monica
 const getSpellLearned = async () => {
-    const response = await fetch('http://127.0.0.1:8000/api/spell/learned', {
+    const response = await fetch(`${BASE_URL}/api/spell/learned`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${getToken()}`,
@@ -48,7 +50,7 @@ const deleteSpell = async (id) => {
             'Authorization': `Bearer ${getToken()}`
         }
     }
-    const url = `http://127.0.0.1:8000/api/spell/${id}`
+    const url = `${BASE_URL}/api/spell/${id}`
     const response = await fetch(url, option);
     const data = await response.json();
     return data;
@@ -63,7 +65,7 @@ const updateSpell = async (id, body) => {
         },
         body: JSON.stringify(body)
     };
-    const url = `http://127.0.0.1:8000/api/spell/${id}`
+    const url = `${BASE_URL}/api/spell/${id}`
     const response = await fetch(url, option);
     const data = await response.json();
     return data;
@@ -78,7 +80,7 @@ const createSpell = async (body) => {
         },
         body: JSON.stringify(body)
     }
-    const url = `http://127.0.0.1:8000/api/spell/`
+    const url = `${BASE_URL}/api/spell/`
     const response = await fetch(url, option);
     const data = await response.json();
     return data;
@@ -92,14 +94,14 @@ const learnSpell = async (spell_id) => {
             'Authorization': `Bearer ${getToken()}`
         }
     }
-    const url = `http://127.0.0.1:8000/api/spell/learn/${spell_id}`
+    const url = `${BASE_URL}/api/spell/learn/${spell_id}`
     const response = await fetch(url, option);
     const data = await response.json();
     return data;
 }
 //Monica
 const getSpellpendings = async () => {
-    const response = await fetch('http://127.0.0.1:8000/api/spell/pending', {
+    const response = await fetch(`${BASE_URL}/api/spell/pending`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${getToken()}`,
@@ -112,7 +114,7 @@ const getSpellpendings = async () => {
 }
 //Monica
 const approveSpellTeacher = async (id) => {
-    const response = await fetch(`http://127.0.0.1:8000/api/spell/approve/${id}`, {
+    const response = await fetch(`${BASE_URL}/api/spell/approve/${id}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${getToken()}`,
@@ -125,7 +127,7 @@ const approveSpellTeacher = async (id) => {
 }
 //Monica
 const rejectSpellTeacher = async (id) => {
-    const response = await fetch(`http://127.0.0.1:8000/api/spell/reject/${id}`, {
+    const response = await fetch(`${BASE_URL}/api/spell/reject/${id}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${getToken()}`,
@@ -138,7 +140,7 @@ const rejectSpellTeacher = async (id) => {
 }
 //Monica
 const getPendingDumbledore = async () => {
-    const response = await fetch('http://127.0.0.1:8000/api/spell/pending/dumbledore', {
+    const response = await fetch(`${BASE_URL}/api/spell/pending/dumbledore`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${getToken()}`,
@@ -151,7 +153,7 @@ const getPendingDumbledore = async () => {
 }
 //Monica
 const approveSpellDumbledore = async (id) => {
-    const response = await fetch(`http://127.0.0.1:8000/api/spell/validate/${id}`, {
+    const response = await fetch(`${BASE_URL}/api/spell/validate/${id}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${getToken()}`,
@@ -164,7 +166,7 @@ const approveSpellDumbledore = async (id) => {
 }
 //Monica
 const rejectSpellDumbledore = async (id) => {
-    const response = await fetch(`http://127.0.0.1:8000/api/spell/invalidate/${id}`, {
+    const response = await fetch(`${BASE_URL}/api/spell/invalidate/${id}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${getToken()}`,
@@ -177,7 +179,7 @@ const rejectSpellDumbledore = async (id) => {
 }
 //Monica
 const addExperience = async (id) => {
-    const response =await fetch(`http://127.0.0.1:8000/api/spell/addExperience/${id}`, {
+    const response =await fetch(`${BASE_URL}/api/spell/addExperience/${id}`, {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${getToken()}`,

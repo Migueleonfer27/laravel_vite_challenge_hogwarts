@@ -4,6 +4,7 @@ import { showMessageError, showSuccessMessage } from "./page-auth";
 import { getHousePreferences } from "../houses/house-provider";
 import { getUserHouse } from "../houses/house-provider";
 import { showHouseModal } from "../houses/page-house";
+import {BASE_URL} from "../parameters/parameters";
 
 // Miguel León Fernández
 export const handleRegister = () => {
@@ -20,7 +21,7 @@ export const handleRegister = () => {
             const noPreference = document.getElementById('noPreference').checked;
 
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/register', {
+                const response = await fetch(`${BASE_URL}/api/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, email, password, confirm_password, housePreferences, noPreference })
@@ -59,7 +60,7 @@ export const handleLogin = (callback) => {
             const password = document.getElementById('password').value;
 
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/login', {
+                const response = await fetch(`${BASE_URL}/api/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -104,7 +105,7 @@ export async function handleLogout() {
     removeToken();
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/logout', {
+        const response = await fetch(`${BASE_URL}/api/logout`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${getToken()}`
