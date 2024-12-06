@@ -5,6 +5,12 @@ import {changeColor} from "../houses/houseColors";
 
 export const buildHeader = (idContainer) => {
     const container = document.querySelector(idContainer || '#header-container');
+
+    if (!container) {
+        console.error(`El contenedor con ID ${idContainer || '#header-container'} no existe.`);
+        return;
+    }
+
     const imageURL = new URL('../assets/img/icon_hogwarts.png', import.meta.url);
     const userURL = new URL('../assets/img/user.png', import.meta.url);
     const name = localStorage.getItem('name');
@@ -36,7 +42,13 @@ export const buildHeader = (idContainer) => {
     buildNavIngredients('#header-container');
     showUser();
     setupLogoutBtn();
-    changeColor(localStorage.getItem('house'));
+
+
+    const house = localStorage.getItem('house');
+    if (house) {
+        changeColor(house)
+            .catch(error=>{})
+    }
 }
 
 export const showLogoutButton = () => {

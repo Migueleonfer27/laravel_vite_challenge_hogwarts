@@ -72,8 +72,8 @@ class User extends Authenticatable
         return $this->belongsToMany(Subject::class);
     }
 
-    public function spells(){
-        return $this->hasMany(Spell::class);
+    public function spell(){
+        return $this->belongsToMany(Spell::class, 'user_spell', 'user_id', 'spell_id');
     }
 
     public function hasRole($roleName){

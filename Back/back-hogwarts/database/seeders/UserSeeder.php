@@ -78,5 +78,24 @@ class UserSeeder extends Seeder
         }
 
 
+
+        DB::table('role_user')->insert([
+            'role_id' => 1,
+            'user_id' => $user->id
+        ]);
+
+        $machine = User::create([
+           'name' => 'Machine',
+           'email' => 'Machine@root.com',
+           'password' => bcrypt('123456'),
+           'level' => 5,
+           'experience' => 500,
+           'id_house' => 3
+        ]);
+
+        DB::table('role_user')->insert([
+            'role_id' => 1,
+            'user_id' => $machine->id
+        ]);
     }
 }
