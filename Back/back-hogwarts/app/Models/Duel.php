@@ -24,7 +24,8 @@ class Duel extends Model{
     }
 
     public function spellsUsed(){
-        return $this->belongsToMany(Spell::class, 'spell_duel', 'id_duel', 'id_spell');
+        return $this->belongsToMany(Spell::class, 'spell_duel', 'id_duel', 'id_spell')
+            ->withPivot('id_user', 'id');
     }
 
 }

@@ -6,11 +6,10 @@ use App\Models\Duel;
 use App\Models\Spell;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\SpellController;
+use App\Http\Controllers\PointsController;
 
 class DuelsController extends Controller
 {
-
     // Recupera todos los duelos
     public function index()
     {
@@ -56,7 +55,7 @@ class DuelsController extends Controller
         $duel->save();
 
         return response()->json([
-            'data' => json_encode($duel),
+            'data' => $duel,
             'success' => true,
             'message' => 'Duelo creado correctamente'
         ], 200);
@@ -65,7 +64,7 @@ class DuelsController extends Controller
     // Recupera un duelo en por id
     public function show($id)
     {
-        $duel = Duel::find($id);
+        $duel = Duel::with('spellsUsed')->find($id);
 
         if (!$duel) {
             return response()->json('Not found duel', 404);
@@ -109,188 +108,242 @@ class DuelsController extends Controller
             ], 401);
         }
 
-        // Se recupera los datos del cliente
+        // Se recupera los datos enviados desde el cliente
         $data = json_decode($request->getContent());
         $duel = $data->duel;
-        $spellUser = $data->userSpell;
 
-        // Buscar el duelo por ID
-        $duel = Duel::find($duel->id);
+        // Se valida que el hechizo exista
+        $spellUser = Spell::find($data->userSpell->id);
+        if (!$spellUser) {
+            return response()->json([
+                'codError' => 100,
+                'success' => false,
+                'message' => 'El hechizo no existe'
+            ]);
+        }
 
-        return response()->json([
-            'success' => true,
-            'duel' => json_encode($duel)
-        ],200);
-    }
-
-
-    public function duelSimulation(Request $request, $duelId, PointsController $pointsController)
-    {
-        $user = $request->user();
-        $levelUser = $user->level;
-
-        // Buscar el duelo por ID
-        $duel = Duel::find($duelId);
-
+        // Se valida que el duelo exista
+        $duel = Duel::with('spellsUsed')->find($duel->id);
         if (!$duel) {
             return response()->json([
+                'codError' => 101,
                 'success' => false,
-                'message' => 'Duel not found'
+                'message' => 'Duelo no se pudo encontrar'
             ], 404);
         }
 
-        // Ver si el duelo ha terminado
-        if ($duel->round >= 5 || $duel->life_user <= 0 || $duel->life_machine <= 0 || $duel->points_user >= 3 || $duel->points_machine >= 3) {
+        // Se valida que el duelo no este terminado
+        if($duel->result != 0){
             return response()->json([
+                'codError' => 102,
                 'success' => false,
-                'message' => 'The duel has ended'
-            ], 400);
+                'message' => 'Duelo terinado'
+            ], 404);
         }
 
-        // Ver si al usuario le quedan hechizos disponibles
+        // Se valida que el hechizo no haya sido lanzado ya
         $usedSpellUser = $duel->spellsUsed()
             ->where('id_user', $user->id)
             ->pluck('spells.id')
             ->toArray();
 
-        $availableSpellsUser = Spell::where('level', '<=', $levelUser)
-            ->whereNotIn('id', $usedSpellUser)
-            ->exists(); // Ver si hay hechizos disponibles
-
-        if (!$availableSpellsUser) {
-            // Si el usuario no tiene hechizos, termina el duelo
-            return $this->endDuel($duel, $pointsController);
-        }
-
-        // Obtener hechizo seleccionado por el usuario
-        $selectedSpellId = $request->input('spell_id');
-        $selectedSpell = Spell::find($selectedSpellId);
-
-        if (!$selectedSpell || $selectedSpell->level > $levelUser) {
+        if(in_array($spellUser->id, $usedSpellUser)){
             return response()->json([
+                'codError' => 103,
                 'success' => false,
-                'message' => 'The spell is not valid for your level'
-            ], 400);
+                'message' => 'El hechizo seleccionado ya se ha lanzado'
+            ]);
         }
 
-        // Verificar si el usuario ya ha usado este hechizo
-        if (in_array($selectedSpellId, $usedSpellUser)) {
+        // Se valida que el hechizo sea uno de los que el usuario ya tiene aprendidos y por tanto del nivel correcto
+        $learnedSpellsUser = $user->spell->pluck('id')->toArray();
+
+        if(!in_array($spellUser->id, $learnedSpellsUser)){
             return response()->json([
+                'codError' => 104,
                 'success' => false,
-                'message' => 'The spell has already been used'
-            ], 400);
+                'message' => 'El hechizo seleccionado no se ha aprendido por el usuario'
+            ]);
         }
 
-        // Incrementar contador de rondas y guardar el duelo
-        $duel->round++;
-        $duel->save();
 
-        // Buscar la máquina
+        // Se recupera el usuario maquina que sera el oponente de los duelos
         $machine = User::where('email', 'Machine@root.com')->first();
         if (!$machine) {
             return response()->json([
+                'codError' => 105,
                 'success' => false,
-                'message' => 'Machine not found'
+                'message' => 'Maquina no encontrada'
             ], 404);
         }
-        $machineId = $machine->id;
 
-        // Guardar hechizo del usuario
-        $duel->spellsUsed()->attach($selectedSpell, ['id_user' => $user->id]);
+        // Se recuperan todos los hechizos creados en la aplicación con niveles menores e iguales al usuario del duelo.
+        // Estos hechizos seran los que use la maquina para luchar
+        $spellsToMachine = Spell::where('level', '<=', $user->level)->get();
 
-        // Sacar hechizo de la máquina
-        $spellsUsed = $duel->spellsUsed->pluck('id')->toArray();
-        $spellMachine = $this->selectMachineSpell($levelUser, $duel->life_user, $duel->life_machine, $spellsUsed);
+        // Se recuperan los hechizos que ya ha lanzado la maquina
+        $usedSpellMachine = $duel->spellsUsed()->wherePivot('id_user', $machine->id)->get();
 
-        // Si no hay hechizos disponibles para la máquina, termina el duelo
-        if (!$spellMachine) {
-            return $this->endDuel($duel, $pointsController);
-        }
+        // Se filtran los hechizos ya lanzados de la maquina
+        $availableSpellsMachine = $spellsToMachine->reject(function ($spell) use ($usedSpellMachine) {
+            return $usedSpellMachine->contains('id', $spell->id);
+        });
 
-        $duel->spellsUsed()->attach($spellMachine, ['id_user' => $machineId]);
+        // Se ejecuta la logia de la maquina para seleccionar hechizo
+        $selectedSpellMachine = $this->selectMachineSpell($duel->life_user, $duel->life_machine, $availableSpellsMachine);
 
-        // Aplicar hechizos y obtener nuevas vidas
-        $newLifeValues = $this->applySpells($selectedSpell, $spellMachine, $duel->life_user, $duel->life_machine);
+        // Se ejecuta el calculo de los hechizos
+        $result = $this->applySpells($spellUser, $selectedSpellMachine, $duel->life_user, $duel->life_machine);
 
-        // Actualizar los valores de vida en el modelo
-        $duel->life_user = $newLifeValues['lifeUser'];
-        $duel->life_machine = $newLifeValues['lifeMachine'];
+        // Se actualiza la información del duelo
+        $duel->life_user = $result['lifeUser'];
+        $duel->life_machine = $result['lifeMachine'];
+        $duel->round++;
 
         // Determinar puntos en esta ronda
-        if ($newLifeValues['lifeUser'] > $newLifeValues['lifeMachine']) {
+        if ($result['lifeUser'] > $result['lifeMachine']) {
             $duel->points_user++;
-        } elseif ($newLifeValues['lifeMachine'] > $newLifeValues['lifeUser']) {
+        } elseif ($result['lifeMachine'] > $result['lifeUser']) {
             $duel->points_machine++;
         }
 
+        // Se guarda los hechizos lanzados del usuario y de la maquina en base de datos
+        $duel->spellsUsed()->attach($spellUser, ['id_user' => $user->id]);
+        $duel->spellsUsed()->attach($selectedSpellMachine, ['id_user' => $machine->id]);
+
+        // Se calcula si la partida ha llegado a su final seteando el resultado
+        $this->endDuel($duel);
+
+        // Se guarda el duelo en base de datos
         $duel->save();
 
-        // Ver quien ha ganado el duelo
-        if ($duel->points_user >= 3 || $duel->points_machine >= 3 || $duel->life_user <= 0 || $duel->life_machine <= 0) {
-            return $this->endDuel($duel, $pointsController);
-        }
+        // Se acualiza la información de los hechizos lanzados en el modelo duelos, esto es necesario porque cuando recupero
+        // el modelo duelo lo recupero con la relación de los hechizos lanzados y esta no se acualiza con el save()
+        $duel->load('spellsUsed');
 
-        // Si no hay un ganador, devuelve la informacion
+        // Se devielve el resultado para que cliente lo gestione
         return response()->json([
             'success' => true,
-            'points_user' => $duel->points_user,
-            'points_machine' => $duel->points_machine,
-            'life_user' => $duel->life_user,
-            'life_machine' => $duel->life_machine,
-            'rounds' => $duel->round
-        ], 200);
+            'duel' => $duel
+        ],200);
     }
 
+    public function endDuel($duel){
+        $pointsController = new PointsController();
+        $user = 1;
+        $machine = 2;
+        $draw = 3;
 
-    public function endDuel($duel, PointsController $pointsController){
-        // Ver quien gana segun los puntos o las vidas vidas
-        $result = $duel->points_user > $duel->points_machine || $duel->life_user > $duel->life_machine ? 1 : 2;
-        $winner = $result === 1 ? 'user' : 'machine';
+        // validamos si el duelo ha terminado. Si la ronda llega a 5, o la vida de alguno llega a 0, o la los puntos llegan a 3
+        if($duel->round > 5 || $duel->life_user <= 0 || $duel->life_machine <= 0 || $duel->points_machine >= 3 || $duel->points_user >= 3){
 
-        // Modificar el resultado
-        $duel->update(['result' => $result]);
-
-        // Si el usuario gana, se suman puntos
-        if ($result === 1) {
-            $pointsController->addPointsDuels($duel->user);
-        }
-
-        return response()->json([
-            'success' => true,
-            'result' => $result,
-            'winner' => $winner,
-            'points_user' => $duel->points_user,
-            'points_machine' => $duel->points_machine,
-            'life_user' => $duel->life_user,
-            'life_machine' => $duel->life_machine,
-        ], 200);
-    }
-
-
-    public function selectMachineSpell($levelUser, $lifeUser, $lifeMachine, $spellsUsed)
-    {
-        $spells = Spell::where('level', '<=', $levelUser)
-            ->whereNotIn('id', $spellsUsed) // Filtrar hechizos ya usados
-            ->get();
-
-        if ($spells->isEmpty()) {
-            return Spell::where('level', '<=', $levelUser)->inRandomOrder()->first();
-        }
-
-        $spellMachine = $spells->filter(function ($spell) use ($lifeMachine, $lifeUser) {
-            if ($lifeMachine < 30) {
-                return $spell->attack > 70 || $spell->defense > 70;
-            } elseif ($lifeUser < 30) {
-                return $spell->attack > 50;
+            // en el caso de que alguno de los dos gane 3 rondas
+            if($duel->points_machine >= 3 || $duel->points_user >= 3){
+                // Se calcula el ganador validado primero los puntos
+                // Gana el usuario
+                if($duel->points_user > $duel->points_machine){
+                    $duel->update(['result' => $user]);
+                }
+                // Gana la maquina
+                elseif ($duel->points_user < $duel->points_machine){
+                    $duel->update(['result' => $machine]);
+                }
+                // En este caso no se puede dar empate al solo tener 5 rondas
             }
-            return true;
-        })->first();
-
-        if (!$spellMachine) {
-            $spellMachine = $spells->random();
+            // en el caso de que alguno de los dos haya perdido toda la vida
+            elseif ($duel->life_user <= 0 || $duel->life_machine <= 0){
+                // Se calcula el ganador validado primero la vida
+                // Gana el usuario
+                if($duel->life_machine <= 0){
+                    $duel->update(['result' => $user]);
+                }
+                // Gana la maquina
+                elseif ($duel->life_user <= 0){
+                    $duel->update(['result' => $machine]);
+                }
+                // Se quedan empate, los dos llegan con la vida a 0, entonces usamos las rondas para saber quien gana
+                else {
+                    if($duel->points_user > $duel->points_machine){
+                        $duel->update(['result' => $user]);
+                        $pointsController->addPointsDuels($duel->user);
+                    }
+                    // Gana la maquina
+                    elseif ($duel->points_user < $duel->points_machine){
+                        $duel->update(['result' => $machine]);
+                    }
+                    // si tambien se da un empate, pues empate
+                    else {
+                        $duel->update(['result' => $draw]);
+                    }
+                }
+            }
+            // en el caso de que las rondas llegen a 5
+            else {
+                // Se calcula el ganador validado primero los puntos
+                // Gana el usuario
+                if($duel->points_user > $duel->points_machine){
+                    $duel->update(['result' => $user]);
+                    $pointsController->addPointsDuels($duel->user);
+                }
+                // Gana la maquina
+                elseif ($duel->points_user < $duel->points_machine){
+                    $duel->update(['result' => $machine]);
+                }
+                // En el caso de empate de puntos, usamos la vida para calcular el ganador
+                else {
+                    // Gana el usuario
+                    if($duel->life_user > $duel->life_machine){
+                        $duel->update(['result' => $user]);
+                        $pointsController->addPointsDuels($duel->user);
+                    }
+                    // Gana la maquina
+                    elseif ($duel->life_user < $duel->life_machine){
+                        $duel->update(['result' => $machine]);
+                    }
+                    // si tambien se da un empate, pues empate
+                    else {
+                        $duel->update(['result' => $draw]);
+                    }
+                }
+            }
         }
+    }
 
-        return $spellMachine;
+    // Función con la logica para que la maquina decida que hechizo escoger
+    public function selectMachineSpell($lifeUser, $lifeMachine, $spells)
+    {
+        // Evaluar cada hechizo, se ordena y se coge el de mayor puntuación
+        $bestSpell = $spells->map(function ($spell) use ($lifeUser, $lifeMachine) {
+            $score = 0;
+
+            // Priorizar defensa y curación si la vida de la máquina es baja
+            if ($lifeMachine < 30) {
+                $score += ($spell->defense ?? 0) * 1.5; // Valorar más la defensa
+                $score += ($spell->healing ?? 0) * 1.5; // Valorar más la curación
+            }
+
+            // Priorizar ataque y daño si la vida del usuario es baja
+            if ($lifeUser < 30) {
+                $score += ($spell->attack ?? 0) * 1.5; // Valorar más el ataque
+                $score += ($spell->damage ?? 0) * 1.5; // Priorizar daño directo
+            }
+
+            // Se da mas prioriad a los hechizos que esten mas valanceados
+            $score += ($spell->attack ?? 0) * 0.7;
+            $score += ($spell->defense ?? 0) * 0.7;
+            $score += ($spell->healing ?? 0) * 0.5;
+
+            // Se da mas prioridad a los hechizos que tengan alguna de estos atributos
+            $score += ($spell->summon ?? 0) * 0.3;
+            $score += ($spell->action ?? 0) * 0.3;
+
+            // Se guarda puntuacion para comparar puntos
+            $spell->score = $score;
+            return $spell;
+        })->sortByDesc('score')->first();
+
+        // Si no se encuentra un hechizo específico, elegir uno al azar
+        return $bestSpell ?? $spells->random();
     }
 
     public function applySpells($spellUser, $spellMachine, $lifeUser, $lifeMachine)
@@ -315,12 +368,12 @@ class DuelsController extends Controller
             ($spellMachine->action ?? 0) * $percentage['action']
         ));
 
-        // Quitar vida aun que sea 1, para ver cambio
+        // Si el impacto es negativo, asignamos un mínimo de 1 para que haya un cambio visible
         if ($impactUser <= 0) {
             $impactUser = 1;
         }
 
-        // Impacto maquina
+        // Impacto máquina
         $impactMachine = max(0, (
             ($spellMachine->attack ?? 0) * $percentage['attack'] -
             ($spellUser->defense ?? 0) * $percentage['defense'] +
@@ -330,26 +383,26 @@ class DuelsController extends Controller
             ($spellUser->action ?? 0) * $percentage['action']
         ));
 
-        // Quitar vida aun que sea 1, para ver cambio
+        // Si el impacto es negativo, asignamos un mínimo de 1 para que haya un cambio visible
         if ($impactMachine <= 0) {
             $impactMachine = 1;
         }
 
-        // Vida usuario y maquina
+        // Calcular la nueva vida del usuario y de la máquina
         $newLifeUser = max(0, $lifeUser - $impactMachine);
         $newLifeMachine = max(0, $lifeMachine - $impactUser);
 
         // Si la máquina se cura, la vida no debe superar 100
-        if ($spellMachine->healing > 0) {
+        if ($spellMachine->healing > 0 && $impactMachine > 0) {
             $newLifeMachine = min(100, $newLifeMachine + ($impactMachine * $percentage['healing']));
         }
 
         // Si el usuario se cura, la vida no debe superar 100
-        if ($spellUser->healing > 0) {
+        if ($spellUser->healing > 0 && $impactUser > 0) {
             $newLifeUser = min(100, $newLifeUser + ($impactUser * $percentage['healing']));
         }
 
-
+        // Devuelve la nueva vida y los impactos calculados
         return [
             'lifeUser' => $newLifeUser,
             'lifeMachine' => $newLifeMachine,
@@ -379,9 +432,9 @@ class DuelsController extends Controller
 
         //Contar los duelos que ha ganado, perdido, empezado y ha realizado
         $totalDuels = $duels->count();
-        $wonDuels = $duels->where('result,1')->count();
-        $lostDuels = $duels->where('result,2')->count();
-        $activeDuels = $duels->where('result,0')->count();
+        $wonDuels = $duels->where('result', 1)->count();
+        $lostDuels = $duels->where('result', 2)->count();
+        $activeDuels = $duels->where('result', 0)->count();
 
         return response()->json([
             'success' => true,

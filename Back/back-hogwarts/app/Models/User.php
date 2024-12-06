@@ -73,7 +73,7 @@ class User extends Authenticatable
     }
 
     public function spell(){
-        return $this->hasMany(Spell::class, 'spell_duel');
+        return $this->belongsToMany(Spell::class, 'user_spell', 'user_id', 'spell_id');
     }
 
     public function hasRole($roleName){

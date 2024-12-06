@@ -5,16 +5,14 @@
 
 #profile #main-container,
 #student-teacher  #main-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-size: cover;
-  background-position: center;
-  flex-direction: column;
+  overflow: auto;
+  height: calc(100vh - 269px);
 }
 
-#profile #profile-table {
-  min-width: 50rem;
+@media (width >= 1000px) {
+  #profile #profile-table {
+    min-width: 50rem;
+  }
 }
 
 body.student-background,

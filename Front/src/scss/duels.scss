@@ -64,40 +64,115 @@
   transform: translate(0,0);
   transition: transform 0.5s ease-in-out;
   box-shadow: 7px 7px 7px 0 rgba(0, 0, 0, 0.80);
+  border: 1px solid white;
 }
 
-#duels .card-up {
-  background-color: #cbe3ff;
+#duels .selection-area .card-down,
+#duels .selection-area .card-up {
+  width: 154px;
+  height: 212px;
+  border-radius: 10px;
+  cursor: pointer;
+  transform: translate(0,0);
+  transition: transform 0.5s ease-in-out;
+  box-shadow: none;
+  border: 1px solid white;
+}
+
+#duels .card-up.bg-gradient-spell {
+  background: linear-gradient(200deg, var(--ternary-color), var(--cuaternary-color));
+}
+#duels .card-up .bg-shadow-spell {
+  filter: drop-shadow(0px 0px 10px var(--primary-color));
 }
 
 #duels .card-up:hover{
   position: relative;
   top: -5px;
-  box-shadow: 7px 7px 7px 0 rgba(46, 124, 227, 0.80);
+  box-shadow: 0px 0px 5px 5px rgba(139, 174, 220, 0.8);
 }
 
 #duels .card-down {
   background-image: url("../assets/img/background-duels-card.png");
   background-size: cover;
   background-position: center;
+  cursor: auto;
 }
 
 #duels .selection-area {
-  width: 174px;
-  height: 233px;
+  width: 154px;
+  height: 212px;
   display: flex;
-  padding: 10px;
-  border-radius: 10px;
 }
 
 #duels .area {
   background-color: rgba(163, 163, 163, 0.61);
   display: flex;
-  padding: 10px;
+  padding: 16px;
   border-radius: 10px;
   border: 1px solid white;
+  box-shadow: 0px 0px 10px 3px rgba(168, 168, 168, 0.8);
+}
+
+#duels .area .info {
+  width: 160px;
+  height: 100%;
+  background-color: rgba(45, 37, 64, 0.91);
+  border-radius: 10px;
+}
+
+#duels .area .info .title,{
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+#duels .area .info,{
+  font-size: small;
+  color: var(--primary-color);
 }
 
 #duels #startDuelButton {
   width: 100px;
+}
+
+#duels .tooltip {
+  visibility: hidden;
+  width: 152px;
+  height: 210px;
+  background-color: rgba(45, 37, 64, 0.3);
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 50%;
+  margin-left: -76px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+
+
+#duels .tooltip-container:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+#duels .tooltip-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#duels .label {
+  flex: 1;
+  text-align: left;
+}
+
+#duels .value {
+  flex: 1;
+  text-align: right;
 }
