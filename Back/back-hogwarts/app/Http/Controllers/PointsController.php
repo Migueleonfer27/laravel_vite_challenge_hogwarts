@@ -279,7 +279,7 @@ class PointsController extends Controller
 
 
     //Cynthia
-    public function addPointsDuels(Request $request)
+    public function addPointsDuels()
     {
         $user = Auth::user();
 

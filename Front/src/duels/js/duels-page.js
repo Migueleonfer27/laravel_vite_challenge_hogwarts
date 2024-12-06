@@ -4,7 +4,6 @@ import {buildFooter} from "../../components/buildFooter";
 import {getSpellLearned} from "../../spell/js/spell-provider";
 import {apiGetDuelById, apiCastSpells} from "./duels-provider";
 import {showToastMessages} from "../../js/messages";
-import {main} from "@popperjs/core";
 
 // Calcula la imagen de la carta en función del hechizo
 const selectImage = (spell) => {

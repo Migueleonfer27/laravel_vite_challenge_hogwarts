@@ -142,12 +142,12 @@ class DuelsController extends Controller
         }
 
         // Se valida que el hechizo no haya sido lanzado ya
-        $usedSpellUser = $duel->spellsUsed()
+        $usedSpellsUser = $duel->spellsUsed()
             ->where('id_user', $user->id)
             ->pluck('spells.id')
             ->toArray();
 
-        if(in_array($spellUser->id, $usedSpellUser)){
+        if(in_array($spellUser->id, $usedSpellsUser)){
             return response()->json([
                 'codError' => 103,
                 'success' => false,
@@ -212,30 +212,40 @@ class DuelsController extends Controller
         $duel->spellsUsed()->attach($selectedSpellMachine, ['id_user' => $machine->id]);
 
         // Se calcula si la partida ha llegado a su final seteando el resultado
-        $this->endDuel($duel);
+        $this->endDuel($duel, $learnedSpellsUser, $usedSpellsUser);
 
         // Se guarda el duelo en base de datos
         $duel->save();
 
-        // Se acualiza la información de los hechizos lanzados en el modelo duelos, esto es necesario porque cuando recupero
-        // el modelo duelo lo recupero con la relación de los hechizos lanzados y esta no se acualiza con el save()
+        // Se actualiza la información de los hechizos lanzados en el modelo duelos, esto es necesario porque cuando recupero
+        // el modelo duelo lo recupero con la relación de los hechizos lanzados y esta no se actualiza con el save()
         $duel->load('spellsUsed');
 
-        // Se devielve el resultado para que cliente lo gestione
+        // Se devuelve el resultado para que cliente lo gestione
         return response()->json([
             'success' => true,
             'duel' => $duel
         ],200);
     }
 
-    public function endDuel($duel){
+    public function endDuel($duel, $learnedSpellsUser, $usedSpellsUser){
         $pointsController = new PointsController();
         $user = 1;
         $machine = 2;
         $draw = 3;
 
-        // validamos si el duelo ha terminado. Si la ronda llega a 5, o la vida de alguno llega a 0, o la los puntos llegan a 3
-        if($duel->round > 5 || $duel->life_user <= 0 || $duel->life_machine <= 0 || $duel->points_machine >= 3 || $duel->points_user >= 3){
+        // Se obtienen los hechizos que le quedan al usuario
+        $remainingSpellsUser = array_diff($learnedSpellsUser, $usedSpellsUser);
+
+        // validamos si el duelo ha terminado cuando:
+        // Si la ronda llega a 5,
+        // o la vida de alguno llega a 0,
+        // o la los puntos llegan a 3,
+        // o el usuario esta juegando su ultima carta
+        if( $duel->round > 5
+            || $duel->life_user <= 0 || $duel->life_machine <= 0
+            || $duel->points_machine >= 3 || $duel->points_user >= 3
+            || count($remainingSpellsUser) == 1){
 
             // en el caso de que alguno de los dos gane 3 rondas
             if($duel->points_machine >= 3 || $duel->points_user >= 3){
@@ -243,6 +253,7 @@ class DuelsController extends Controller
                 // Gana el usuario
                 if($duel->points_user > $duel->points_machine){
                     $duel->update(['result' => $user]);
+                    $pointsController->addPointsDuels();
                 }
                 // Gana la maquina
                 elseif ($duel->points_user < $duel->points_machine){
@@ -256,6 +267,7 @@ class DuelsController extends Controller
                 // Gana el usuario
                 if($duel->life_machine <= 0){
                     $duel->update(['result' => $user]);
+                    $pointsController->addPointsDuels();
                 }
                 // Gana la maquina
                 elseif ($duel->life_user <= 0){
@@ -263,9 +275,10 @@ class DuelsController extends Controller
                 }
                 // Se quedan empate, los dos llegan con la vida a 0, entonces usamos las rondas para saber quien gana
                 else {
+                    // gana el usuario
                     if($duel->points_user > $duel->points_machine){
                         $duel->update(['result' => $user]);
-                        $pointsController->addPointsDuels($duel->user);
+                        $pointsController->addPointsDuels();
                     }
                     // Gana la maquina
                     elseif ($duel->points_user < $duel->points_machine){
@@ -283,7 +296,7 @@ class DuelsController extends Controller
                 // Gana el usuario
                 if($duel->points_user > $duel->points_machine){
                     $duel->update(['result' => $user]);
-                    $pointsController->addPointsDuels($duel->user);
+                    $pointsController->addPointsDuels();
                 }
                 // Gana la maquina
                 elseif ($duel->points_user < $duel->points_machine){
@@ -294,7 +307,7 @@ class DuelsController extends Controller
                     // Gana el usuario
                     if($duel->life_user > $duel->life_machine){
                         $duel->update(['result' => $user]);
-                        $pointsController->addPointsDuels($duel->user);
+                        $pointsController->addPointsDuels();
                     }
                     // Gana la maquina
                     elseif ($duel->life_user < $duel->life_machine){
@@ -310,8 +323,7 @@ class DuelsController extends Controller
     }
 
     // Función con la logica para que la maquina decida que hechizo escoger
-    public function selectMachineSpell($lifeUser, $lifeMachine, $spells)
-    {
+    public function selectMachineSpell($lifeUser, $lifeMachine, $spells){
         // Evaluar cada hechizo, se ordena y se coge el de mayor puntuación
         $bestSpell = $spells->map(function ($spell) use ($lifeUser, $lifeMachine) {
             $score = 0;
@@ -346,8 +358,7 @@ class DuelsController extends Controller
         return $bestSpell ?? $spells->random();
     }
 
-    public function applySpells($spellUser, $spellMachine, $lifeUser, $lifeMachine)
-    {
+    public function applySpells($spellUser, $spellMachine, $lifeUser, $lifeMachine){
         // Porcentajes de los atributos del hechizo
         $percentage = [
             'attack' => 0.35,
