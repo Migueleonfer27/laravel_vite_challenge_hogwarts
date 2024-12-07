@@ -43,10 +43,10 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
 
 // Miguel León Fernández
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
-Route::get('getHouse', [HouseController::class, 'index'])->middleware('auth:api');
+Route::post('register', [AuthController::class, 'register'])->name('register');
+Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api')->name('logout');
+Route::get('getHouse', [HouseController::class, 'index'])->middleware('auth:api')->name('getHouse');
 
 Route::get('/nologin', function () {
     return response()->json(['message' => 'Unauthorized'], 401);

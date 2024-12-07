@@ -33,7 +33,7 @@ export const buildHeader = (idContainer) => {
                     <div class="ms-auto d-flex align-items-center justify-content-end">
                         <i id="backBtn" class="bi bi-arrow-bar-left me-3 btn text-primary-person text-shadow-person fs-1 d-none pointer-event"></i>                    
                         <img id="photo" class="object-fit-contain me-3 d-none border rounded-5 border-2 border-primary-person" src="${userURL}" alt="img-user" width="10%" height="10%">
-                        <span id="name" class="text-primary-person me-3 d-none text-shadow-person fs-6">Bienvenido, ${name}</span>
+                        <a href="/student-teacher/profile.html"><span id="name" class="text-primary-person text-center me-3 d-none text-shadow-person fs-6">Bienvenido, ${name}</span></a>
                         <a href="/">
                             <i id="logoutBtn" class="bi bi-door-closed-fill btn text-primary-person text-shadow-person fs-1 d-none"></i>
                         </a>
