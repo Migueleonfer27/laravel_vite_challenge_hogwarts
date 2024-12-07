@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase; // Usar la clase TestCase de Laravel
+use Tests\TestCase;
 use App\Models\User;
 use App\Models\Duel;
-use App\Models\House; // Asegúrate de incluir el modelo de House
+use App\Models\House;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class cynTest extends TestCase

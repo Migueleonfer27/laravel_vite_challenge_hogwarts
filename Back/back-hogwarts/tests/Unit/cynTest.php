@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase; // Usar la clase TestCase de Laravel
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class cynTest extends TestCase
