@@ -12,7 +12,6 @@ class AuthControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    // Miguel León Fernández
     /** @test */
     public function register_new_user_test()
     {
@@ -27,11 +26,11 @@ class AuthControllerTest extends TestCase
             'email' => 'fernando@gmail.com',
             'password' => '123456',
             'confirm_password' => '123456',
-            'housePreferences' => ["gryffindor", "hufflepuff", "ravenclaw", "slytherin"],
+            'housePreferences' => ['gryffindor', 'hufflepuff', 'ravenclaw', 'slytherin'],
             'noPreference' => false,
         ];
 
-        $response = $this->postJson('/api/register', $data);
+        $response = $this->postJson(route('register'), $data);
 
         $response->assertStatus(201)
             ->assertJson([
@@ -44,7 +43,6 @@ class AuthControllerTest extends TestCase
         ]);
     }
 
-    // Miguel León Fernández
     /** @test */
     public function login_user_test()
     {
@@ -64,7 +62,7 @@ class AuthControllerTest extends TestCase
             'password' => '123456',
         ];
 
-        $response = $this->postJson('/api/login', $data);
+        $response = $this->postJson(route('login'), $data);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -82,7 +80,6 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
-    // Miguel León Fernández
     /** @test */
     public function login_user_wrong_credentials_test()
     {
@@ -91,7 +88,7 @@ class AuthControllerTest extends TestCase
             'password' => '1234567',
         ];
 
-        $response = $this->postJson('/api/login', $data);
+        $response = $this->postJson(route('login'), $data);
 
         $response->assertStatus(401)
             ->assertJson([
@@ -102,7 +99,6 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
-    // Miguel León Fernández
     /** @test */
     public function logout_user_test()
     {
@@ -118,7 +114,7 @@ class AuthControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => "Bearer $token"
-        ])->postJson('/api/logout');
+        ])->postJson(route('logout'));
 
         $response->assertStatus(200)
             ->assertJson([
