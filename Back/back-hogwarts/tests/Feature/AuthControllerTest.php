@@ -12,6 +12,7 @@ class AuthControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    // Miguel León Fernández
     /** @test */
     public function register_new_user_test()
     {
@@ -43,6 +44,7 @@ class AuthControllerTest extends TestCase
         ]);
     }
 
+    // Miguel León Fernández
     /** @test */
     public function login_user_test()
     {
@@ -80,6 +82,7 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
+    // Miguel León Fernández
     /** @test */
     public function login_user_wrong_credentials_test()
     {
@@ -99,6 +102,7 @@ class AuthControllerTest extends TestCase
             ]);
     }
 
+    // Miguel León Fernández
     /** @test */
     public function logout_user_test()
     {
