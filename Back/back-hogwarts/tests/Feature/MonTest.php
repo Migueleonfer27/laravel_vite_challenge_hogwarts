@@ -10,12 +10,14 @@ use App\Models\Spell;
 
 class MonTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      */
+
     public function test_teacherAproveSpell()
     {
-        $user = User::where('email', 'snape@hogwarts.com')->first();
+        $user = User::where('email', 'snape@hogwarts.com')->first();//no se por que no me coge el usuario de la bbdd
 
         $this->assertNotNull($user, 'Test user does not exist in the database.');
 
@@ -23,39 +25,32 @@ class MonTest extends TestCase
             'validation_status' => 'pending',
         ]);
 
-        // Act as the authenticated user
         $this->actingAs($user);
 
-        // Make the request
         $response = $this->postJson("/api/spells/{$spell->id}/approve-teacher");
 
-        // Assert the response
         $response->assertStatus(200)
                  ->assertJson([
                    'success' => true,
                    'message' => 'Spell approved successfully',
                  ]);
     }
-public test_spellDoesntExist()
-    {
-        // Use an existing user
-        $user = User::where('email', 'snape@hogwarts.com')->first();
 
-        // Ensure the user exists
-        $this->assertNotNull($user, 'Test user does not exist in the database.');
+     public function test_spellDoesntExist()
+        {
 
-        // Act as the authenticated user
-        $this->actingAs($user);
+            $user = User::where('email', 'snape@hogwarts.com')->first();
 
-        // Make the request with a non-existing spell ID
-        $response = $this->postJson('/api/spells/approve/999');
+            $this->assertNotNull($user, 'Test user does not exist in the database.');
 
-        // Assert the response
-        $response->assertStatus(404)
-                 ->assertJson([
-                     'success' => false,
-                     'message' => 'Spell not found',
-                 ]);
+            $this->actingAs($user);
+
+            $response = $this->postJson('/api/spells/approve/999');
+
+            $response->assertStatus(404)
+                     ->assertJson([
+                         'success' => false,
+                         'message' => 'Spell not found',
+                     ]);
+        }
     }
-
-}
