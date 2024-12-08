@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Spell extends Model
 {
+    use HasFactory;
+
     public function user(){
         return $this->belongsTo(User::class, 'creator');
     }
