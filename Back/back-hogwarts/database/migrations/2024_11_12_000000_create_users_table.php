@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->integer('level');
-            $table->integer('experience');
+            $table->integer('level')->default(1);
+            $table->integer('experience')->default(0);
             $table->foreignId('id_house')->constrained('houses')->onDelete('cascade');
             $table->string('password');
             $table->string('url_photo')->nullable();
