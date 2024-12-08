@@ -1,10 +1,11 @@
 import { getToken } from "../../storage/tokenManager";
 import {showHouseModal} from "./page-house";
+import {BASE_URL} from "../parameters/parameters";
 
 // Miguel León Fernández
 const getUserHouse = async () => {
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/getHouse', {
+        const response = await fetch(`${BASE_URL}/api/getHouse`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${getToken()}`,

@@ -7,6 +7,50 @@ import {handleLogout} from "../../auth/auth-provider";
 // Cynthia
 // Pequeña modificación Miguel
 
+const buildBody = () => {
+    const mainContent = document.querySelector('#main-container');
+    mainContent.innerHTML = `
+        <div class="row row-cols-1 g-4 justify-content-center">
+            <div class="col d-flex justify-content-center">
+                <div class="card card-uniform bg-octa-person border border-2 border-primary-person h-100 w-75">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary-person text-shadow-person fs-1 mb-3">Gestión de perfil</h5>
+                        <p class="card-text text-primary-person text-shadow-person mb-3 fs-5">Gestiona tu perfil y mira tus estadísticas</p>
+                        <button id="profileButton" class="btn mt-auto w-100 modify text-primary-person text-shadow-person fs-5">Mi Perfil</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-center">
+                <div class="card card-uniform bg-octa-person border border-2 border-primary-person h-100 w-75">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary-person text-shadow-person fs-1 mb-3">Clase de hechizos</h5>
+                        <p class="card-text text-primary-person text-shadow-person mb-3 fs-5">Un hechizo para cada propósito, magia para cada ocasión</p>
+                        <button id="subject-spell" class="btn mt-auto w-100 modify text-primary-person text-shadow-person fs-5">Ir a clase</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-center">
+                <div class="card card-uniform bg-octa-person border border-2 border-primary-person h-100 w-75">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary-person text-shadow-person fs-1 mb-3">Clase de pócimas</h5>
+                        <p class="card-text text-primary-person text-shadow-person mb-3 fs-5">Pócimas para cada necesidad, magia líquida en cada gota</p>
+                        <button id="subject-potion" class="btn mt-auto w-100 modify text-primary-person text-shadow-person fs-5">Ir a clase</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-center">
+                <div class="card card-uniform bg-octa-person border border-2 border-primary-person h-100 w-75">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary-person text-shadow-person fs-1 mb-3">Práctica duelo</h5>
+                        <p class="card-text text-primary-person text-shadow-person mb-3 fs-5">Perfecciona tu arte, domina la magia</p>
+                        <button id="duels-button" class="btn mt-auto w-100 modify text-primary-person text-shadow-person fs-5">Duelo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
 const initPage = () => {
     let rolesUser = localStorage.getItem('roles')
     let roles = rolesUser.split(',')
@@ -50,7 +94,7 @@ const initPage = () => {
     const duelsButton = document.getElementById('duels-button');
     if (duelsButton) {
         duelsButton.addEventListener('click', () => {
-            //window.location.href = '../../User/Admin/admin-subject.html';
+            loadPage('/start-duels')
         });
     }
 
@@ -79,11 +123,12 @@ const availableSubjects = () => {
     }
 }
 
-buildLoader()
-showLoader()
+buildLoader();
+showLoader();
 buildHeader();
-showLogoutButton()
-setupLogoutBtn()
+showLogoutButton();
+setupLogoutBtn();
 buildFooter();
-initPage()
-availableSubjects()
+buildBody();
+initPage();
+availableSubjects();

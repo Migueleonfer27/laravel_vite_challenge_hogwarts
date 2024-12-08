@@ -1,4 +1,6 @@
 //Cynthia
+import {BASE_URL} from "../../../parameters/parameters";
+
 export const apiGetSubjects = async (token) => {
     const option = {
         method : 'GET',
@@ -7,7 +9,7 @@ export const apiGetSubjects = async (token) => {
             'Authorization' : 'Bearer' + token
         }
     }
-    const url = 'http://127.0.0.1:8000/api/subjects'
+    const url = `${BASE_URL}/api/subjects`
     const response = await fetch(url, option);
     return await response.json();
 }
@@ -21,7 +23,7 @@ export const apiAssignSubject = async (token, subjectId, userId) => {
         },
         body: JSON.stringify({ user_id: userId })
     }
-    const url = `http://127.0.0.1:8000/api/subjects/${subjectId}/assign-subject`
+    const url = `${BASE_URL}/api/subjects/${subjectId}/assign-subject`
     const response = await fetch(url, option);
     return await response.json();
 }
@@ -34,13 +36,13 @@ export const apiRemoveSubject = async (token,subjectId)=> {
             'Authorization' : `Bearer ${token}`
         }
     }
-    const url = `http://127.0.0.1:8000/api/subjects/${subjectId}/remove-subject`
+    const url = `${BASE_URL}/api/subjects/${subjectId}/remove-subject`
     const response = await fetch(url,option)
     return await response.json();
 }
 export const apiGetUserSubjects = async (token, userId) => {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/user/${userId}/subjects`, {
+        const response = await fetch(`${BASE_URL}/api/user/${userId}/subjects`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -68,7 +70,7 @@ export const apiCreateSubject = async (token,subjectName) =>{
         body: JSON.stringify({name: subjectName}),
     }
 
-    const url = `http://127.0.0.1:8000/api/subjects`
+    const url = `${BASE_URL}/api/subjects`
     const response = await fetch(url,options)
     return await response.json()
 }

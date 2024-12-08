@@ -1,9 +1,10 @@
 import { getToken } from "../../storage/tokenManager";
+import {BASE_URL} from "../parameters/parameters";
 
 //Miguel León Fernández
 const getIngredients = async () => {
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/ingredients', {
+        const response = await fetch(`${BASE_URL}/api/ingredients`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -27,7 +28,7 @@ const getIngredients = async () => {
 //Miguel León Fernández
 const createIngredient = async (ingredient) => {
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/ingredients", {
+        const response = await fetch(`${BASE_URL}/api/ingredients`, {
             method: "POST",
             headers: {
                 'authorization': `Bearer ${getToken()}`,
@@ -51,7 +52,7 @@ const createIngredient = async (ingredient) => {
 //Miguel León Fernández
 const removeIngredient = async (id) => {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/ingredients/${id}`, {
+        const response = await fetch(`${BASE_URL}/api/ingredients/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

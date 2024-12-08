@@ -3,6 +3,13 @@ import {changeColor} from "../houses/houseColors";
 
 export const buildFooter = (idContainer) => {
     const container = document.querySelector(idContainer || '#footer-container');
+
+
+    if(!container){
+        console.error(`El contenedor con ID ${idContainer || '#footer-container'} no existe.`);
+        return;
+    }
+
     container.innerHTML = `
         <footer id='footer' class="p-3 fixed-bottom">
             <div class="container d-flex justify-content-between align-items-center">
@@ -15,5 +22,9 @@ export const buildFooter = (idContainer) => {
             </div>
         </footer>
     `;
-    changeColor(localStorage.getItem('house'));
+    const house = localStorage.getItem('house');
+    if (house) {
+        changeColor(house)
+            .catch((error)=>{});
+    }
 }

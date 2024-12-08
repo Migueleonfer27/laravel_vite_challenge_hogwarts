@@ -11,8 +11,9 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 </head>
 <body class="antialiased">
-    <p>Hola, : {{ $nameUser }}</p>
-    <p>Tu solicitud para cambiar la contraseña ha sido exitosa.</p>
+<p>Hola, {{ $nameUser }}</p>
+<p>Tu solicitud para cambiar la contraseña ha sido exitosa.</p>
+<p>Esta es tu nueva contraseña: <strong>{{ $password }}</strong></p>
+<p>Por favor, guárdala en un lugar seguro y cámbiala cuanto antes.</p>
 </body>
 </html>
-

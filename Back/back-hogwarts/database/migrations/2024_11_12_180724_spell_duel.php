@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_spell')->constrained('spells')->onDelete('cascade');
             $table->foreignId('id_duel')->constrained('duels')->onDelete('cascade');
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

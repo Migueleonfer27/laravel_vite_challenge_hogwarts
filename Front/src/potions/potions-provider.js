@@ -1,9 +1,10 @@
 import { getToken } from "../../storage/tokenManager";
+import {BASE_URL} from "../parameters/parameters";
 
 //Miguel León Fernández
 const getPotions = async () => {
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/potions', {
+        const response = await fetch(`${BASE_URL}/api/potions`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -26,7 +27,7 @@ const getPotions = async () => {
 //Miguel León Fernández
 const removePotion = async (id) => {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/potions/${id}`, {
+        const response = await fetch(`${BASE_URL}/api/potions/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -50,7 +51,7 @@ const removePotion = async (id) => {
 // Miguel León Fernández
 const updatePotion = async (id, name, description, ingredients) => {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/potions/${id}`, {
+        const response = await fetch(`${BASE_URL}/api/potions/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -79,7 +80,7 @@ const updatePotion = async (id, name, description, ingredients) => {
 const createPotion = async (name, description, ingredients) => {
     try {
         const creator = localStorage.getItem("name");
-        const response = await fetch(`http://127.0.0.1:8000/api/potions`, {
+        const response = await fetch(`${BASE_URL}/api/potions`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -110,7 +111,7 @@ const createPotion = async (name, description, ingredients) => {
 // Miguel León Fernández
 const approvePotion = async (potionId, approver) => {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/api/approve/${potionId}`, {
+        const response = await fetch(`${BASE_URL}/api/approve/${potionId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

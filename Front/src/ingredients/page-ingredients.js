@@ -223,7 +223,7 @@ const buildIngredientFormAccordion = async () => {
             </h2>
             <div id="collapseForm" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#ingredientFormAccordion">
                 <div class="accordion-body bg-gradient-creator">
-                <p class="text-center fs-4 p-5 mx-5 mt-3 text-primary-person bg-ternary-person rounded-3 border border-3 border-primary-person text-shadow-person">
+                <p class="text-center responsive-text fs-4 p-3 p-md-5 mx-5 mt-3 text-primary-person bg-ternary-person rounded-3 border border-3 border-primary-person text-shadow-person text-wrap">
                     En esta sección podrás crear tus ingredientes, los cuales podrás usar posteriormente para crear tus pociones en el creador de pociones.
                     Para crear tus ingredientes deberás juzgar que <span class="text-hepta-person fw-bold text-shadow-light-person fst-italic">atributos</span> quieres añadirle. Estos atributos
                     haran que tus pociones tengan más <span class="text-hepta-person text-shadow-light-person fw-bold fst-italic">nivel de bondad</span> o tengan más 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DuelsController;
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\PointsController;
@@ -52,7 +53,11 @@ Route::get('/nologin', function () {
 });
 
 //Cynthia
-Route::put('changePassword', [EmailController::class, 'changePassword']);
+
+Route::prefix('email')->group(function () {
+    Route::put('changePassword', [EmailController::class, 'changePassword']);
+    Route::put('updatePassword', [EmailController::class, 'updatePassword'])->middleware('auth:sanctum');;
+});
 
 Route::get('/subjects',[SubjectController::class, 'index']);
 Route::get('/subject/{id}',[SubjectController::class, 'show']);
@@ -111,4 +116,14 @@ Route::middleware('auth:sanctum')->prefix('spell')->group(function () {
     Route::put('/{id}', [SpellController::class, 'update'])->middleware('ability:teacher,dumbledore');
     Route::delete('/{id}', [SpellController::class, 'destroy'])->middleware('ability:teacher,dumbledore');
     Route::post('/learn/{id}', [UserSpellController::class, 'store'])->middleware('ability:dumbledore,student,teacher');
+});
+
+
+Route::middleware('auth:sanctum')->prefix('duels')->group(function (){
+    Route::get('/',[DuelsController::class, 'index'])->middleware('ability:dumbledore,student,teacher,admin');
+    Route::get('/get/{id}',[DuelsController::class, 'show'])->middleware('ability:dumbledore,student,teacher,admin');
+    Route::get('/getActiveDuels',[DuelsController::class, 'getUserActiveDuels'])->middleware('ability:dumbledore,student,teacher,admin');
+    Route::post('/create',[DuelsController::class, 'create'])->middleware('ability:dumbledore,student,teacher,admin');
+    Route::post('/castSpells',[DuelsController::class, 'castSpells'])->middleware('ability:dumbledore,student,teacher,admin');
+    Route::get('/statistics', [DuelsController::class, 'getDuelStatistics'])->middleware('ability:dumbledore,student,teacher,admin');
 });
