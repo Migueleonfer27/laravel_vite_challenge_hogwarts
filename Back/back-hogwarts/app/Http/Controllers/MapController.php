@@ -210,13 +210,13 @@ class MapController extends Controller
     }
 
 
-    public function moveUser($id, $second)
+   public function moveUser($id, $second)
 {
     $positions = [
-        ['x' => -1, 'y' => 0], // izquierda
-        ['x' => 1, 'y' => 0],  // derecha
-        ['x' => 0, 'y' => -1], // arriba
-        ['x' => 0, 'y' => 1]   // abajo
+        ['x' => -1, 'y' => 0], // left
+        ['x' => 1, 'y' => 0],  // right
+        ['x' => 0, 'y' => -1], // up
+        ['x' => 0, 'y' => 1]   // down
     ];
     shuffle($positions);
     $adjacentPositions = $positions;
@@ -224,7 +224,7 @@ class MapController extends Controller
     $map = Map::find($id);
 
     if (!$map) {
-        return response()->json(['message' => 'Mapa no encontrado'], 404);
+        return response()->json(['message' => 'Map not found'], 404);
     }
 
     $originalCells = $map->cells()->where('second_content', $second - 1)->get();
@@ -237,7 +237,13 @@ class MapController extends Controller
 
         if ($cell->content == "XXXX" || $cell->content == "PUERTA") {
             if ($cell->content !== null) {
-                $cell->update(['second_content' => $secondContent]);
+                Cell::create([
+                    'map_id' => $map->id,
+                    'posicion_x' => $cell->posicion_x,
+                    'posicion_y' => $cell->posicion_y,
+                    'content' => $cell->content,
+                    'second_content' => $secondContent,
+                ]);
             }
         } elseif ($cell->content) {
             foreach ($adjacentPositions as $position) {
@@ -262,13 +268,19 @@ class MapController extends Controller
                                 'to' => ['x' => $newX, 'y' => $newY]
                             ];
 
-                            $newCell->update([
+                            Cell::create([
+                                'map_id' => $map->id,
+                                'posicion_x' => $newX,
+                                'posicion_y' => $newY,
                                 'content' => $cell->content,
                                 'second_content' => $secondContent,
                             ]);
                         }
 
-                        $cell->update([
+                        Cell::create([
+                            'map_id' => $map->id,
+                            'posicion_x' => $cell->posicion_x,
+                            'posicion_y' => $cell->posicion_y,
                             'content' => null,
                             'second_content' => $secondContent,
                         ]);
@@ -279,19 +291,50 @@ class MapController extends Controller
             }
 
             if (!$moved) {
-                $cell->update([
+                Cell::create([
+                    'map_id' => $map->id,
+                    'posicion_x' => $cell->posicion_x,
+                    'posicion_y' => $cell->posicion_y,
+                    'content' => $cell->content,
                     'second_content' => $secondContent,
                 ]);
             }
         } else {
-            $cell->update([
+            Cell::create([
+                'map_id' => $map->id,
+                'posicion_x' => $cell->posicion_x,
+                'posicion_y' => $cell->posicion_y,
+                'content' => null,
                 'second_content' => $secondContent,
             ]);
         }
     }
 
-    return response()->json(['message' => 'Usuarios movidos', 'map' => $map, 'movedStudents' => $movedStudents], 200);
+    return response()->json(['message' => 'Users moved', 'map' => $map, 'movedStudents' => $movedStudents], 200);
 }
+
+   public function getMapWithAllStates($id)
+   {
+       $map = Map::find($id);
+
+       if (!$map) {
+           return response()->json(['message' => 'Mapa no encontrado'], 404);
+       }
+
+       $maxSecond = $map->cells()->max('second_content');
+       $mapStates = [];
+
+       for ($second = 0; $second <= $maxSecond; $second++) {
+           $cells = $map->cells()
+               ->where('second_content', $second)
+               ->get(['posicion_x', 'posicion_y', 'content', 'second_content'])
+               ->toArray();
+
+           $mapStates[$second] = $cells;
+       }
+
+       return $mapStates;
+   }
 
 
     public function deletePreviousMap($id)
@@ -302,36 +345,58 @@ class MapController extends Controller
         return response()->json(['message' => 'Mapa eliminado'], 200);
     }
 
+    public function deleteDuplicatedCells($id, $second)
+{
+    $map = Map::find($id);
 
-    public function simulationMap($id, $second){
+    $duplicatedCells = $map->cells()
+        ->select('posicion_x', 'posicion_y', 'second_content', DB::raw('COUNT(*) as count'))
+        ->where('second_content', $second)
+        ->groupBy('posicion_x', 'posicion_y', 'second_content')
+        ->having('count', '>', 1)
+        ->get();
 
-
-        if ($map = Map::find($id)) {
-            $this->deletePreviousMap($id);
-            $this->createCells($id);
-        }else {
-            $this->createMap($id);
-        }
-
-        $this->insertUsers($id);
-
-        for ($i = 1; $i <= $second; $i++) {
-            $random = rand(0, 1);
-            if ($random == 1) {
-                $this->insertStudentAtDoor($id, $i);
-            }
-            $this->moveUser($id, $i);
-        }
-
-        $map = DB::table('maps')
-            ->join('cells', 'maps.id', '=', 'cells.map_id')
-            ->where('maps.id', $id)
-            ->where('second_content', $second)
-            ->select('cells.posicion_x', 'cells.posicion_y', 'cells.content', 'cells.second_content')
-            ->get();
-
-        return response()->json(['message' => 'simulacion creada', 'map', $map], 200);
+    foreach ($duplicatedCells as $cell) {
+        $map->cells()
+            ->where('posicion_x', $cell->posicion_x)
+            ->where('posicion_y', $cell->posicion_y)
+            ->where('second_content', $cell->second_content)
+            ->where('content', null)
+            ->delete();
     }
+
+    return response()->json(['message' => 'Duplicated cells deleted'], 200);
+}
+
+    public function simulationMap($id, $second)
+        {
+            if ($map = Map::find($id)) {
+                $this->deletePreviousMap($id);
+                $this->createCells($id);
+            } else {
+                $this->createMap($id);
+            }
+
+            $this->insertUsers($id);
+
+            $allMovements = [];
+
+            for ($i = 0; $i <= $second; $i++) {
+                $random = rand(0, 1);
+                if ($random == 1) {
+                    $this->insertStudentAtDoor($id, $i);
+                }
+
+
+                $this->moveUser($id, $i);
+                $this->deleteDuplicatedCells($id, $i);
+
+                }
+
+                $map = $this->getMapWithAllStates($id);
+
+            return response()->json(['message' => 'Simulación creada', 'map' => $map], 200);
+        }
 
 
 

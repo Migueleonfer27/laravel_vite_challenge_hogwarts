@@ -48,6 +48,12 @@ const initPage = () => {
         });
     }
 
+    const mapButton = document.getElementById('map-button');
+    if (mapButton) {
+        mapButton.addEventListener('click', () => {
+            window.location.href ='../../../map/index.html'
+        });
+    }
 
     hideLoader(null, 600)
 
@@ -68,10 +74,12 @@ const setupLogoutBtn = () => {
 const hideDivsAdmin = () => {
     const divPotion = document.getElementById('admin-potion-container');
     const divSpell = document.getElementById('admin-spell-container');
+    const divMap = document.getElementById('dumbledore-map-container');
 
     if (localStorage.getItem('roles').includes('admin')) {
         divPotion.classList.add('d-none');
         divSpell.classList.add('d-none');
+        divMap.classList.add('d-none');
     }
 }
 
