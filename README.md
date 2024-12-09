@@ -1,4 +1,4 @@
-# laravel_vite_challenge_hogwarts
+# 🔮 Escuela de hechicería Hogwarts 🔮
 Este proyecto es una plataforma de aprendizaje para estudiantes y profesores de Hogwarts, diseñada como una aplicación web con funcionalidades interactivas y simulaciones de las actividades mágicas más icónicas de la escuela.
 ---
 
@@ -25,7 +25,6 @@ Antes de iniciar, asegúrate de tener instalados los siguientes componentes:
 - PHP 8.1 o superior
 - Composer
 - Node.js y npm
-- Servidor web como Apache o Nginx
 
 ---
 
@@ -98,20 +97,93 @@ Antes de iniciar, asegúrate de tener instalados los siguientes componentes:
 
 ---
 
-## Rutas de la API
+### Rutas de la API
 
-### Rutas principales
-- *Autenticación*:
-    - POST /register: Registro de usuario.
-    - POST /login: Inicio de sesión.
-    - POST /logout: Cierre de sesión.
+#### **Autenticación**
+- `POST /register`  
+  Registro de un nuevo usuario.
+- `POST /login`  
+  Inicio de sesión del usuario.
+- `POST /logout`  
+  Cierre de sesión (requiere autenticación).
 
-- *Administración*:
-    - GET /admin/users: Listado de usuarios.
-    - POST /admin/user: Crear usuario.
-    - ...
+#### **Administración (Requiere rol específico)**
+- `GET /admin/users`  
+  Listar todos los usuarios (Roles permitidos: `dumbledore`, `admin`).
+- `GET /admin/user/{id}`  
+  Ver detalles de un usuario por ID (Roles permitidos: `dumbledore`, `teacher`, `student`).
+- `POST /admin/user`  
+  Crear un nuevo usuario (Roles permitidos: `dumbledore`, `admin`).
+- `PUT /admin/user/{id}`  
+  Actualizar un usuario por ID (Roles permitidos: `dumbledore`, `admin`).
+- `DELETE /admin/user/{id}`  
+  Eliminar un usuario por ID (Roles permitidos: `dumbledore`, `admin`).
+- `POST /admin/user-rol/{id}`  
+  Asignar un rol a un usuario (Roles permitidos: `dumbledore`, `admin`).
+- `DELETE /admin/user-rol/{id}`  
+  Retirar un rol a un usuario (Roles permitidos: `dumbledore`, `admin`).
 
-[Consulta routes/api.php para más detalles.](#)
+#### **Casas**
+- `GET /getHouse`  
+  Obtener información de las casas (requiere autenticación).
+
+#### **Asignaturas**
+- `GET /subjects`  
+  Listar todas las asignaturas.
+- `GET /subject/{id}`  
+  Ver detalles de una asignatura por ID.
+- `POST /subjects`  
+  Crear una nueva asignatura.
+- `PUT /subject/{id}`  
+  Actualizar una asignatura por ID.
+- `DELETE /subject/{id}`  
+  Eliminar una asignatura por ID.
+- `POST /subjects/{subjectId}/assign-subject`  
+  Asignar una asignatura a un usuario.
+- `DELETE /subjects/{subjectId}/remove-subject`  
+  Retirar una asignatura de un usuario.
+- `GET /user/{id}/subjects`  
+  Listar asignaturas de un usuario por ID.
+
+#### **Ingredientes**
+- `GET /ingredients`  
+  Listar todos los ingredientes (requiere autenticación).
+- `POST /ingredients`  
+  Crear un nuevo ingrediente (Roles permitidos: `dumbledore`, `admin`, `teacher`).
+- `DELETE /ingredients/{id}`  
+  Eliminar un ingrediente por ID (Roles permitidos: `dumbledore`, `admin`, `teacher`).
+
+#### **Pociones**
+- `GET /potions`  
+  Listar todas las pociones.
+- `POST /potions`  
+  Crear una nueva poción.
+- `GET /potions/{id}`  
+  Ver detalles de una poción por ID.
+- `PUT /potions/{id}`  
+  Actualizar una poción por ID.
+- `DELETE /potions/{id}`  
+  Eliminar una poción por ID.
+- `POST /approve/{potionId}`  
+  Aprobar una poción (requiere autenticación).
+
+#### **Hechizos**
+- `GET /spell/`  
+  Listar todos los hechizos (Roles permitidos: `dumbledore`, `teacher`).
+- `POST /spell/`  
+  Crear un nuevo hechizo (Roles permitidos: `student`, `teacher`, `dumbledore`).
+- `PUT /spell/{id}`  
+  Actualizar un hechizo por ID (Roles permitidos: `teacher`, `dumbledore`).
+- `DELETE /spell/{id}`  
+  Eliminar un hechizo por ID (Roles permitidos: `teacher`, `dumbledore`).
+
+#### **Duelos**
+- `GET /duels/`  
+  Listar todos los duelos activos (requiere autenticación).
+- `POST /duels/create`  
+  Crear un nuevo duelo (requiere autenticación).
+- `POST /duels/castSpells`  
+  Lanza hechizos en un duelo (requiere autenticación).
 
 ### Ejemplo de Solicitudes
 Usa herramientas como Postman o cURL para probar las rutas. Ejemplo:
@@ -124,9 +196,9 @@ curl -X GET "http://localhost:8000/api/admin/users" -H "Authorization: Bearer <T
 
 ## Contribuidores
 
-- *Monica*
+- *Monica Méndez del Campo*
 - *Miguel León Fernández*
-- *Cynthia*
+- *Cynthia Rivas del Moral*
 
 ---
 
