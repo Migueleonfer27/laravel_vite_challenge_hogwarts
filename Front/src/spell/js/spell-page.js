@@ -137,10 +137,9 @@ const buildSpellCards = async (spellArray) => {
                    approveButton.textContent = 'Aprobar';
 
                    approveButton.addEventListener('click', async () => {
-                       let data = await approveSpellDumbledore(spell.id);
+                       let data = await approveSpellTeacher(spell.id);
                        if (data.success) {
-                           let dataExperience = await addExperience(spell.id)
-                           if (dataExperience.success) window.location.reload()
+                            window.location.reload()
                        }
                    })
 
@@ -151,7 +150,7 @@ const buildSpellCards = async (spellArray) => {
                    rejectButton.textContent = 'Rechazar';
 
                    rejectButton.addEventListener('click', async () => {
-                       let data = await rejectSpellDumbledore(spell.id);
+                       let data = await rejectSpellTeacher(spell.id);
                        if (data.success) location.reload()
                    })
 
