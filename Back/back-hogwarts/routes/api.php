@@ -109,7 +109,7 @@ Route::middleware('auth:sanctum')->prefix('spell')->group(function () {
     Route::get('/pending/dumbledore', [SpellController::class, 'getPendingApproveTeacher'])->middleware('ability:dumbledore');
     Route::put('/approve/{id}', [SpellController::class, 'approveSpellTeacher'])->middleware('ability:teacher');
     Route::put('/reject/{id}', [SpellController::class, 'rejectSpellTeacher'])->middleware('ability:teacher');
-    Route::put('/validate/{id}', [SpellController::class, 'approveSpellDumbledore'])->middleware('ability:dumbledore');
+    Route::put('/validate/{id}', [SpellController::class, 'approveSpellDumbledore'])->middleware('ability:dumbledore,teacher');
     Route::post('/addExperience/{id}', [PointsController::class, 'spellValidatedPoints'])->middleware('ability:dumbledore');
     Route::put('/invalidate/{id}', [SpellController::class, 'rejectSpellDumbledore'])->middleware('ability:dumbledore');
     Route::post('/', [SpellController::class, 'create'])->middleware('ability:student,teacher,dumbledore');

@@ -140,7 +140,7 @@ const buildSpellCards = async (spellArray) => {
                        let data = await approveSpellDumbledore(spell.id);
                        if (data.success) {
                            let dataExperience = await addExperience(spell.id)
-                           if (dataExperience.success) location.reload()
+                           if (dataExperience.success) window.location.reload()
                        }
                    })
 

@@ -340,7 +340,7 @@ class DuelsController extends Controller
                 $score += ($spell->damage ?? 0) * 1.5; // Priorizar daño directo
             }
 
-            // Se da mas prioriad a los hechizos que esten mas valanceados
+            // Se da mas prioriad a los hechizos que esten mas balanceados
             $score += ($spell->attack ?? 0) * 0.7;
             $score += ($spell->defense ?? 0) * 0.7;
             $score += ($spell->healing ?? 0) * 0.5;
